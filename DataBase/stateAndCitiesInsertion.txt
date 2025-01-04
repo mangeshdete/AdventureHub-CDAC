@@ -1,0 +1,98 @@
+//states table data insertion
+insert into states(statename) values("Andhra Pradesh"),
+    ("Arunachal Pradesh"),
+    ("Assam"),
+    ("Bihar"),
+    ("Chhattisgarh"),
+    ("Goa"),
+    ("Gujarat"),
+    ("Haryana"),
+    ("Himachal Pradesh"),
+    ("Jharkhand"),
+    ("Karnataka"),
+    ("Kerala"),
+    ("Madhya Pradesh"),
+    ("Maharashtra"),
+    ("Manipur"),
+    ("Meghalaya"),
+    ("Mizoram"),
+    ("Nagaland"),
+    ("Odisha"),
+    ("Punjab"),
+    ("Rajasthan"),
+    ("Sikkim"),
+    ("Tamil Nadu"),
+    ("Telangana"),
+    ("Tripura"),
+    ("Uttarakhand"),
+    ("Uttar Pradesh"),
+    ("West Bengal");
+	
+	
+//city table insertion
+
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Hyderabad', (SELECT stateid FROM states WHERE statename = 'Andhra Pradesh'));
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Visakhapatnam', (SELECT stateid FROM states WHERE statename = 'Andhra Pradesh'));
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Vijayawada', (SELECT stateid FROM states WHERE statename = 'Andhra Pradesh'));
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Guntur', (SELECT stateid FROM states WHERE statename = 'Andhra Pradesh'));
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Tirupati', (SELECT stateid FROM states WHERE statename = 'Andhra Pradesh'));
+
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Itanagar', (SELECT stateid FROM states WHERE statename = 'Arunachal Pradesh'));
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Pasighat', (SELECT stateid FROM states WHERE statename = 'Arunachal Pradesh'));
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Tezu', (SELECT stateid FROM states WHERE statename = 'Arunachal Pradesh'));
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Ziro', (SELECT stateid FROM states WHERE statename = 'Arunachal Pradesh'));
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Bomdila', (SELECT stateid FROM states WHERE statename = 'Arunachal Pradesh'));
+
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Guwahati', (SELECT stateid FROM states WHERE statename = 'Assam'));
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Silchar', (SELECT stateid FROM states WHERE statename = 'Assam'));
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Dibrugarh', (SELECT stateid FROM states WHERE statename = 'Assam'));
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Jorhat', (SELECT stateid FROM states WHERE statename = 'Assam'));
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Tezpur', (SELECT stateid FROM states WHERE statename = 'Assam'));
+
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Patna', (SELECT stateid FROM states WHERE statename = 'Bihar'));
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Gaya', (SELECT stateid FROM states WHERE statename = 'Bihar'));
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Bhagalpur', (SELECT stateid FROM states WHERE statename = 'Bihar'));
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Muzaffarpur', (SELECT stateid FROM states WHERE statename = 'Bihar'));
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Darbhanga', (SELECT stateid FROM states WHERE statename = 'Bihar'));
+
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Raipur', (SELECT stateid FROM states WHERE statename = 'Chhattisgarh'));
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Bilaspur', (SELECT stateid FROM states WHERE statename = 'Chhattisgarh'));
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Durg', (SELECT stateid FROM states WHERE statename = 'Chhattisgarh'));
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Bhilai', (SELECT stateid FROM states WHERE statename = 'Chhattisgarh'));
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Raigarh', (SELECT stateid FROM states WHERE statename = 'Chhattisgarh'));
+
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Panaji', (SELECT stateid FROM states WHERE statename = 'Goa'));
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Vasco da Gama', (SELECT stateid FROM states WHERE statename = 'Goa'));
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Margao', (SELECT stateid FROM states WHERE statename = 'Goa'));
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Mapusa', (SELECT stateid FROM states WHERE statename = 'Goa'));
+INSERT INTO cities (cityname, stateid) 
+VALUES ('Ponda', (SELECT stateid FROM states WHERE statename = 'Goa'));

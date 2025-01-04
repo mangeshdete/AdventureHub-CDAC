@@ -1,0 +1,8 @@
+//Insertion Queries
+INSERT INTO securityquestions (question)
+VALUES
+    ('What is your favorite color?'),
+    ('What is your favorite food?'),
+    ('What is the name of your first school?'),
+    ('What is your childhood nickname?'),
+    ('What is your best friend's name?');

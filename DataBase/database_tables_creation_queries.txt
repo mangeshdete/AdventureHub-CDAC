@@ -1,0 +1,172 @@
+//1. security questions create query
+create table securityquestions(qid int auto_increment, 
+							question varchar(255) not null,
+							constraint qid_pk primary key(qid));
+
+//1.1 Role Table
+create table Role(roleid int auto_increment,
+					rolename varchar(50) not null,
+					constraint roleid_pk primary key(roleid));
+
+
+//2. User table creation
+create table users(userid int auto_increment, 
+					password varchar(255) not null,
+					contact varchar(15) not null,
+					email varchar(100) not null,
+					securityqid int,
+					securityqans varchar(100) not null,
+					constraint pk_userid primary key(userid),
+					constraint fk_security_qid foreign key(securityqid) references securityquestions(qid) on delete set null);
+
+//alter query for adding roleid column
+alter table users 
+	add column roleid int,
+	add constraint roleid_fk foreign key(roleid) references role(roleid) on delete set null;
+					
+//3. state table creation
+create table states(stateid int auto_increment, 
+							statename varchar(50) not null,
+							constraint stateid_pk primary key(stateid));
+							
+//4. city table creation
+create table cities(cityid int auto_increment, 
+							cityname varchar(50) not null,
+							stateid int,
+							constraint cityid_pk primary key(cityid),
+							constraint stateid_fk foreign key(stateid) references states(stateid) on delete set null);
+							
+							
+//5. customer table creation
+create table customers(custid int auto_increment,
+						userid int,
+						fname varchar(100) not null,
+						lname varchar(100) not null,
+						aadhaar varchar(16) not null,
+						street varchar(100) not null,
+						stateid int,
+						cityid int,
+						pincode varchar(6) not null,
+						constraint custid_pk primary key(custid),
+						constraint userid_fk foreign key(userid) references users(userid) on delete set null,
+						constraint state_id_fk foreign key(stateid) references states(stateid) on delete set null,
+						constraint city_id_fk foreign key(cityid) references cities(cityid) on delete set null);
+						
+
+//6. categories table creation
+create table categories(categoryid int auto_increment,
+						categoryname varchar(50) not null,
+						constraint category_pk primary key(categoryid));
+						
+						
+//7. events table creation
+create table events(eventid int auto_increment,
+						eventname varchar(50) not null,
+						categoryid int,
+						constraint eventid_pk primary key(eventid),
+						constraint catid_fk foreign key(categoryid) references categories(categoryid) on delete set null);
+						
+
+//8. organiser table creation
+create table organisers(organiserid int auto_increment,
+						userid int,
+						orgname varchar(100) not null,
+						gst varchar(100) not null,
+						pancard varchar(12) not null,
+						street varchar(100) not null,
+						stateid int,
+						cityid int,
+						pincode varchar(6) not null,
+						constraint org_id_pk primary key(organiserid),
+						constraint org_userid_fk foreign key(userid) references users(userid) on delete set null,
+						constraint org_state_id_fk foreign key(stateid) references states(stateid) on delete set null,
+						constraint org_city_id_fk foreign key(cityid) references cities(cityid) on delete set null);
+						
+						
+//9. publish events table  creation
+create table publishevents(publishid int auto_increment,
+							eventid int,
+							organiserid int,
+							eventdate date not null,
+							eventtime time not null,
+							price float not null,
+							capacity int not null,
+							status enum('ACTIVE', 'PROCESSING', 'CANCELLED','COMPLETED') not null,
+							street varchar(100) not null,
+							stateid int,
+							cityid int,
+							pincode varchar(6) not null,
+							constraint publishevent_publishid_pk primary key(publishid),
+							constraint publishevent_eventid_fk foreign key(eventid) references events(eventid) on delete set null,
+							constraint publishevent_orgid_fk foreign key(organiserid) references organisers(organiserid) on delete set null,
+							constraint publishevent_state_id_fk foreign key(stateid) references states(stateid) on delete set null,
+							constraint publishevent_city_id_fk foreign key(cityid) references cities(cityid) on delete set null);
+							
+							
+//10. event registrations table creation
+create table eventregistrations(registrationid int auto_increment,
+								custid int,
+								publishid int,
+								participants int not null,
+								constraint eventregistrations_regid_pk primary key(registrationid),
+								constraint eventregistrations_cust_id_fk foreign key(custid) references customers(custid) on delete set null,
+								constraint eventregistrations_publish_id_fk foreign key(publishid) references publishevents(publishid) on delete set null);
+								
+								
+//11. paymentmode table creation
+create table paymentmode(paymentmodeid int auto_increment,
+						paymentmodename varchar(20) not null,
+						constraint paymentmode_paymentmodeid_pk primary key(paymentmodeid));
+						
+						
+//12. payment table creation
+create table payments(paymentid int auto_increment,
+						registrationid int,
+						paymentmodeid int,
+						date timestamp not null,
+						amount float,
+						paymentstatus enum('SUCCESSFULL','FAILED'),
+						constraint payments_paymentid_pk primary key(paymentid),
+						constraint payments_regid_fk foreign key(registrationid) references eventregistrations(registrationid) on delete set null,
+						constraint payments_modeid_fk foreign key(paymentmodeid) references paymentmode(paymentmodeid) on delete set null);
+							
+
+//13. ratings table creation
+create table ratings(ratingid int primary key auto_increment,
+					custid int not null,
+					orgid int not null,
+					rating decimal(2,1) not null,
+					constraint  fk_cust_id  foreign key(custid) references customers(custid),
+					constraint fk_org_id foreign key(orgid) references organisers(organiserid),
+					constraint chk_rating check (rating between 1.0 and 5.0));		
+
+//alter organisers table to add the ratings column
+alter table organisers
+			add column rating decimal(2,1) not null default 0.0;
+
+//alter queries to drop column stateid from tables where cityid was present
+//alter table query to add date_of_birth column in customers table
+alter table customers
+add column dob date not null default 2000-12-12;			
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							

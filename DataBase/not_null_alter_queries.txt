@@ -1,0 +1,132 @@
+ALTER TABLE cities DROP FOREIGN KEY stateid_fk;
+
+ALTER TABLE cities MODIFY stateid INT NOT NULL;
+
+ALTER TABLE cities
+ADD CONSTRAINT stateid_fk FOREIGN KEY (stateid)
+REFERENCES states(stateid) ON DELETE CASCADE;
+
+-- Drop the foreign key constraints
+ALTER TABLE customers DROP FOREIGN KEY userid_fk;
+ALTER TABLE customers DROP FOREIGN KEY state_id_fk;
+ALTER TABLE customers DROP FOREIGN KEY city_id_fk;
+
+-- Modify the columns to NOT NULL
+ALTER TABLE customers MODIFY userid INT NOT NULL;
+ALTER TABLE customers MODIFY stateid INT NOT NULL;
+ALTER TABLE customers MODIFY cityid INT NOT NULL;
+
+-- Recreate the foreign key constraints with ON DELETE NO ACTION
+ALTER TABLE customers
+ADD CONSTRAINT userid_fk FOREIGN KEY (userid)
+REFERENCES users(userid) ON DELETE NO ACTION;
+
+ALTER TABLE customers
+ADD CONSTRAINT state_id_fk FOREIGN KEY (stateid)
+REFERENCES states(stateid) ON DELETE NO ACTION;
+
+ALTER TABLE customers
+ADD CONSTRAINT city_id_fk FOREIGN KEY (cityid)
+REFERENCES cities(cityid) ON DELETE NO ACTION;
+
+
+-- Drop the foreign key constraint
+ALTER TABLE events DROP FOREIGN KEY catid_fk;
+
+-- Modify the column to NOT NULL
+ALTER TABLE events MODIFY categoryid INT NOT NULL;
+
+-- Recreate the foreign key constraint with ON DELETE NO ACTION
+ALTER TABLE events
+ADD CONSTRAINT catid_fk FOREIGN KEY (categoryid)
+REFERENCES categories(categoryid) ON DELETE NO ACTION;
+
+-- Drop the foreign key constraints
+ALTER TABLE organisers DROP FOREIGN KEY org_userid_fk;
+ALTER TABLE organisers DROP FOREIGN KEY org_state_id_fk;
+ALTER TABLE organisers DROP FOREIGN KEY org_city_id_fk;
+
+-- Modify the columns to NOT NULL
+ALTER TABLE organisers MODIFY userid INT NOT NULL;
+ALTER TABLE organisers MODIFY stateid INT NOT NULL;
+ALTER TABLE organisers MODIFY cityid INT NOT NULL;
+
+-- Recreate the foreign key constraints with ON DELETE NO ACTION
+ALTER TABLE organisers
+ADD CONSTRAINT org_userid_fk FOREIGN KEY (userid)
+REFERENCES users(userid) ON DELETE NO ACTION;
+
+ALTER TABLE organisers
+ADD CONSTRAINT org_state_id_fk FOREIGN KEY (stateid)
+REFERENCES states(stateid) ON DELETE NO ACTION;
+
+ALTER TABLE organisers
+ADD CONSTRAINT org_city_id_fk FOREIGN KEY (cityid)
+REFERENCES cities(cityid) ON DELETE NO ACTION;
+
+
+-- Drop the foreign key constraints
+ALTER TABLE publishevents DROP FOREIGN KEY publishevent_eventid_fk;
+ALTER TABLE publishevents DROP FOREIGN KEY publishevent_orgid_fk;
+ALTER TABLE publishevents DROP FOREIGN KEY publishevent_state_id_fk;
+ALTER TABLE publishevents DROP FOREIGN KEY publishevent_city_id_fk;
+
+-- Modify the columns to NOT NULL
+ALTER TABLE publishevents MODIFY eventid INT NOT NULL;
+ALTER TABLE publishevents MODIFY organiserid INT NOT NULL;
+ALTER TABLE publishevents MODIFY stateid INT NOT NULL;
+ALTER TABLE publishevents MODIFY cityid INT NOT NULL;
+
+-- Recreate the foreign key constraints with ON DELETE NO ACTION
+ALTER TABLE publishevents
+ADD CONSTRAINT publishevent_eventid_fk FOREIGN KEY (eventid)
+REFERENCES events(eventid) ON DELETE NO ACTION;
+
+ALTER TABLE publishevents
+ADD CONSTRAINT publishevent_orgid_fk FOREIGN KEY (organiserid)
+REFERENCES organisers(organiserid) ON DELETE NO ACTION;
+
+ALTER TABLE publishevents
+ADD CONSTRAINT publishevent_state_id_fk FOREIGN KEY (stateid)
+REFERENCES states(stateid) ON DELETE NO ACTION;
+
+ALTER TABLE publishevents
+ADD CONSTRAINT publishevent_city_id_fk FOREIGN KEY (cityid)
+REFERENCES cities(cityid) ON DELETE NO ACTION;
+
+-- Drop the foreign key constraints
+ALTER TABLE payments DROP FOREIGN KEY payments_regid_fk;
+ALTER TABLE payments DROP FOREIGN KEY payments_modeid_fk;
+
+-- Modify the columns to NOT NULL
+ALTER TABLE payments MODIFY registrationid INT NOT NULL;
+ALTER TABLE payments MODIFY paymentmodeid INT NOT NULL;
+ALTER TABLE payments MODIFY amount FLOAT NOT NULL;
+ALTER TABLE payments MODIFY paymentstatus ENUM('SUCCESSFULL', 'FAILED') NOT NULL;
+
+-- Recreate the foreign key constraints with ON DELETE NO ACTION
+ALTER TABLE payments
+ADD CONSTRAINT payments_regid_fk FOREIGN KEY (registrationid)
+REFERENCES eventregistrations(registrationid) ON DELETE NO ACTION;
+
+ALTER TABLE payments
+ADD CONSTRAINT payments_modeid_fk FOREIGN KEY (paymentmodeid)
+REFERENCES paymentmode(paymentmodeid) ON DELETE NO ACTION;
+
+
+-- Drop the foreign key constraints
+ALTER TABLE eventregistrations DROP FOREIGN KEY eventregistrations_cust_id_fk;
+ALTER TABLE eventregistrations DROP FOREIGN KEY eventregistrations_publish_id_fk;
+
+-- Modify the columns to NOT NULL
+ALTER TABLE eventregistrations MODIFY custid INT NOT NULL;
+ALTER TABLE eventregistrations MODIFY publishid INT NOT NULL;
+
+-- Recreate the foreign key constraints with ON DELETE NO ACTION
+ALTER TABLE eventregistrations
+ADD CONSTRAINT eventregistrations_cust_id_fk FOREIGN KEY (custid)
+REFERENCES customers(custid) ON DELETE NO ACTION;
+
+ALTER TABLE eventregistrations
+ADD CONSTRAINT eventregistrations_publish_id_fk FOREIGN KEY (publishid)
+REFERENCES publishevents(publishid) ON DELETE NO ACTION;

@@ -1,0 +1,29 @@
+    {
+        "user": {
+            "password": "manali1@adventures",
+            "contact": "8766556256",
+            "email": "manali1.adventures",
+            "securityqans": "white1",
+            "roleid": {
+                "roleid": 2,
+                "rolename": "Organizer"
+            },
+            "questions": {
+                "qid": 1,
+                "question": "What is your favorite color?"
+            }
+        },
+        "orgname": "Manali1 Adventures",
+        "gst": "65364553872ma1",
+        "pancard": "manali1242",
+        "street": "Solang Valley1",
+        "city": {
+            "cityid": 44,
+            "cityname": "Manali",
+            "states": {
+                "stateid": 9,
+                "statename": "Himachal Pradesh"
+            }
+        },
+        "pincode": "175131"
+    }

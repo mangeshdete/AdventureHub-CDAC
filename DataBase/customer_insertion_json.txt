@@ -1,0 +1,29 @@
+{
+        "fname": "Vishal",
+        "lname": "Pawar",
+        "aadhaar": "456376472872",
+        "street": "Nashik",
+        "pincode": "563452",
+        "users": {
+            "password": "vishal@2409",
+            "contact": "6736743873",
+            "email": "vishal.pawar",
+            "securityqans": "red",
+            "roleid": {
+                "roleid": 1,
+                "rolename": "Customer"
+            },
+            "questions": {
+                "qid": 1,
+                "question": "What is your favorite color?"
+            }
+        },
+        "cities": {
+            "cityid": 67,
+            "cityname": "Pune",
+            "states": {
+                "stateid": 14,
+                "statename": "Maharashtra"
+            }
+        }
+    }

@@ -1,0 +1,40 @@
+//after insert 
+delimiter //
+
+create trigger update_rating
+after insert
+on ratings
+for each row
+begin
+	declare new_rating decimal(2,1);
+    select avg(rating) into new_rating
+		from ratings
+        where orgid=NEW.orgid;
+	update organisers
+    set rating=new_rating
+    where organiserid=NEW.orgid;
+end//
+
+delimiter ;
+
+//after update
+DELIMITER //
+CREATE TRIGGER update_rating_after_update
+AFTER UPDATE
+ON ratings
+FOR EACH ROW
+BEGIN
+    DECLARE new_rating decimal(2,1);
+
+    SELECT AVG(rating) INTO new_rating
+    FROM ratings
+    WHERE orgid = NEW.orgid;
+
+    UPDATE organisers
+    SET rating = new_rating
+    WHERE organiserid = NEW.orgid;
+END //
+
+DELIMITER ;
+insert into ratings(custid, orgid, rating)
+values(1, 2, 5.0);
