@@ -22,6 +22,7 @@ function App() {
           <Route path='/registerCustomer' element={<CustomerRegistrationPage/>} />
           <Route path='/registerOrganiser' element={<OrganizerRegisterPage/>} />
           <Route path='/forgotPassword' element={<ForgotPassword/>}/>
+          {/* <Route path='/profile' element={<Dashboard/>}/> */}
         </Routes>
       </div>
     </div>
