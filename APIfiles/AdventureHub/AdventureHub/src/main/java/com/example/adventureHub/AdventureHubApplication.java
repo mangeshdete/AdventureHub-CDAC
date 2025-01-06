@@ -8,6 +8,7 @@ public class AdventureHubApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AdventureHubApplication.class, args);
+		System.out.println("Hello Mangesh");
 	}
 
 }
