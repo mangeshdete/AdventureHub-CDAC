@@ -112,4 +112,10 @@ public class User {
 		this.questions = questions;
 	}
 
+	@Override
+	public String toString() {
+		return "User [userid=" + userid + ", password=" + password + ", contact=" + contact + ", email=" + email
+				+ ", securityqans=" + securityqans + ", roleid=" + roleid + ", questions=" + questions + "]";
+	}
+	
 }
