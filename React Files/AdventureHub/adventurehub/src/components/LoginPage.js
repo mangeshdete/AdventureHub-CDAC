@@ -43,9 +43,16 @@ export default LoginPage => {
       throw new Error("Response couldn't be resolved!");
     })
     .then((data) => {
+      
       if (data) {
+        console.log(data);
         dispatch(setUser(data));
-        navigate("/");
+        // navigate("/");
+        if (data.user.roleid.roleid === 1)
+            navigate("/customerdashboard");
+        else if (data.user.roleid.roleid === 2)
+            navigate("/organizerdashboard");
+
       }
     })
     .catch((err) => {
@@ -97,7 +104,7 @@ export default LoginPage => {
         <div className="text-center mt-3">
           <p>
             Don't have an account?{" "}
-            <Link to="/register" className="btn btn-link">
+            <Link to="/chooserole" className="btn btn-link">
               Register
             </Link>
           </p>
