@@ -44,6 +44,7 @@ export default LoginPage => {
     })
     .then((data) => {
       if (data) {
+        // console.log(data);
         dispatch(setUser(data));
         navigate("/");
       }
