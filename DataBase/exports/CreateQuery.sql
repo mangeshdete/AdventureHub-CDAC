@@ -1,10 +1,10 @@
-CREATE DATABASE  IF NOT EXISTS `adventurehub` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `adventurehub`;
--- MySQL dump 10.13  Distrib 8.0.40, for Win64 (x86_64)
+CREATE DATABASE  IF NOT EXISTS `p14_adventurehub` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `p14_adventurehub`;
+-- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
 --
--- Host: localhost    Database: adventurehub
+-- Host: 127.0.0.1    Database: adventurehub
 -- ------------------------------------------------------
--- Server version	8.2.0
+-- Server version	8.0.31
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -70,7 +70,7 @@ CREATE TABLE `customers` (
   KEY `city_id_fk` (`cityid`),
   CONSTRAINT `city_id_fk` FOREIGN KEY (`cityid`) REFERENCES `cities` (`cityid`),
   CONSTRAINT `userid_fk` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,7 +90,7 @@ CREATE TABLE `eventregistrations` (
   KEY `eventregistrations_publish_id_fk` (`publishid`),
   CONSTRAINT `eventregistrations_cust_id_fk` FOREIGN KEY (`custid`) REFERENCES `customers` (`custid`),
   CONSTRAINT `eventregistrations_publish_id_fk` FOREIGN KEY (`publishid`) REFERENCES `publishevents` (`publishid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -107,7 +107,7 @@ CREATE TABLE `events` (
   PRIMARY KEY (`eventid`),
   KEY `catid_fk` (`categoryid`),
   CONSTRAINT `catid_fk` FOREIGN KEY (`categoryid`) REFERENCES `categories` (`categoryid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,7 +146,7 @@ CREATE TABLE `paymentmode` (
   `paymentmodeid` int NOT NULL AUTO_INCREMENT,
   `paymentmodename` varchar(20) NOT NULL,
   PRIMARY KEY (`paymentmodeid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -168,7 +168,7 @@ CREATE TABLE `payments` (
   KEY `payments_modeid_fk` (`paymentmodeid`),
   CONSTRAINT `payments_modeid_fk` FOREIGN KEY (`paymentmodeid`) REFERENCES `paymentmode` (`paymentmodeid`),
   CONSTRAINT `payments_regid_fk` FOREIGN KEY (`registrationid`) REFERENCES `eventregistrations` (`registrationid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -197,7 +197,7 @@ CREATE TABLE `publishevents` (
   CONSTRAINT `publishevent_city_id_fk` FOREIGN KEY (`cityid`) REFERENCES `cities` (`cityid`),
   CONSTRAINT `publishevent_eventid_fk` FOREIGN KEY (`eventid`) REFERENCES `events` (`eventid`),
   CONSTRAINT `publishevent_orgid_fk` FOREIGN KEY (`organiserid`) REFERENCES `organisers` (`organiserid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -218,7 +218,7 @@ CREATE TABLE `ratings` (
   CONSTRAINT `fk_cust_id` FOREIGN KEY (`custid`) REFERENCES `customers` (`custid`),
   CONSTRAINT `fk_org_id` FOREIGN KEY (`orgid`) REFERENCES `organisers` (`organiserid`),
   CONSTRAINT `chk_rating` CHECK ((`rating` between 1.0 and 5.0))
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -238,6 +238,31 @@ DELIMITER ;;
     set rating=new_rating
     where organiserid=NEW.orgid;
 end */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `update_rating_after_update` AFTER UPDATE ON `ratings` FOR EACH ROW BEGIN
+    DECLARE new_rating decimal(2,1);
+
+    SELECT AVG(rating) INTO new_rating
+    FROM ratings
+    WHERE orgid = NEW.orgid;
+
+    UPDATE organisers
+    SET rating = new_rating
+    WHERE organiserid = NEW.orgid;
+END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -269,7 +294,7 @@ CREATE TABLE `securityquestions` (
   `qid` int NOT NULL AUTO_INCREMENT,
   `question` varchar(255) NOT NULL,
   PRIMARY KEY (`qid`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -307,7 +332,7 @@ CREATE TABLE `users` (
   KEY `fk_role_id` (`roleid`),
   CONSTRAINT `fk_role_id` FOREIGN KEY (`roleid`) REFERENCES `role` (`roleid`),
   CONSTRAINT `fk_security_qid` FOREIGN KEY (`securityqid`) REFERENCES `securityquestions` (`qid`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -327,4 +352,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-30  0:13:34
+-- Dump completed on 2025-01-03 16:05:55
