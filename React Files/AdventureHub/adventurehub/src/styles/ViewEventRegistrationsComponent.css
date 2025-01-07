@@ -1,0 +1,14 @@
+/* ViewEventRegistrationsComponent.css */
+.view-registrations-container {
+    max-width: 800px;
+    margin: 20px auto;
+  }
+  
+  .table {
+    width: 100%;
+  }
+  
+  .table th, .table td {
+    text-align: center;
+  }
+  

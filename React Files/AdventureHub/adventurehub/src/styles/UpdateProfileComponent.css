@@ -1,0 +1,29 @@
+/* UpdateProfileComponent.css */
+.update-profile-container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .update-profile-container h3 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .btn {
+    width: 48%;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+  }
+  

@@ -1,0 +1,23 @@
+.customer-dashboard {
+  display: flex;
+}
+
+.nav {
+  background-color: #f8f9fa;
+}
+
+.nav button {
+  padding: 10px;
+  margin-bottom: 5px;
+  width: 100%;
+  text-align: left;
+}
+
+.nav button:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.col-9 {
+  padding-left: 20px;
+}
