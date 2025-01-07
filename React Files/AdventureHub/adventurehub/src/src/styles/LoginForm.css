@@ -1,0 +1,99 @@
+/* General Page Styles */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: #f5f5f5; /* Optional background for contrast */
+}
+
+/* Card Styles */
+.login-card {
+  width: 450px; /* Explicit width for consistent sizing */
+  min-height: 500px;
+  padding: 30px; /* Adjusted padding for better spacing */
+  border-radius: 15px;
+  background-color: #ffffff;
+  color: #333;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; /* Center form content */
+}
+
+/* Form Styles */
+.login-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Gap between form elements */
+  width: 100%; /* Ensures the form takes full card width */
+}
+
+/* Input Styles */
+.login-card .form-control {
+  padding: 14px 16px; /* Adjusted padding for better spacing */
+  font-size: 1rem;
+  border: 2px solid #ff9e2c;
+  border-radius: 8px;
+  transition: border 0.3s ease;
+  width: 100%; /* Ensures inputs take full width of the form */
+  box-sizing: border-box; /* Includes padding and border in width */
+}
+
+.login-card .form-control:focus {
+  border-color: #ff5e1e; /* Focused state color */
+  outline: none;
+}
+
+/* Label Styles */
+.login-card .form-label {
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 8px;
+  text-align: left; /* Align labels to the left */
+  width: 100%;
+}
+
+/* Button Styles */
+.login-card .btn-primary {
+  background-color: #ff9e2c;
+  border: none;
+  padding: 14px; /* Increased padding for better sizing */
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #fff;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  width: 100%; /* Makes the button take full width of the form */
+}
+
+.login-card .btn-primary:hover {
+  background-color: #ff5e1e; /* Hover effect */
+}
+
+/* Link Styles */
+.login-card .btn-link {
+  color: #ff9e2c;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.login-card .btn-link:hover {
+  color: #ff5e1e;
+  text-decoration: underline;
+}
+
+/* Error Message Styles */
+.login-card .alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  padding: 14px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
