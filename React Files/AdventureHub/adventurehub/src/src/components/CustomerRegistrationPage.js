@@ -20,23 +20,8 @@ const initialState = {
     cityname: '',
     stateid: '',
     statename: '',
-    pincode: '',
-    dob: ''
+    pincode: ''
   }
-};
-
-const regexPatterns = {
-  email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, // Valid email
-  password: /^(?=.[A-Za-z])(?=.\d).{8,}$/, // At least 8 chars, 1 letter, 1 number
-
-  contact: /^\d{10}$/, // Exactly 10 digits
-  fname: /^[A-Za-z]{2,}$/, // At least 2 letters
-  lname: /^[A-Za-z]{2,}$/, // At least 2 letters
-  aadhaar: /^\d{12}$/, // Exactly 12 digits
-  street: /^[A-Za-z0-9\s,'-]{3,}$/, // At least 3 chars, allows letters, numbers, spaces, and common punctuation
-  pincode: /^\d{6}$/, // Exactly 6 digits
-  securityqans: /^[A-Za-z0-9\s]{3,}$/, // At least 3 chars, allows letters, numbers, and spaces
-
 };
 
 function reducer(state, action) {
@@ -56,15 +41,6 @@ export default function CustomerRegisterPage() {
   const [statesfromdb, setStatesFromDb] = useState([]);
   const [securityQuestions, setSecurityQuestions] = useState([]);
   const [cities, setCities] = useState([]);
-  const [formErrors, setFormErrors] = useState({});
-  // const [dateofBirth]=useState({
-  //   formData: {
-  //     dob: "",
-  //   },
-  //   formErrors: {
-  //     dob: "",
-  //   },
-  //});
 
   const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -84,85 +60,36 @@ export default function CustomerRegisterPage() {
 
   // Handle input changes and update form data
   const handleChange = (e) => {
-    const { id, value, name } = e.target;
-  
-    // Handle date of birth validation
-    if (name === 'dob') {
-      // Get today's date
-      const today = new Date();
-      today.setHours(0, 0, 0, 0); // Remove time part for accurate comparison
-  
-      // Parse the entered date
-      const enteredDate = new Date(value);
-  
-      // Check if the entered date is ahead of today
-      if (enteredDate > today) {
-        setFormErrors((prevErrors) => ({
-          ...prevErrors,
-          dob: "Date of Birth cannot be ahead of today's date.",
-        }));
-        return; // Stop further processing
-      }
-  
-      // Clear the error if the date is valid
-      setFormErrors((prevErrors) => ({
-        ...prevErrors,
-        dob: "",
-      }));
-    }
-  
-    // Update the main form data
+    const { id, value } = e.target;
+
     dispatch({ type: 'UPDATE_FORM_DATA', payload: { id, value } });
-  
-    // Fetch cities if the state is changed
+
     if (id === 'stateid') {
       fetch("http://localhost:8082/getCitiesByStateId?stateId=" + value)
         .then((resp) => resp.json())
         .then((data) => setCities(data))
-        .catch((err) => {
-          console.log(err);
-          setCities([]);
-        });
+        .catch((err) => console.log(err));
     }
   };
+
 
   const [userExists,setUserExists]=useState(false);
   const handleBlurOfEmail = (e) => {
     const { value } = e.target;
-    fetch("http://localhost:8082/getUserByEmailId?email=" + value)
-      .then((response) => response.json()) // Parse the response as JSON
-      .then((data) => {
-        if (data === true) { // Check if the response is true
-          setError("User  with this email already exists");
-          setUserExists(true);
-        } else {
-          setError(""); // Clear the error if the user does not exist
-          setUserExists(false);
-        }
-      })
-      .catch((err) => {
-        console.error("Error checking email:", err);
-       // setError("Error checking email availability");
-      });
-  };
-  
+    fetch("http://localhost:8082/getUserByEmailId?email="+value)
+    .then(data => {
+      data.json();
+      if(data == "true")
+        setError("User with this email already exists");
+        setUserExists(true);
+    })
+  }
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-  
-    // Validate form data before submitting
-    const errors = validateForm(state.formData);
-    
-    if (Object.keys(errors).length > 0) {
-      // If there are validation errors, show the errors and do not proceed
-      setFormErrors(errors);
-      return; // Stop further execution
-    }
-  
-    // Clear previous errors if form is valid
-    setFormErrors({});
-  
+
     const formData = { ...state.formData };
-  
+
     const newCustDetails = {
       user: {
         email: formData.email,
@@ -170,8 +97,8 @@ export default function CustomerRegisterPage() {
         contact: formData.contact,
         securityqans: formData.securityqans,
         roleid: {
-          roleid: '1',
-          rolename: 'Customer'
+          roleid: '2',
+          rolename: 'organiser'
         },
         questions: {
           qid: formData.qid,
@@ -182,7 +109,7 @@ export default function CustomerRegisterPage() {
       aadhaar: formData.aadhaar,
       lname: formData.lname,
       street: formData.street,
-      cities: {
+      city: {
         cityid: formData.cityid,
         cityname: formData.cityname,
         states: {
@@ -190,74 +117,27 @@ export default function CustomerRegisterPage() {
           statename: formData.statename
         }
       },
-      pincode: formData.pincode,
-      dob: formData.dob
+      pincode: formData.pincode
     };
-    
+
+    // fetch("http://localhost:8082/registerNewCustomer", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   },
+    //   body: JSON.stringify(newCustDetails)
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log('Organizer registered successfully:', data);
+    //     navigate("/");
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error registering organizer:", error);
+    //     setError("Error Registering you");
+    //   });
+
     console.log(newCustDetails);
-    // Proceed with the API call if there are no validation errors
-    fetch("http://localhost:8082/registerNewCustomer", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(newCustDetails)
-    })
-      .then((response) => response.json()
-      )
-      .then((data) => {
-        
-        console.log('Customer registered successfully:', data);
-        navigate("/");
-      })
-      .catch((error) => {
-        console.error("Error registering customer:", error);
-        setError("Error Registering you");
-      });
-  };
-  
-  //formvalidation
-  const validateForm = (formData) => {
-    const errors = {};
-  
-    if (!regexPatterns.email.test(formData.email)) {
-      errors.email = "Please enter a valid email address.";
-    }
-  
-    if (!regexPatterns.password.test(formData.password)) {
-      errors.password =
-        "Password must be at least 8 characters long and contain at least one letter and one number.";
-    }
-  
-    if (!regexPatterns.contact.test(formData.contact)) {
-      errors.contact = "Please enter a valid 10-digit contact number.";
-    }
-  
-    if (!regexPatterns.fname.test(formData.fname)) {
-      errors.fname = "First name must be at least 2 letters long.";
-    }
-  
-    if (!regexPatterns.lname.test(formData.lname)) {
-      errors.lname = "Last name must be at least 2 letters long.";
-    }
-  
-    if (!regexPatterns.aadhaar.test(formData.aadhaar)) {
-      errors.aadhaar = "Aadhaar number must be exactly 12 digits.";
-    }
-  
-    if (!regexPatterns.street.test(formData.street)) {
-      errors.street = "Street address must be at least 3 characters long.";
-    }
-  
-    if (!regexPatterns.pincode.test(formData.pincode)) {
-      errors.pincode = "Pincode must be exactly 6 digits.";
-    }
-  
-    if (!regexPatterns.securityqans.test(formData.securityqans)) {
-      errors.securityqans = "Security answer must be at least 3 characters long.";
-    }
-    setFormErrors(errors); // Set the errors in state
-    return errors;
   };
 
   return (
@@ -277,7 +157,7 @@ export default function CustomerRegisterPage() {
               onChange={handleChange}
               onBlur={handleBlurOfEmail}
             />
-            {formErrors.email && <p className="text-danger">{formErrors.email}</p>}
+            <p hidden={!userExists} style={{display:userExists?'flex':'none'}} >{error}</p>
           </div>
 
           <div className="mb-3">
@@ -289,7 +169,6 @@ export default function CustomerRegisterPage() {
               value={state.formData.password}
               onChange={handleChange}
             />
-            {formErrors.password && <p className="text-danger">{formErrors.password}</p>}
           </div>
 
           <div className="mb-3">
@@ -301,7 +180,6 @@ export default function CustomerRegisterPage() {
               value={state.formData.contact}
               onChange={handleChange}
             />
-            {formErrors.contact && <p className="text-danger">{formErrors.contact}</p>}
           </div>
 
           <div className="mb-3">
@@ -313,7 +191,6 @@ export default function CustomerRegisterPage() {
               value={state.formData.fname}
               onChange={handleChange}
             />
-            {formErrors.fname && <p className="text-danger">{formErrors.fname}</p>}
           </div>
 
           <div className="mb-3">
@@ -325,34 +202,6 @@ export default function CustomerRegisterPage() {
               value={state.formData.lname}
               onChange={handleChange}
             />
-            {formErrors.lname && <p className="text-danger">{formErrors.lname}</p>}
-          </div>
-
-          <div className="mb-3">
-            <label>Date Of Birth</label>
-            <input
-              type="date"
-              id="dob"
-              name="dob"
-              className="form-control form-control-sm"
-              value={state.formData.dob}
-              onChange={handleChange}
-            />
-            {formErrors.dob && (
-            <p className="text-danger">{formErrors.dob}</p>
-            )}
-          </div>
-
-          <div className="mb-3">
-            <label>Aadhaar</label>
-            <input
-              type="text"
-              id="aadhaar"
-              className="form-control form-control-sm"
-              value={state.formData.aadhaar}
-              onChange={handleChange}
-            />
-            {formErrors.contact && <p className="text-danger">{formErrors.aadhaar}</p>}
           </div>
 
           <div className="mb-3">
@@ -364,7 +213,17 @@ export default function CustomerRegisterPage() {
               value={state.formData.street}
               onChange={handleChange}
             />
-            {formErrors.contact && <p className="text-danger">{formErrors.street}</p>}
+          </div>
+
+          <div className="mb-3">
+            <label>Aadhaar</label>
+            <input
+              type="text"
+              id="aadhaar"
+              className="form-control form-control-sm"
+              value={state.formData.aadhaar}
+              onChange={handleChange}
+            />
           </div>
 
           <div className="mb-3">
@@ -410,7 +269,6 @@ export default function CustomerRegisterPage() {
               value={state.formData.pincode}
               onChange={handleChange}
             />
-            {formErrors.contact && <p className="text-danger">{formErrors.pincode}</p>}
           </div>
 
           <div className="mb-3">
@@ -439,7 +297,6 @@ export default function CustomerRegisterPage() {
               value={state.formData.securityqans}
               onChange={handleChange}
             />
-            {formErrors.contact && <p className="text-danger">{formErrors.securityqans}</p>}
           </div>
 
           <button type="submit" className="btn btn-primary" disabled={userExists?true:false}>

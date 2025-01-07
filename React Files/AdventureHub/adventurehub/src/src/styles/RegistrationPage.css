@@ -1,0 +1,22 @@
+/* Ensure that the fields appear on the same line */
+.row {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping if needed */
+  }
+  
+  .col-md-6 {
+    flex: 1; /* Distribute space evenly */
+    margin-right: 10px; /* Optional: add some spacing between the fields */
+  }
+  
+  .col-md-6:last-child {
+    margin-right: 0; /* Remove margin for the last element */
+  }
+  
+  @media (max-width: 768px) {
+    /* Stack the fields on smaller screens */
+    .col-md-6 {
+      flex: 100%;
+    }
+  }
+  
