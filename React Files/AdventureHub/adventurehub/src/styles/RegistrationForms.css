@@ -5,7 +5,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f8f9fa;
+   
   }
   
   .card {
@@ -21,7 +21,10 @@
   }
   
   .form-label {
-    font-weight: bold;
+      font-weight: bold;
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
   }
   
   .form-control-sm, .form-select-sm {

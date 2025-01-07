@@ -27,10 +27,11 @@ const initialState = {
 
 const regexPatterns = {
   email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, // Valid email
-  password: /^(?=.[A-Z])(?=.\d)(?=.[!@#$%^&])[A-Za-z\d!@#$%^&]{8,15}$/, // At least 8 chars, 1 letter, 1 number
+  password: /^(?=.[A-Za-z])(?=.\d).{8,}$/, // At least 8 chars, 1 letter, 1 number
+
   contact: /^\d{10}$/, // Exactly 10 digits
-  fname: /^[A-Z]{1}[a-z]{2,}$/, // At least 2 letters
-  lname: /^[A-Z]{1}[a-z]{2,}$/, // At least 2 letters
+  fname: /^[A-Za-z]{2,}$/, // At least 2 letters
+  lname: /^[A-Za-z]{2,}$/, // At least 2 letters
   aadhaar: /^\d{12}$/, // Exactly 12 digits
   street: /^[A-Za-z0-9\s,'-]{3,}$/, // At least 3 chars, allows letters, numbers, spaces, and common punctuation
   pincode: /^\d{6}$/, // Exactly 6 digits
@@ -56,14 +57,14 @@ export default function CustomerRegisterPage() {
   const [securityQuestions, setSecurityQuestions] = useState([]);
   const [cities, setCities] = useState([]);
   const [formErrors, setFormErrors] = useState({});
-  const [dateofBirth,setdateofbirth]=useState({
-    formData: {
-      dob: "",
-    },
-    formErrors: {
-      dob: "",
-    },
-  });
+  // const [dateofBirth]=useState({
+  //   formData: {
+  //     dob: "",
+  //   },
+  //   formErrors: {
+  //     dob: "",
+  //   },
+  //});
 
   const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -83,51 +84,47 @@ export default function CustomerRegisterPage() {
 
   // Handle input changes and update form data
   const handleChange = (e) => {
-    const { id, value } = e.target;
-
-    // Get today's date
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // Remove time part for accurate comparison
-
-    // Parse the entered date
-    const enteredDate = new Date(value);
-
-    // Check if the entered date is ahead of today
-    if (enteredDate > today) {
-      setdateofbirth((prevState) => ({
-        ...prevState,
-        formErrors: {
-          ...prevState.formErrors,
+    const { id, value, name } = e.target;
+  
+    // Handle date of birth validation
+    if (name === 'dob') {
+      // Get today's date
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Remove time part for accurate comparison
+  
+      // Parse the entered date
+      const enteredDate = new Date(value);
+  
+      // Check if the entered date is ahead of today
+      if (enteredDate > today) {
+        setFormErrors((prevErrors) => ({
+          ...prevErrors,
           dob: "Date of Birth cannot be ahead of today's date.",
-        },
-      }));
-      return; // Stop further processing
-    }
-    // Clear the error if the date is valid
-    setdateofbirth((prevState) => ({
-      ...prevState,
-      formData: {
-        ...prevState.formData,
-        [id]: value,
-      },
-      formErrors: {
-        ...prevState.formErrors,
+        }));
+        return; // Stop further processing
+      }
+  
+      // Clear the error if the date is valid
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
         dob: "",
-      },
-    }));
-
+      }));
+    }
+  
+    // Update the main form data
     dispatch({ type: 'UPDATE_FORM_DATA', payload: { id, value } });
-
+  
+    // Fetch cities if the state is changed
     if (id === 'stateid') {
       fetch("http://localhost:8082/getCitiesByStateId?stateId=" + value)
         .then((resp) => resp.json())
         .then((data) => setCities(data))
-        .catch((err) =>{ console.log(err);
-        setCities([]);
+        .catch((err) => {
+          console.log(err);
+          setCities([]);
         });
     }
   };
-
 
   const [userExists,setUserExists]=useState(false);
   const handleBlurOfEmail = (e) => {
@@ -148,65 +145,7 @@ export default function CustomerRegisterPage() {
        // setError("Error checking email availability");
       });
   };
-  // Handle form submission
-  // const handleSubmit = (e) => {
-    //   e.preventDefault();
-
-  //   const errors = validateForm(state.formData); // validate form data
-
-  //   const formData = { ...state.formData };
-
-  //   const newCustDetails = {
-  //     user: {
-  //       email: formData.email,
-  //       password: formData.password,
-  //       contact: formData.contact,
-  //       securityqans: formData.securityqans,
-  //       roleid: {
-  //         roleid: '1',
-  //         rolename: 'Customer'
-  //       },
-  //       questions: {
-  //         qid: formData.qid,
-  //         question: formData.question
-  //       }
-  //     },
-  //     fname: formData.fname,
-  //     aadhaar: formData.aadhaar,
-  //     lname: formData.lname,
-  //     street: formData.street,
-  //     city: {
-  //       cityid: formData.cityid,
-  //       cityname: formData.cityname,
-  //       states: {
-  //         stateid: formData.stateid,
-  //         statename: formData.statename
-  //       }
-  //     },
-  //     pincode: formData.pincode
-  //   };
-
-  //   fetch("http://localhost:8082/registerNewCustomer", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //     },
-  //     body: JSON.stringify(newCustDetails)
-  //   })
-  //     .then((response) =>
-  //      response.json())
-  //     .then((data) => {
-  //       console.log('Customer registered successfully:', data);
-  //       navigate("/");
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error registering customer:", error);
-  //       setError("Error Registering you");
-  //     });
-
-  //   console.log(newCustDetails);
-  // };
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
   
@@ -350,7 +289,7 @@ export default function CustomerRegisterPage() {
               value={state.formData.password}
               onChange={handleChange}
             />
-            {error.password && <p className="text-danger">{error.password}</p>}
+            {formErrors.password && <p className="text-danger">{formErrors.password}</p>}
           </div>
 
           <div className="mb-3">
@@ -374,7 +313,7 @@ export default function CustomerRegisterPage() {
               value={state.formData.fname}
               onChange={handleChange}
             />
-            {formErrors.contact && <p className="text-danger">{formErrors.fname}</p>}
+            {formErrors.fname && <p className="text-danger">{formErrors.fname}</p>}
           </div>
 
           <div className="mb-3">
@@ -386,7 +325,7 @@ export default function CustomerRegisterPage() {
               value={state.formData.lname}
               onChange={handleChange}
             />
-            {formErrors.contact && <p className="text-danger">{formErrors.lname}</p>}
+            {formErrors.lname && <p className="text-danger">{formErrors.lname}</p>}
           </div>
 
           <div className="mb-3">
@@ -394,13 +333,13 @@ export default function CustomerRegisterPage() {
             <input
               type="date"
               id="dob"
+              name="dob"
               className="form-control form-control-sm"
               value={state.formData.dob}
               onChange={handleChange}
             />
-            {/* {formErrors.contact && <p className="text-danger">{formErrors.lname}</p>} */}
-            {dateofBirth.formErrors.dob && (
-            <p className="text-danger">{dateofBirth.formErrors.dob}</p>
+            {formErrors.dob && (
+            <p className="text-danger">{formErrors.dob}</p>
             )}
           </div>
 

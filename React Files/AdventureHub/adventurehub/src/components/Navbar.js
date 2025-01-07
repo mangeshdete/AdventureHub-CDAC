@@ -58,7 +58,7 @@ function Navbar() {
                   onClick={togglePopup}
                   style={{ border: 'none', background: 'none', position: 'relative' }}
                 >
-                  {user.fname || user.orgname}
+                  {user.fname || user.orgname || user.email}
                 </button>
                 {showPopup && (
                   <div

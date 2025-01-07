@@ -43,4 +43,9 @@ public class SecurityQuestion {
 		this.question = question;
 	}
 
+	@Override
+	public String toString() {
+		return "SecurityQuestion [qid=" + qid + ", question=" + question + "]";
+	}
+	
 }

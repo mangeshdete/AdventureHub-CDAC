@@ -1,0 +1,21 @@
+.manage-event-container {
+    display: flex;
+    height: 100%;
+  }
+  
+  .sidebar {
+    width: 30%;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-right: 1px solid #dee2e6;
+  }
+  
+  .content {
+    width: 70%;
+    padding: 20px;
+  }
+  
+  h3 {
+    margin-bottom: 20px;
+  }
+  

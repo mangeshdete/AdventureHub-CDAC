@@ -14,6 +14,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("from User where email=?1 and password=?2")
 	public User login(String email, String password);
 	
+	@Query(value="select * from users where email=?1",nativeQuery = true)
 	public User findUserByEmail(String emailid);
 	
 	@Query(value="select u.securityqans from users u where u.email=:email",nativeQuery = true)
