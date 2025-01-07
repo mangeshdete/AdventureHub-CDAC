@@ -84,6 +84,74 @@ function Navbar() {
                 Logout
               </button>
             </li>
+<<<<<<< HEAD
+=======
+            {loggedIn && (
+              <li className="nav-item dropdown" ref={dropdownRef}>
+                <button
+                  className="nav-link btn btn-link text-white"
+                  onClick={togglePopup}
+                  style={{ border: 'none', background: 'none', position: 'relative' }}
+                >
+                  {user.fname || user.orgname || user.email}
+                </button>
+                {showPopup && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '100%',
+                      right: 0,
+                      backgroundColor: '#fff',
+                      border: '1px solid orange',
+                      borderRadius: '4px',
+                      zIndex: 1000,
+                      minWidth: '150px',
+                      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                    }}
+                  >
+                    <ul className="list-unstyled m-0 p-2">
+                      <li>
+                        <Link
+                          to="/profile"
+                          className="dropdown-item"
+                          style={{ textDecoration: 'none', color: 'black' }}
+                          onClick={closePopup}
+                        >
+                          Profile
+                        </Link>
+                      </li>
+                      <hr style={{ margin: '8px 0', borderTop: '1px solid black' }} />
+                      <li>
+                        <Link
+                          to="/feedback"
+                          className="dropdown-item"
+                          style={{ textDecoration: 'none', color: 'black' }}
+                          onClick={closePopup}
+                        >
+                          Feedback
+                        </Link>
+                      </li>
+                      <hr style={{ margin: '8px 0', borderTop: '1px solid black' }} />
+                      <li>
+                        <button
+                          className="dropdown-item"
+                          onClick={handleLogout}
+                          style={{
+                            border: 'none',
+                            background: 'none',
+                            color: 'red',
+                            padding: '5px',
+                          }}
+                        >
+                          Logout
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </li>
+            )}
+>>>>>>> 3e07045db5adde74fbebf0590632c51afebbbe49
           </ul>
         </div>
       </div>

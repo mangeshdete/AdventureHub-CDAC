@@ -43,9 +43,16 @@ const LoginPage = () => {
       throw new Error("Response couldn't be resolved!");
     })
     .then((data) => {
+      
       if (data) {
+
         dispatch(setUser(data));
-        navigate("/");
+        // navigate("/");
+        if (data.user.roleid.roleid === 1)
+            navigate("/customerdashboard");
+        else if (data.user.roleid.roleid === 2)
+            navigate("/organizerdashboard");
+
       }
     })
     .catch((err) => {

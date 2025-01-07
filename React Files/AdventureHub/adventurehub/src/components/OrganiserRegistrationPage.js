@@ -224,7 +224,7 @@ function OrganizerRegisterPage() {
       <div className="registration-card">
         <h1 className="text-center">Organizer Registration</h1>
         <form onSubmit={handleSubmit}>
-          {error && <p className="error-text">{error}</p>}
+          {error && <p className="text-danger">{error}</p>}
 
           <div className="form-group">
             <label>Email</label>
