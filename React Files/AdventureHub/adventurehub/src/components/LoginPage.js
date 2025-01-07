@@ -45,7 +45,7 @@ export default LoginPage => {
     .then((data) => {
       
       if (data) {
-        console.log(data);
+
         dispatch(setUser(data));
         // navigate("/");
         if (data.user.roleid.roleid === 1)
