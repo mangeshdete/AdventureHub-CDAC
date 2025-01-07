@@ -37,16 +37,17 @@ public class UserService {
 	
 	public Object login(String email, String password) {
 		User u = urepo.login(email, password);
-		if(u.getRoleid().getRoleid()==3)
-			return u;
-		else {
+		if(u!=null) {
+			if(u.getRoleid().getRoleid()==3)
+				return u;
 			Object obj = custRepo.findCustomerByUser(u);
 			
 			if(obj!=null)
 				return obj;
 			
 			return orgRepo.findOrganiserByUser(u);
-		}	
+		}
+		return null;	
 	}
 	
 	public User getUserByEmailId(String email) {
@@ -56,7 +57,7 @@ public class UserService {
 	public SecurityQuestion getSecurityQuestionOfUser(String email) {
 		User u = urepo.findUserByEmail(email);
 		if(u!=null)
-		return secRepo.getSecurityQuestionByUsers(u.getUserid());
+			return secRepo.getSecurityQuestionByUsers(u.getUserid());
 		return null;
 	}
 	

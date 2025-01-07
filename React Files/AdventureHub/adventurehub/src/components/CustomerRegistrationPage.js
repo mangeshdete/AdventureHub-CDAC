@@ -27,7 +27,7 @@ const initialState = {
 
 const regexPatterns = {
   email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, // Valid email
-  password: /^(?=.[A-Z])(?=.\d)(?=.[!@#$%^&])[A-Za-z\d!@#$%^&]{8,15}$/, // At least 8 chars, 1 letter, 1 number
+  password: /^(?=.[A-Za-z])(?=.\d).{8,}$/, // At least 8 chars, 1 letter, 1 number
   contact: /^\d{10}$/, // Exactly 10 digits
   fname: /^[A-Z]{1}[a-z]{2,}$/, // At least 2 letters
   lname: /^[A-Z]{1}[a-z]{2,}$/, // At least 2 letters
