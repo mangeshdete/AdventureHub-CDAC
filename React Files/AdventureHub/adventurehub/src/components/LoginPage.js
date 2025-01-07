@@ -4,7 +4,7 @@ import "../styles/LoginForm.css"
 import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/userSlice';
 
-export default LoginPage => {
+const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [error, setError] = useState("");
@@ -55,6 +55,7 @@ export default LoginPage => {
   }
 
   return (
+    <div className="login-page">
       <div className="card shadow login-card">
         <h1 className="text-center mb-4">Login</h1>
         {error && <div className="alert alert-danger">{error}</div>}
@@ -84,12 +85,12 @@ export default LoginPage => {
             />
           </div>
           <div className="mt-3">
-          <p>
-            <Link to="/forgotPassword" className="btn btn-link" style={{alignItems:"right"}}>
-              Forgot Password
-            </Link>
-          </p>
-        </div>
+            <p>
+              <Link to="/forgotPassword" className="btn btn-link" style={{alignItems:"right"}}>
+                Forgot Password
+              </Link>
+            </p>
+          </div>
           <button type="submit" className="btn btn-primary w-100">
             LOGIN
           </button>
@@ -97,11 +98,14 @@ export default LoginPage => {
         <div className="text-center mt-3">
           <p>
             Don't have an account?{" "}
-            <Link to="/register" className="btn btn-link">
+            <Link to="/chooserole" className="btn btn-link">
               Register
             </Link>
           </p>
         </div>
       </div>
+    </div>
   );
-}
+};
+
+export default LoginPage;

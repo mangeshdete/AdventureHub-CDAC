@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import { useNavigate } from 'react-router';
-import '../styles/RegistrationForms.css';
+import '../styles/OrganizerRegistration.css';
 
 const initialState = {
   formData: {
