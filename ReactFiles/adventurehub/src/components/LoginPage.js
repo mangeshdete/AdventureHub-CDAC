@@ -47,12 +47,14 @@ const LoginPage = () => {
       if (data) {
 
         dispatch(setUser(data));
-        // navigate("/");
-        if (data.user.roleid.roleid === 1)
+        if(data.roleid){
+          if(data.roleid.roleid === 3)
+            navigate("/");
+        }
+        else if (data.user.roleid.roleid === 1)
             navigate("/customerdashboard");
         else if (data.user.roleid.roleid === 2)
             navigate("/organizerdashboard");
-
       }
     })
     .catch((err) => {
