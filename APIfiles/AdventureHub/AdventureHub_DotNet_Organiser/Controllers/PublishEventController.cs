@@ -19,7 +19,8 @@ namespace AdventureHub.Controllers
         [HttpGet]
         public IActionResult GetPublishedEventsByOrganiserId([FromQuery] int orgId)
         {
-            var publishedEvents=Db.Publishevents.Include(p => p.City).Include(p => p.Event).Where(e => e.Organiserid == orgId).ToList();
+            // var publishedEvents=Db.Publishevents.Include(p => p.City).Include(p => p.Event).Where(e => e.Organiserid == orgId).ToList();
+            var publishedEvents = Db.Publishevents.Where(e => e.Organiserid == orgId).OrderByDescending(e => e.Eventdate).Select(p => new { p.City.Cityname, p.Event.Eventname, p.Eventdate }).ToList();
             return Ok(publishedEvents);
         }
     }
