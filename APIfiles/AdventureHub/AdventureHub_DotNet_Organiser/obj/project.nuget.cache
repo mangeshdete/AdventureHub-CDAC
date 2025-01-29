@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "CeJcJrB3mq8=",
+  "dgSpecHash": "1rqy7rgcbLE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Mangesh\\OneDrive\\Desktop\\KNOW-IT\\C#_.NET\\VisualStudioWork\\AdventureHub\\AdventureHub\\AdventureHub.csproj",
+  "projectFilePath": "C:\\Users\\Mangesh\\OneDrive\\Desktop\\CDAC Project\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Organiser\\AdventureHub.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Mangesh\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Mangesh\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.36\\microsoft.entityframeworkcore.6.0.36.nupkg.sha512",
