@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios"; // or any other data fetching library
 import "../styles/ViewEventRegistrationsComponent.css";
 
 function ViewEventRegistrationsComponent({ eventId }) {
@@ -8,7 +7,7 @@ function ViewEventRegistrationsComponent({ eventId }) {
   // Fetch event registrations from API or mock data source
   useEffect(() => {
     // Mock API call (replace with actual API call)
-    axios.get(`/api/events/${eventId}/registrations`)
+      fetch(`/api/events/${eventId}/registrations`)
       .then((response) => {
         setRegistrations(response.data);
       })

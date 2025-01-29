@@ -1,72 +1,115 @@
 import React, { useState } from "react";
-import "../styles/ManageEventComponent.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-function ManageEventComponent() {
+function ViewRegistrationsComponent() {
+  const [expandedEvent, setExpandedEvent] = useState(null);
   const [activeTab, setActiveTab] = useState("view");
 
-  // Handlers to set active tab
-  const handleViewDetails = () => setActiveTab("view");
-  const handleUpdateDetails = () => setActiveTab("update");
-  const handleCancelEvent = () => setActiveTab("cancel");
+  const events = [
+    {
+      id: 1,
+      date: "2025-02-15",
+      name: "Tech Conference",
+      status: "Upcoming",
+      participants: ["John Doe", "Jane Smith", "David Warner", "Chris Evans"]
+    },
+    {
+      id: 2,
+      date: "2025-03-10",
+      name: "Music Fest",
+      status: "Completed",
+      participants: ["Alice Brown", "Mark Taylor", "Sophia Wilson", "Emma Watson", "Elon Musk"]
+    }
+  ];
+
+  const toggleParticipants = (id) => {
+    setExpandedEvent(expandedEvent === id ? null : id);
+  };
 
   return (
-    <div className="manage-event-container">
-      <div className="sidebar">
-        <button
-          className="btn btn-primary w-100 mb-3"
-          onClick={handleViewDetails}
-        >
-          View Event Details
-        </button>
-        <button
-          className="btn btn-success w-100 mb-3"
-          onClick={handleUpdateDetails}
-        >
-          Update Event Details
-        </button>
-        <button
-          className="btn btn-danger w-100"
-          onClick={handleCancelEvent}
-        >
-          Cancel Event
-        </button>
+    <div className="container-fluid d-flex vh-100 bg-light">
+      {/* Sidebar */}
+      <div className="bg-primary text-white p-4" style={{ width: "250px" }}>
+        <h4>Manage Events</h4>
+        <ul className="list-group list-group-flush">
+          <li className={`list-group-item list-group-item-action ${activeTab === "view" ? "active" : ""}`} onClick={() => setActiveTab("view")}>
+            View Event Details
+          </li>
+          <li className={`list-group-item list-group-item-action ${activeTab === "update" ? "active" : ""}`} onClick={() => setActiveTab("update")}>
+            Update Event Details
+          </li>
+          <li className={`list-group-item list-group-item-action ${activeTab === "cancel" ? "active" : ""}`} onClick={() => setActiveTab("cancel")}>
+            Cancel Event
+          </li>
+        </ul>
       </div>
-      <div className="content">
+
+      {/* Content */}
+      <div className="flex-grow-1 p-4" style={{ overflowY: "auto" }}>
         {activeTab === "view" && (
-          <div className="view-event">
+          <div>
             <h3>View Event Details</h3>
-            <table className="table table-striped">
-              <thead>
+            <table className="table table-hover table-bordered text-center align-middle">
+              <thead className="table-primary">
                 <tr>
+                  <th>#</th>
+                  <th>Date</th>
                   <th>Event Name</th>
-                  <th>Date and Time</th>
-                  <th>Location</th>
-                  <th>Description</th>
+                  <th>Status</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Adventure Trekking</td>
-                  <td>2025-01-10 09:00 AM</td>
-                  <td>Mountain Base Camp</td>
-                  <td>A thrilling adventure trek through the mountains.</td>
-                </tr>
+                {events.map((event, index) => (
+                  <React.Fragment key={event.id}>
+                    <tr className="fw-bold">
+                      <td>{index + 1}</td>
+                      <td>{event.date}</td>
+                      <td>{event.name}</td>
+                      <td>
+                        <span className={`badge ${event.status === "Upcoming" ? "bg-success" : "bg-secondary"}`}>
+                          {event.status}
+                        </span>
+                      </td>
+                      <td>
+                        <button
+                          className="btn btn-outline-primary btn-sm"
+                          onClick={() => toggleParticipants(event.id)}
+                        >
+                          {expandedEvent === event.id ? "Hide Participants" : "View Participants"}
+                        </button>
+                      </td>
+                    </tr>
+                    {expandedEvent === event.id && (
+                      <tr>
+                        <td colSpan="5">
+                          <div className="border rounded p-3 bg-white shadow-sm" style={{ maxHeight: "200px", overflowY: "auto", borderLeft: "5px solid #007bff" }}>
+                            <h6 className="text-center mb-3 text-primary">Participants</h6>
+                            <ul className="list-group list-group-flush">
+                              {event.participants.map((participant, i) => (
+                                <li key={i} className="list-group-item text-dark">
+                                  {participant}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </React.Fragment>
+                ))}
               </tbody>
             </table>
           </div>
         )}
+
         {activeTab === "update" && (
-          <div className="update-event">
+          <div>
             <h3>Update Event Details</h3>
             <form>
               <div className="form-group mb-3">
                 <label>Event Name (Not Editable)</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value="Adventure Trekking"
-                  readOnly
-                />
+                <input type="text" className="form-control" value="Selected Event" readOnly />
               </div>
               <div className="form-group mb-3">
                 <label>Change Date and Time</label>
@@ -74,51 +117,30 @@ function ManageEventComponent() {
               </div>
               <div className="form-group mb-3">
                 <label>Update Location</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Enter new location"
-                />
+                <input type="text" className="form-control" placeholder="Enter new location" />
               </div>
               <div className="form-group mb-3">
                 <label>Edit Description</label>
-                <textarea
-                  className="form-control"
-                  rows="4"
-                  placeholder="Enter new description"
-                ></textarea>
+                <textarea className="form-control" rows="4" placeholder="Enter new description"></textarea>
               </div>
-              <button type="submit" className="btn btn-success">
-                Save Changes
-              </button>
+              <button type="submit" className="btn btn-success">Save Changes</button>
             </form>
           </div>
         )}
+
         {activeTab === "cancel" && (
-          <div className="cancel-event">
+          <div>
             <h3>Cancel Event</h3>
             <form>
               <div className="form-group mb-3">
                 <label>Reason for Cancellation (Optional)</label>
-                <textarea
-                  className="form-control"
-                  rows="4"
-                  placeholder="Enter reason (if any)"
-                ></textarea>
+                <textarea className="form-control" rows="4" placeholder="Enter reason (if any)"></textarea>
               </div>
               <div className="form-group mb-3">
-                <input
-                  type="checkbox"
-                  id="notify"
-                  className="form-check-input"
-                />
-                <label htmlFor="notify" className="form-check-label ms-2">
-                  Notify Registered Participants
-                </label>
+                <input type="checkbox" id="notify" className="form-check-input" />
+                <label htmlFor="notify" className="form-check-label ms-2">Notify Registered Participants</label>
               </div>
-              <button type="submit" className="btn btn-danger">
-                Cancel Event
-              </button>
+              <button type="submit" className="btn btn-danger">Cancel Event</button>
             </form>
           </div>
         )}
@@ -127,4 +149,4 @@ function ManageEventComponent() {
   );
 }
 
-export default ManageEventComponent;
+export default ViewRegistrationsComponent;
