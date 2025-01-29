@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Mangesh\\OneDrive\\Desktop\\KNOW-IT\\C#_.NET\\VisualStudioWork\\AdventureHub\\AdventureHub\\AdventureHub.csproj": {}
+    "C:\\Users\\Mangesh\\OneDrive\\Desktop\\CDAC Project\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Organiser\\AdventureHub.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Mangesh\\OneDrive\\Desktop\\KNOW-IT\\C#_.NET\\VisualStudioWork\\AdventureHub\\AdventureHub\\AdventureHub.csproj": {
+    "C:\\Users\\Mangesh\\OneDrive\\Desktop\\CDAC Project\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Organiser\\AdventureHub.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mangesh\\OneDrive\\Desktop\\KNOW-IT\\C#_.NET\\VisualStudioWork\\AdventureHub\\AdventureHub\\AdventureHub.csproj",
+        "projectUniqueName": "C:\\Users\\Mangesh\\OneDrive\\Desktop\\CDAC Project\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Organiser\\AdventureHub.csproj",
         "projectName": "AdventureHub",
-        "projectPath": "C:\\Users\\Mangesh\\OneDrive\\Desktop\\KNOW-IT\\C#_.NET\\VisualStudioWork\\AdventureHub\\AdventureHub\\AdventureHub.csproj",
+        "projectPath": "C:\\Users\\Mangesh\\OneDrive\\Desktop\\CDAC Project\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Organiser\\AdventureHub.csproj",
         "packagesPath": "C:\\Users\\Mangesh\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mangesh\\OneDrive\\Desktop\\KNOW-IT\\C#_.NET\\VisualStudioWork\\AdventureHub\\AdventureHub\\obj\\",
+        "outputPath": "C:\\Users\\Mangesh\\OneDrive\\Desktop\\CDAC Project\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Organiser\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
