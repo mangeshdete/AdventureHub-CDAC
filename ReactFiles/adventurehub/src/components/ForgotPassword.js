@@ -19,7 +19,7 @@ const ForgotPassword = () => {
   const handleVerifyEmail = () => {
     if (!email) return;
 
-    fetch(`http://localhost:8082/getUserByEmailId?email=${email}`)
+    fetch(`http://localhost:8142/getUserByEmailId?email=${email}`)
       .then((response) => response.json())
       .then((isUserExist) => {
         if (isUserExist) {
@@ -29,13 +29,13 @@ const ForgotPassword = () => {
           setStage(2); // Move to the next stage (answer verification)
           
           // Fetch the security question
-          fetch(`http://localhost:8082/getSecurityQuestionByEmailId?email=${email}`)
+          fetch(`http://localhost:8142/getSecurityQuestionByEmailId?email=${email}`)
             .then((response) => response.json())
             .then((data) => {
               setSecurityQuestion(data.question);
   
               // Fetch the security answer
-              fetch(`http://localhost:8082/getSecurityAnswerByEmailId?email=${email}`)
+              fetch(`http://localhost:8142/getSecurityAnswerByEmailId?email=${email}`)
                 .then((response) => {
                   if (response.status === 204) {
                     throw new Error('Security answer not available for the provided email.');
@@ -98,7 +98,7 @@ const ForgotPassword = () => {
     }
   
     // Send the password reset request to the backend
-    fetch('http://localhost:8082/resetPassword', {
+    fetch('http://localhost:8142/resetPassword', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
