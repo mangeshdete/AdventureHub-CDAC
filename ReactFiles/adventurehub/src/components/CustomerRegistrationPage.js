@@ -70,12 +70,12 @@ export default function CustomerRegisterPage() {
 
   // Fetch states and security questions on component mount
   useEffect(() => {
-    fetch("http://localhost:8082/getAllStates")
+    fetch("http://localhost:8142/getAllStates")
       .then((resp) => resp.json())
       .then((data) => setStatesFromDb(data))
       .catch((e) => console.log(e));
 
-    fetch("http://localhost:8082/getAllSecurityQuestions")
+    fetch("http://localhost:8142/getAllSecurityQuestions")
       .then((resp) => resp.json())
       .then((data) => setSecurityQuestions(data))
       .catch((err) => console.log(err));
@@ -115,7 +115,7 @@ export default function CustomerRegisterPage() {
   
     // Fetch cities if the state is changed
     if (id === 'stateid') {
-      fetch("http://localhost:8082/getCitiesByStateId?stateId=" + value)
+      fetch("http://localhost:8142/getCitiesByStateId?stateId=" + value)
         .then((resp) => resp.json())
         .then((data) => setCities(data))
         .catch((err) => {
@@ -128,7 +128,7 @@ export default function CustomerRegisterPage() {
   const [userExists,setUserExists]=useState(false);
   const handleBlurOfEmail = (e) => {
     const { value } = e.target;
-    fetch("http://localhost:8082/getUserByEmailId?email=" + value)
+    fetch("http://localhost:8142/getUserByEmailId?email=" + value)
       .then((response) => response.json()) // Parse the response as JSON
       .then((data) => {
         if (data === true) { // Check if the response is true
@@ -195,7 +195,7 @@ export default function CustomerRegisterPage() {
     
     console.log(newCustDetails);
     // Proceed with the API call if there are no validation errors
-    fetch("http://localhost:8082/registerNewCustomer", {
+    fetch("http://localhost:8142/registerNewCustomer", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

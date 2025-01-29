@@ -16,7 +16,7 @@ function HomePage() {
       {/* Hero Section */}
       <div className="hero-section">
         <h1 className="hero-title">Welcome to Adventure Hub</h1>
-        <p className="hero-subtitle">Explore Beyond Boundaries – Adventure Awaits!</p>
+        <p className="hero-subtitle">Explore Beyond Boundaries - Adventure Awaits!</p>
         <div className="hero-search">
           <input
             type="text"
