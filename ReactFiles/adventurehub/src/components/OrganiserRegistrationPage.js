@@ -60,12 +60,12 @@ function OrganizerRegisterPage() {
 
   // Fetch states and security questions on component mount
   useEffect(() => {
-    fetch("http://localhost:8082/getAllStates")
+    fetch("http://localhost:8142/getAllStates")
       .then((resp) => resp.json())
       .then((data) => setStatesFromDb(data))
       .catch((e) => console.log(e));
 
-    fetch("http://localhost:8082/getAllSecurityQuestions")
+    fetch("http://localhost:8142/getAllSecurityQuestions")
       .then((resp) => resp.json())
       .then((data) => setSecurityQuestions(data))
       .catch((err) => console.log(err));
@@ -78,7 +78,7 @@ function OrganizerRegisterPage() {
     dispatch({ type: 'UPDATE_FORM_DATA', payload: { id, value } });
 
     if (id === 'stateid') {
-      fetch("http://localhost:8082/getCitiesByStateId?stateId=" + value)
+      fetch("http://localhost:8142/getCitiesByStateId?stateId=" + value)
         .then((resp) => resp.json())
         .then((data) => setCities(data))
         .catch((err) => console.log(err));
@@ -88,7 +88,7 @@ function OrganizerRegisterPage() {
   const [userExists,setUserExists]=useState(false);
   const handleBlurOfEmail = (e) => {
     const { value } = e.target;
-    fetch("http://localhost:8082/getUserByEmailId?email=" + value)
+    fetch("http://localhost:8142/getUserByEmailId?email=" + value)
       .then((response) => response.json()) // Parse the response as JSON
       .then((data) => {
         if (data === true) { // Check if the response is true
@@ -155,7 +155,7 @@ function OrganizerRegisterPage() {
       pincode: formData.pincode
     };
 
-    fetch("http://localhost:8082/saveNewOrganiser", {
+    fetch("http://localhost:8142/saveNewOrganiser", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

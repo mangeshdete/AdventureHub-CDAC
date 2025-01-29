@@ -31,7 +31,7 @@ const LoginPage = () => {
       }),
     };
 
-    fetch("http://localhost:8082/userLogin", reqInfo)
+    fetch("http://localhost:8142/userLogin", reqInfo)
     .then((response) => {
       if (response.status === 204) {
         setError("Invalid email or password");
