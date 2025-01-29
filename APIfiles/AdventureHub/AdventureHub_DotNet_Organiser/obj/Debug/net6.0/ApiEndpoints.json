@@ -1,0 +1,49 @@
+[
+  {
+    "ContainingType": "AdventureHub.Controllers.CategoryController",
+    "Method": "GetAllCategories",
+    "RelativePath": "Category/GetAllCategories",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub.Controllers.EventRegistrationController",
+    "Method": "GetEventRegistrationsByEventIdAndOrganiserById",
+    "RelativePath": "EventRegistration/GetEventRegistrationsByEventIdAndOrganiserById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "eventId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "orgId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub.Controllers.PublishEventController",
+    "Method": "GetPublishedEventsByOrganiserId",
+    "RelativePath": "PublishEvent/GetPublishedEventsByOrganiserId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orgId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
