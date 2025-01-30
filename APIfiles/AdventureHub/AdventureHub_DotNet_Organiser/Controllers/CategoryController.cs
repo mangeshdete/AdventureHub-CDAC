@@ -20,7 +20,7 @@ namespace AdventureHub.Controllers
         [HttpGet]
        public IActionResult GetAllCategories()
         {
-            return Ok(Db.Categories.Include(c => c.Events).ToList());
+            return Ok(Db.Categories.Select(c => new { c.Categoryid, c.Categoryname }).ToList());
         }
     }
 }

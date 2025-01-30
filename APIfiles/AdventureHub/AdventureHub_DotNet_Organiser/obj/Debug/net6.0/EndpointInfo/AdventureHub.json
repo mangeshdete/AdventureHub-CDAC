@@ -17,6 +17,28 @@
         }
       }
     },
+    "/Event/GetAllEventsFromCategoryId": {
+      "get": {
+        "tags": [
+          "Event"
+        ],
+        "parameters": [
+          {
+            "name": "catId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/EventRegistration/GetEventRegistrationsByEventIdAndOrganiserById": {
       "get": {
         "tags": [
@@ -68,7 +90,581 @@
           }
         }
       }
+    },
+    "/PublishEvent/PublishNewEvent": {
+      "post": {
+        "tags": [
+          "PublishEvent"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Publishevent"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Publishevent"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Publishevent"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/PublishEvent/GetPublishedEventById": {
+      "get": {
+        "tags": [
+          "PublishEvent"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
     }
   },
-  "components": { }
+  "components": {
+    "schemas": {
+      "Category": {
+        "type": "object",
+        "properties": {
+          "categoryid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "categoryname": {
+            "type": "string",
+            "nullable": true
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Event"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "City": {
+        "type": "object",
+        "properties": {
+          "cityid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cityname": {
+            "type": "string",
+            "nullable": true
+          },
+          "stateid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "state": {
+            "$ref": "#/components/schemas/State"
+          },
+          "customers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Customer"
+            },
+            "nullable": true
+          },
+          "organisers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Organiser"
+            },
+            "nullable": true
+          },
+          "publishevents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Publishevent"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Customer": {
+        "type": "object",
+        "properties": {
+          "custid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fname": {
+            "type": "string",
+            "nullable": true
+          },
+          "lname": {
+            "type": "string",
+            "nullable": true
+          },
+          "aadhaar": {
+            "type": "string",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "cityid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pincode": {
+            "type": "string",
+            "nullable": true
+          },
+          "dob": {
+            "type": "string",
+            "format": "date"
+          },
+          "city": {
+            "$ref": "#/components/schemas/City"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "eventregistrations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Eventregistration"
+            },
+            "nullable": true
+          },
+          "ratings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Rating"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Event": {
+        "type": "object",
+        "properties": {
+          "eventid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "eventname": {
+            "type": "string",
+            "nullable": true
+          },
+          "categoryid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "category": {
+            "$ref": "#/components/schemas/Category"
+          },
+          "publishevents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Publishevent"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Eventregistration": {
+        "type": "object",
+        "properties": {
+          "registrationid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "custid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "publishid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "participants": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cust": {
+            "$ref": "#/components/schemas/Customer"
+          },
+          "publish": {
+            "$ref": "#/components/schemas/Publishevent"
+          },
+          "payments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Payment"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Organiser": {
+        "type": "object",
+        "properties": {
+          "organiserid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orgname": {
+            "type": "string",
+            "nullable": true
+          },
+          "gst": {
+            "type": "string",
+            "nullable": true
+          },
+          "pancard": {
+            "type": "string",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "cityid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pincode": {
+            "type": "string",
+            "nullable": true
+          },
+          "rating": {
+            "type": "number",
+            "format": "double"
+          },
+          "city": {
+            "$ref": "#/components/schemas/City"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "publishevents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Publishevent"
+            },
+            "nullable": true
+          },
+          "ratings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Rating"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Payment": {
+        "type": "object",
+        "properties": {
+          "paymentid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "registrationid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "paymentmodeid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "amount": {
+            "type": "number",
+            "format": "float"
+          },
+          "paymentstatus": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentmode": {
+            "$ref": "#/components/schemas/Paymentmode"
+          },
+          "registration": {
+            "$ref": "#/components/schemas/Eventregistration"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Paymentmode": {
+        "type": "object",
+        "properties": {
+          "paymentmodeid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "paymentmodename": {
+            "type": "string",
+            "nullable": true
+          },
+          "payments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Payment"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Publishevent": {
+        "type": "object",
+        "properties": {
+          "publishid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "eventid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "organiserid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "eventdate": {
+            "type": "string",
+            "format": "date"
+          },
+          "eventtime": {
+            "type": "string",
+            "format": "time"
+          },
+          "price": {
+            "type": "number",
+            "format": "float"
+          },
+          "capacity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "cityid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pincode": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "$ref": "#/components/schemas/City"
+          },
+          "event": {
+            "$ref": "#/components/schemas/Event"
+          },
+          "organiser": {
+            "$ref": "#/components/schemas/Organiser"
+          },
+          "eventregistrations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Eventregistration"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Rating": {
+        "type": "object",
+        "properties": {
+          "ratingid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "custid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orgid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rating1": {
+            "type": "number",
+            "format": "double"
+          },
+          "cust": {
+            "$ref": "#/components/schemas/Customer"
+          },
+          "org": {
+            "$ref": "#/components/schemas/Organiser"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Role": {
+        "type": "object",
+        "properties": {
+          "roleid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rolename": {
+            "type": "string",
+            "nullable": true
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Securityquestion": {
+        "type": "object",
+        "properties": {
+          "qid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "question": {
+            "type": "string",
+            "nullable": true
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "State": {
+        "type": "object",
+        "properties": {
+          "stateid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "statename": {
+            "type": "string",
+            "nullable": true
+          },
+          "cities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/City"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "userid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "contact": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "securityqid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "securityqans": {
+            "type": "string",
+            "nullable": true
+          },
+          "roleid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "role": {
+            "$ref": "#/components/schemas/Role"
+          },
+          "securityq": {
+            "$ref": "#/components/schemas/Securityquestion"
+          },
+          "customers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Customer"
+            },
+            "nullable": true
+          },
+          "organisers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Organiser"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
 }
