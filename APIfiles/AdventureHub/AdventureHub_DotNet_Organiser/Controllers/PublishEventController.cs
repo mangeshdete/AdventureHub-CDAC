@@ -23,5 +23,21 @@ namespace AdventureHub.Controllers
             var publishedEvents = Db.Publishevents.Where(e => e.Organiserid == orgId).OrderByDescending(e => e.Eventdate).Select(p => new {p.Eventid ,p.City.Cityname, p.Event.Eventname, p.Eventdate, p.Status }).ToList();
             return Ok(publishedEvents);
         }
+
+        
+        [HttpPost]
+        public IActionResult PublishNewEvent([FromBody] Publishevent? evnt)
+        {
+            Console.WriteLine(evnt);
+            //Db.Publishevents.Add(evnt);
+            //Db.SaveChanges();
+            return Ok();
+        }
+
+        [HttpGet]
+        public IActionResult GetPublishedEventById([FromQuery] int id) 
+        {
+            return Ok(Db.Publishevents.Where(e => e.Publishid==id).ToList());
+        }
     }
 }
