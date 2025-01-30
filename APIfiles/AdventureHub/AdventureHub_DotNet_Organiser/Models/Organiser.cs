@@ -21,9 +21,9 @@ namespace AdventureHub.Models
         public string Pincode { get; set; } = null!;
         public decimal Rating { get; set; }
 
-        public virtual City City { get; set; } = null!;
-        public virtual User User { get; set; } = null!;
-        public virtual ICollection<Publishevent> Publishevents { get; set; }
-        public virtual ICollection<Rating> Ratings { get; set; }
+        public virtual City? City { get; set; }
+        public virtual User? User { get; set; }
+        public virtual ICollection<Publishevent>? Publishevents { get; set; }
+        public virtual ICollection<Rating>? Ratings { get; set; }
     }
 }

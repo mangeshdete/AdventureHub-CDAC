@@ -224,13 +224,13 @@ namespace AdventureHub.Models
                 entity.HasOne(d => d.City)
                     .WithMany(p => p.Organisers)
                     .HasForeignKey(d => d.Cityid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("org_city_id_fk");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Organisers)
                     .HasForeignKey(d => d.Userid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("org_userid_fk");
             });
 
@@ -328,19 +328,19 @@ namespace AdventureHub.Models
                 entity.HasOne(d => d.City)
                     .WithMany(p => p.Publishevents)
                     .HasForeignKey(d => d.Cityid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("publishevent_city_id_fk");
 
                 entity.HasOne(d => d.Event)
                     .WithMany(p => p.Publishevents)
                     .HasForeignKey(d => d.Eventid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("publishevent_eventid_fk");
 
                 entity.HasOne(d => d.Organiser)
                     .WithMany(p => p.Publishevents)
                     .HasForeignKey(d => d.Organiserid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("publishevent_orgid_fk");
             });
 

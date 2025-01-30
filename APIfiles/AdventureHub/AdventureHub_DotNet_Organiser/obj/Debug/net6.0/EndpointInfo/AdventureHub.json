@@ -69,6 +69,59 @@
         }
       }
     },
+    "/Organiser/getOrganiserById": {
+      "get": {
+        "tags": [
+          "Organiser"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Organiser/updateOrganiserDetails": {
+      "put": {
+        "tags": [
+          "Organiser"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Organiser"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Organiser"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Organiser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/PublishEvent/GetPublishedEventsByOrganiserId": {
       "get": {
         "tags": [
