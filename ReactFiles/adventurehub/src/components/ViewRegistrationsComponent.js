@@ -1,29 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useSelector } from "react-redux";
 
 function ViewRegistrationsComponent() {
+  const [events, setEvents] = useState([]);
   const [expandedEvent, setExpandedEvent] = useState(null);
+  const [participants, setParticipants] = useState([]);
+  
+  // Fetch organiserId from Redux store
+  const organiser = useSelector((state) => state.user?.user);
 
-  // Sample data (Replace with actual data)
-  const events = [
-    {
-      id: 1,
-      date: "2025-02-15",
-      name: "Tech Conference",
-      status: "Upcoming",
-      participants: ["Tejas Shinkar", "Gaurav Varade", "Mangesh Dete"]
-    },
-    {
-      id: 2,
-      date: "2025-03-10",
-      name: "Music Fest",
-      status: "Completed",
-      participants: ["Alice Brown", "Mark Taylor", "Sophia Wilson", "Emma Watson", "Elon Musk"]
+  // Fetch events by organiser ID
+  useEffect(() => {
+    if (organiser?.organiserid) {
+      fetch(`https://localhost:9144/PublishEvent/GetPublishedEventsByOrganiserId?orgId=${organiser.organiserid}`)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Fetched Events:", data);
+          setEvents(data);
+        })
+        .catch((error) => console.error("Error fetching events:", error));
     }
-  ];
+  }, [organiser?.organiserid]); // Re-run when organiser ID changes
 
-  const toggleParticipants = (id) => {
-    setExpandedEvent(expandedEvent === id ? null : id);
+  // Fetch participants dynamically when an event is expanded
+  const toggleParticipants = (eventId) => {
+    if (expandedEvent === eventId) {
+      setExpandedEvent(null);
+      setParticipants([]); // Clear participants when collapsing
+    } else {
+      setExpandedEvent(eventId);
+      console.log("Selected Event ID:", eventId);
+      console.log("Organiser ID:", organiser.organiserid);
+
+      fetch(`https://localhost:9144/EventRegistration/GetEventRegistrationsByEventIdAndOrganiserById?eventId=${eventId}&orgId=${organiser.organiserid}`)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Fetched Participants:", data);
+          setParticipants(data);
+        })
+        .catch((error) => console.error("Error fetching participants:", error));
+    }
   };
 
   return (
@@ -32,52 +49,77 @@ function ViewRegistrationsComponent() {
         <table className="table table-hover table-bordered text-center align-middle">
           <thead className="table-primary">
             <tr>
-              <th>#</th>
-              <th>Date</th>
+              <th>Sr No</th>
               <th>Event Name</th>
+              <th>City</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {events.map((event, index) => (
-              <>
-                <tr key={event.id} className="fw-bold">
-                  <td>{index + 1}</td>
-                  <td>{event.date}</td>
-                  <td>{event.name}</td>
-                  <td>
-                    <span className={`badge ${event.status === "Upcoming" ? "bg-success" : "bg-secondary"}`}>
-                      {event.status}
-                    </span>
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-outline-primary btn-sm"
-                      onClick={() => toggleParticipants(event.id)}
-                    >
-                      {expandedEvent === event.id ? "Hide Participants" : "View Participants"}
-                    </button>
-                  </td>
-                </tr>
-                {expandedEvent === event.id && (
-                  <tr>
-                    <td colSpan="5">
-                      <div className="border rounded p-3 bg-light" style={{ maxHeight: "200px", overflowY: "auto" }}>
-                        <h6 className="text-center mb-3 text-primary">Participants</h6>
-                        <ul className="list-group list-group-flush">
-                          {event.participants.map((participant, i) => (
-                            <li key={i} className="list-group-item">
-                              {participant}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+            {events.length > 0 ? (
+              events.map((event, index) => (
+                <React.Fragment key={event.eventid}>
+                  <tr className="fw-bold">
+                    <td>{index + 1}</td>
+                    <td>{event.eventname}</td>
+                    <td>{event.cityname}</td>
+                    <td>
+                      <span className={`badge ${event.status === "Upcoming" ? "bg-success" : "bg-secondary"}`}>
+                        {event.status}
+                      </span>
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-outline-primary btn-sm"
+                        onClick={() => toggleParticipants(event.eventid)}
+                      >
+                        {expandedEvent === event.eventid ? "Hide Participants" : "View Participants"}
+                      </button>
                     </td>
                   </tr>
-                )}
-              </>
-            ))}
+                  {expandedEvent === event.eventid && (
+                    <tr>
+                      <td colSpan="5">
+                        <div className="border rounded p-3 bg-light" style={{ maxHeight: "200px", overflowY: "auto" }}>
+                          <h6 className="text-center mb-3 text-primary">Participants</h6>
+                          {participants.length > 0 ? (
+                            <table className="table table-striped">
+                              <thead className="table-secondary">
+                                <tr>
+                                  <th>First Name</th>
+                                  <th>Last Name</th>
+                                  <th>Date of Birth</th>
+                                  <th>Contact No</th>
+                                  <th>No. of Participants</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {participants.map((participant, i) => (
+                                  <tr key={i}>
+                                    <td>{participant.fname}</td>
+                                    <td>{participant.lname}</td>
+                                    <td>{participant.dob}</td>
+                                    <td>{participant.contact}</td>
+                                    <td>{participant.participants}</td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          ) : (
+                            <p className="text-center text-muted">No Participants Found</p>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" className="text-center text-muted">No Events Found</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

@@ -26,6 +26,7 @@ function App() {
           <Route path='/forgotPassword' element={<ForgotPassword/>}/>
           <Route path='/organizerdashboard' element={<OrganizerDashboard/>} />
           <Route path='/customerdashboard' element={<CustomerDashboard/>} />
+          {/* <Route path="/profile" element={<Profile />} />  */}
         </Routes>
       </div>
     </div>
