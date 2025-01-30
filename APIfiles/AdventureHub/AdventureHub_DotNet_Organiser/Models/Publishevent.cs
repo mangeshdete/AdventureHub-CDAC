@@ -26,5 +26,10 @@ namespace AdventureHub.Models
         public virtual Event Event { get; set; } = null!;
         public virtual Organiser Organiser { get; set; } = null!;
         public virtual ICollection<Eventregistration> Eventregistrations { get; set; }
+
+        public override string ToString()
+        {
+            return Publishid+", "+Eventid+", "+Organiserid;
+        }
     }
 }
