@@ -36,7 +36,7 @@ namespace AdventureHub.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseMySql("server=localhost;port=3306;user=root;password=Tej@s2002;database=p14_adventurehub", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.2.0-mysql"));
+                optionsBuilder.UseMySql("server=localhost;port=3306;user=root;password=root;database=p14_adventurehub", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.2.0-mysql"));
             }
         }
 
@@ -224,13 +224,13 @@ namespace AdventureHub.Models
                 entity.HasOne(d => d.City)
                     .WithMany(p => p.Organisers)
                     .HasForeignKey(d => d.Cityid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("org_city_id_fk");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Organisers)
                     .HasForeignKey(d => d.Userid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("org_userid_fk");
             });
 
@@ -328,19 +328,19 @@ namespace AdventureHub.Models
                 entity.HasOne(d => d.City)
                     .WithMany(p => p.Publishevents)
                     .HasForeignKey(d => d.Cityid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("publishevent_city_id_fk");
 
                 entity.HasOne(d => d.Event)
                     .WithMany(p => p.Publishevents)
                     .HasForeignKey(d => d.Eventid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("publishevent_eventid_fk");
 
                 entity.HasOne(d => d.Organiser)
                     .WithMany(p => p.Publishevents)
                     .HasForeignKey(d => d.Organiserid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("publishevent_orgid_fk");
             });
 

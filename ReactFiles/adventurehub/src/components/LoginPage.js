@@ -45,7 +45,6 @@ const LoginPage = () => {
     .then((data) => {
       
       if (data) {
-
         dispatch(setUser(data));
         if(data.roleid){
           if(data.roleid.roleid === 3)
