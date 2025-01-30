@@ -46,6 +46,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.AspNetCore.JsonPatch": {
+              "target": "Package",
+              "version": "[6.0.36, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[6.0.36, )"

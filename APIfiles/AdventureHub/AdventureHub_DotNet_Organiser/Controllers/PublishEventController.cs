@@ -8,7 +8,7 @@ namespace AdventureHub.Controllers
     [Route("[controller]/[action]")]
     public class PublishEventController : Controller
     {
-        public static MyDbContext Db { get; }
+        public static readonly MyDbContext Db;
 
         static PublishEventController()
         {
@@ -28,16 +28,41 @@ namespace AdventureHub.Controllers
         [HttpPost]
         public IActionResult PublishNewEvent([FromBody] Publishevent? evnt)
         {
-            Console.WriteLine(evnt);
-            //Db.Publishevents.Add(evnt);
-            //Db.SaveChanges();
-            return Ok();
+            try
+            {
+                if (evnt != null)
+                {
+                    Db.Publishevents.Add(evnt);
+                    Db.SaveChanges();
+                    return Ok();
+                }
+                return BadRequest();
+            }
+            catch (Exception ex) 
+            {
+                return BadRequest();
+            }
         }
 
         [HttpGet]
         public IActionResult GetPublishedEventById([FromQuery] int id) 
         {
+            Console.WriteLine(Db.Events);
             return Ok(Db.Publishevents.Where(e => e.Publishid==id).ToList());
         }
     }
 }
+/*
+ {
+    "eventid": 1,
+    "organiserid": 1,
+    "eventdate": "2025-02-15",
+    "eventtime": "10:00:00",
+    "price": 100,
+    "capacity": 50,
+    "status": "PROCESSING",
+    "street": "Beach Road",
+    "cityid": 1,
+    "pincode": "500001"
+  }
+ */
