@@ -125,5 +125,21 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub.Controllers.PublishEventController",
+    "Method": "UpdatPulishedEventDetails",
+    "RelativePath": "PublishEvent/UpdatPulishedEventDetails",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updated",
+        "Type": "AdventureHub.Models.Publishevent",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

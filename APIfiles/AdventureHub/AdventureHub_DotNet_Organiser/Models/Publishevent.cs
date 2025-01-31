@@ -13,7 +13,7 @@ namespace AdventureHub.Models
 
         public int Publishid { get; set; }
         public int Eventid { get; set; }
-        public int Organiserid { get; set; }
+        public int? Organiserid { get; set; }
         public DateOnly Eventdate { get; set; }
         public TimeOnly Eventtime { get; set; }
         public float Price { get; set; }

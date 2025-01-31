@@ -196,6 +196,37 @@
           }
         }
       }
+    },
+    "/PublishEvent/UpdatPulishedEventDetails": {
+      "put": {
+        "tags": [
+          "PublishEvent"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Publishevent"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Publishevent"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Publishevent"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -520,7 +551,8 @@
           },
           "organiserid": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "eventdate": {
             "type": "string",
