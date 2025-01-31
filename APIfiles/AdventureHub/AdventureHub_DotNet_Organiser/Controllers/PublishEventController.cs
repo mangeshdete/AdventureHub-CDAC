@@ -34,7 +34,7 @@ namespace AdventureHub.Controllers
                 {
                     Db.Publishevents.Add(evnt);
                     Db.SaveChanges();
-                    return Ok();
+                    return Ok(evnt);
                 }
                 return BadRequest();
             }
