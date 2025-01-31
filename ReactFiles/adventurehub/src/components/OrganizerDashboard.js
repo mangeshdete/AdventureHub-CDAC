@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaPlus, FaEdit, FaUser, FaList, FaMoneyBill } from "react-icons/fa";
 import CreateEventComponent from "./CreateEventComponent";
 import ManageEventComponent from "./ManageEventComponent";
 import UpdateProfileComponent from "./UpdateProfileComponent";
@@ -23,51 +24,51 @@ function OrganizerDashboard() {
       case "payment":
         return <PaymentComponent />;
       default:
-        return <div>Welcome to the Organizer Dashboard</div>;
+        return <div className="welcome-text">Welcome to the Organizer Dashboard</div>;
     }
   };
 
   return (
-    <div className="d-flex organizer-dashboard">
-      {/* Left Side Navigation */}
-      <div className="nav flex-column col-3 bg-light p-3">
+    <div className="organizer-dashboard">
+      {/* Sidebar Navigation */}
+      <div className="sidebar">
+        <h3 className="sidebar-title">Organizer Panel</h3>
         <button
-          className="btn btn-link text-start"
+          className={`nav-button ${selectedView === "createEvent" ? "active" : ""}`}
           onClick={() => setSelectedView("createEvent")}
         >
-          Create Event
+          <FaPlus className="icon" /> Create Event
         </button>
         <button
-          className="btn btn-link text-start"
+          className={`nav-button ${selectedView === "manageEvent" ? "active" : ""}`}
           onClick={() => setSelectedView("manageEvent")}
         >
-          Manage Event
+          <FaEdit className="icon" /> Manage Event
         </button>
         <button
-          className="btn btn-link text-start"
+          className={`nav-button ${selectedView === "updateProfile" ? "active" : ""}`}
           onClick={() => setSelectedView("updateProfile")}
         >
-          Update Profile
+          <FaUser className="icon" /> Update Profile
         </button>
         <button
-          className="btn btn-link text-start"
+          className={`nav-button ${selectedView === "viewRegistrations" ? "active" : ""}`}
           onClick={() => setSelectedView("viewRegistrations")}
         >
-          View/Search Registrations
+          <FaList className="icon" /> View Registrations
         </button>
         <button
-          className="btn btn-link text-start"
+          className={`nav-button ${selectedView === "payment" ? "active" : ""}`}
           onClick={() => setSelectedView("payment")}
         >
-          Payment
+          <FaMoneyBill className="icon" /> Payment
         </button>
       </div>
 
-      {/* Right Side Content */}
-      <div className="col-9 p-4">{renderContent()}</div>
+      {/* Main Content */}
+      <div className="main-content">{renderContent()}</div>
     </div>
   );
 }
 
 export default OrganizerDashboard;
-
