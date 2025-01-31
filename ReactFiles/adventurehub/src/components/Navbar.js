@@ -152,9 +152,10 @@ function Navbar() {
   };
 
   const handleProfileClick = () => {
-    if (user?.roleid === 1) {
+    // console.log(user.user.roleid.roleid);
+    if (user.user.roleid.roleid === 1) {
       navigate('/customerdashboard');
-    } else if (user?.roleid === 2) {
+    } else if (user.user.roleid.roleid === 2) {
       navigate('/organizerdashboard');
     }
   };
