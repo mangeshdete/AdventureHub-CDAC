@@ -1,11 +1,12 @@
 {
   "Version": 1,
-  "Hash": "44Bv8ne7FjhPGtTrL5iMyrzh69WjrRDNZitL3+Lqygs=",
+  "Hash": "gMNIH/8MWzfPZ+OdJnD0M8kRVUf30HUaqbvHaS+A2hM=",
   "Source": "AdventureHub",
   "BasePath": "_content/AdventureHub",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": []
+  "Assets": [],
+  "Endpoints": []
 }
