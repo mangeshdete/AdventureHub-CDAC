@@ -172,7 +172,7 @@ function Navbar() {
   }, []);
 
   return (
-    <nav className="navbar navbar-expand-lg" style={{ backgroundColor: 'orange' }}>
+    <nav className="navbar navbar-expand-lg" >
       <div className="container-fluid">
         <Link className="navbar-brand text-white" to="/">AdventureHub</Link>
         <div className="collapse navbar-collapse">

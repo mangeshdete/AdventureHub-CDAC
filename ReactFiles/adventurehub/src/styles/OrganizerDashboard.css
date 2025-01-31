@@ -1,34 +1,177 @@
-/* OrganizerDashboard.css */
+/* General Layout */
 .organizer-dashboard {
   display: flex;
   height: 100vh;
+  background-color: #ecf0f1;
+  font-family: 'Poppins', sans-serif;
+  animation: fadeIn 1s ease-in-out;
+  overflow: hidden;
+}
+
+/* Sidebar Navigation */
+.sidebar {
+  width: 260px;
+  background: #2c3e50;
+  color: white;
+  display: flex;
+  flex-direction: column;
   padding: 20px;
+  box-shadow: 3px 0 8px rgba(0, 0, 0, 0.2);
+  transform: translateX(-100%);
+  animation: slideIn 0.5s ease-in-out forwards;
+  max-height: 100vh;
+  border-right: 3px solid #1abc9c;
+  overflow: hidden;
+  /* Removed scrollbar */
 }
 
-.nav {
-  border-right: 1px solid #ddd;
-  padding-right: 20px;
-}
-
-.event-card {
+.sidebar-title {
+  font-size: 1.8rem;
+  font-weight: bold;
   margin-bottom: 20px;
+  text-align: center;
+  border-bottom: 3px solid white;
+  padding-bottom: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
-.event-actions .action-button {
-  margin-right: 10px;
+.nav-button {
+  background: none;
+  border: none;
+  color: white;
+  padding: 12px 15px;
+  font-size: 1rem;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
-.card {
+.nav-button .icon {
+  font-size: 1.3rem;
+}
+
+.nav-button:hover,
+.nav-button.active {
+  background: #1abc9c;
+  border-radius: 8px;
+  transform: scale(1.05);
+  padding-left: 18px;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-height: 100vh;
+  overflow: hidden;
+  /* Removed scrollbar */
+}
+
+/* Welcome Text */
+.welcome-text {
+  font-size: 2rem;
+  color: #34495e;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out 0.5s forwards;
+  
+}
+
+/* Event Cards */
+.event-card {
+  margin-bottom: 10px;
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-in-out forwards;
+}
+
+.event-card:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Advantages Section */
+.advantages-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.advantage-card {
+  width: 300px;
+  background: linear-gradient(135deg, #1abc9c, #16a085);
   padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-in-out forwards;
+  text-align: center;
+  color: white;
 }
 
-.btn-link {
-  color: #007bff;
-  text-decoration: none;
+.advantage-card:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.btn-link:hover {
-  text-decoration: underline;
+.advantage-title {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.advantage-text {
+  font-size: 1.1rem;
+}
+
+/* Keyframes Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
 }
