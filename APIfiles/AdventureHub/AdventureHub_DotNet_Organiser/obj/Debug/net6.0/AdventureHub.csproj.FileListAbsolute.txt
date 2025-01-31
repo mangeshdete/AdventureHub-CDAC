@@ -105,3 +105,5 @@ C:\Users\Mangesh\OneDrive\Desktop\CDAC Project\APIfiles\AdventureHub\AdventureHu
 C:\Users\Mangesh\OneDrive\Desktop\CDAC Project\APIfiles\AdventureHub\AdventureHub_DotNet_Organiser\obj\Debug\net6.0\AdventureHub.pdb
 C:\Users\Mangesh\OneDrive\Desktop\CDAC Project\APIfiles\AdventureHub\AdventureHub_DotNet_Organiser\obj\Debug\net6.0\AdventureHub.genruntimeconfig.cache
 C:\Users\Mangesh\OneDrive\Desktop\CDAC Project\APIfiles\AdventureHub\AdventureHub_DotNet_Organiser\obj\Debug\net6.0\ref\AdventureHub.dll
+C:\Users\Mangesh\OneDrive\Desktop\CDAC Project\APIfiles\AdventureHub\AdventureHub_DotNet_Organiser\bin\Debug\net6.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\Mangesh\OneDrive\Desktop\CDAC Project\APIfiles\AdventureHub\AdventureHub_DotNet_Organiser\bin\Debug\net6.0\Newtonsoft.Json.dll

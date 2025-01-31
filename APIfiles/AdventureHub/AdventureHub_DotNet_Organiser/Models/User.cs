@@ -19,8 +19,8 @@ namespace AdventureHub.Models
         public string Securityqans { get; set; } = null!;
         public int Roleid { get; set; }
 
-        public virtual Role Role { get; set; } = null!;
-        public virtual Securityquestion Securityq { get; set; } = null!;
+        public virtual Role? Role { get; set; } = null!;
+        public virtual Securityquestion? Securityq { get; set; } = null!;
         public virtual ICollection<Customer> Customers { get; set; }
         public virtual ICollection<Organiser> Organisers { get; set; }
     }
