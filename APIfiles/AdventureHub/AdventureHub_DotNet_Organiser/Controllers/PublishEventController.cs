@@ -48,7 +48,7 @@ namespace AdventureHub.Controllers
         [HttpGet]
         public IActionResult GetPublishedEventById([FromQuery] int id) 
         {
-            return Ok(Db.Publishevents.Select(e => new {e.Publishid, e.Eventid, e.Eventdate, e.Eventtime, e.Price, e.Street, e.Pincode, e.Cityid, e.Status, e.Capacity}).Where(e => e.Publishid==id));
+            return Ok(Db.Publishevents.Select(e => new {e.Publishid, e.Eventid, e.Eventdate, e.Eventtime, e.Price, e.Street, e.Pincode, e.Cityid, e.Status, e.Capacity, e.Event.Eventname}).Where(e => e.Publishid==id));
             //return Ok(Db.Publishevents.Where(e => e.Publishid == id).Include(e => e.Event).Include(e => e.City).Include(e => e.City.State   ));
         }
         [HttpPut]
@@ -75,14 +75,14 @@ namespace AdventureHub.Controllers
             original.Pincode = updated.Pincode ?? original.Pincode;
             original.Price = updated.Price != 0 ? updated.Price : original.Price;
 
+
             Console.WriteLine(original);
             try
             {
                 Db.SaveChanges();
                 return Ok(original);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex){
                 return StatusCode(500, "Error Updating Published Event: " + ex.Message);
             }
         }
