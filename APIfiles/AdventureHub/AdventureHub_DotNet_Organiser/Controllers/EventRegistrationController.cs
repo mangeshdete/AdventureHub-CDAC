@@ -43,8 +43,14 @@ namespace AdventureHub.Controllers
         {
             var eventRegistrations = Db.Eventregistrations.Where(e => e.Publish.Eventid==eventId).Where(e => e.Publish.Organiserid==orgId).Select(e => new {e.Cust.Fname, e.Cust.Lname, e.Cust.Dob, e.Cust.User.Contact, e.Participants}).ToList();
             return Ok(eventRegistrations);
-        } 
+        }
 
+        [HttpGet]
+        public IActionResult GetParticipantNumbersByPublishId([FromQuery]int id)
+        {
+            var numbers = Db.Eventregistrations.Where(e => e.Publishid==id).Select(e => e.Participants);
+            return Ok(numbers);
+        }
 
     }
 }

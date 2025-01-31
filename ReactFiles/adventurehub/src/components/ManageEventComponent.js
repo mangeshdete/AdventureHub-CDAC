@@ -14,6 +14,7 @@ function ViewRegistrationsComponent() {
         .then((response) => response.json())
         .then((data) => {
           setEvents(data);
+          console.log(data);
         })
         .catch((error) => console.error("Error fetching events:", error));
     }
