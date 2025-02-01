@@ -1,3 +1,4 @@
+//support Component
 import React from "react";
 
 function SupportHelp() {
