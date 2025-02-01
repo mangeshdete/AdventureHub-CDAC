@@ -24,6 +24,7 @@ namespace AdventureHub.Controllers
         [HttpPut]
         public IActionResult updateOrganiserDetails([FromBody] Organiser updated)
         {
+            Console.WriteLine("hello");
             if (updated == null)
                 return BadRequest("Null Updates not allowed");
 
