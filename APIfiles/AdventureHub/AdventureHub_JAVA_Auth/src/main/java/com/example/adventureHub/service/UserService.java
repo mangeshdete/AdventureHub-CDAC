@@ -40,6 +40,7 @@ public class UserService {
 		if(u!=null) {
 			if(u.getRoleid().getRoleid()==3)
 				return u;
+			
 			Object obj = custRepo.findCustomerByUser(u);
 			
 			if(obj!=null)
