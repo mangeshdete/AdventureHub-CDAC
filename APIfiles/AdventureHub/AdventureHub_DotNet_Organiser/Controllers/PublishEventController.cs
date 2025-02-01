@@ -1,4 +1,5 @@
-﻿using AdventureHub.Models;
+﻿using System.Diagnostics.Metrics;
+using AdventureHub.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -47,22 +48,59 @@ namespace AdventureHub.Controllers
         [HttpGet]
         public IActionResult GetPublishedEventById([FromQuery] int id) 
         {
-            Console.WriteLine(Db.Events);
-            return Ok(Db.Publishevents.Where(e => e.Publishid==id).ToList());
+            return Ok(Db.Publishevents.Select(e => new {e.Publishid, e.Eventid, e.Eventdate, e.Eventtime, e.Price, e.Street, e.Pincode, e.Cityid, e.Status, e.Capacity}).Where(e => e.Publishid==id));
+            //return Ok(Db.Publishevents.Where(e => e.Publishid == id).Include(e => e.Event).Include(e => e.City).Include(e => e.City.State   ));
         }
+        [HttpPut]
+        public IActionResult UpdatPulishedEventDetails([FromBody] Publishevent? updated)
+        {
+            if (updated == null)
+                return BadRequest("Null Updates not allowed");
+
+            // 🔹 Fetch the original record using Publishid
+            var original = Db.Publishevents
+                .Include(pe => pe.Event)
+                .FirstOrDefault(pe => pe.Publishid == updated.Publishid);
+
+            if (original == null)
+                return NotFound("Published Event not found");
+
+            // 🔹 Update only provided fields (avoid overwriting with null)
+            original.Eventdate = updated.Eventdate;
+            original.Eventtime = updated.Eventtime;
+            original.Cityid = updated.Cityid;
+            original.Status = updated.Status;
+            original.Capacity = updated.Capacity != 0 ? updated.Capacity : original.Capacity;
+            original.Street = updated.Street ?? original.Street;
+            original.Pincode = updated.Pincode ?? original.Pincode;
+            original.Price = updated.Price != 0 ? updated.Price : original.Price;
+
+            Console.WriteLine(original);
+            try
+            {
+                Db.SaveChanges();
+                return Ok(original);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error Updating Published Event: " + ex.Message);
+            }
+        }
+
     }
 }
 /*
+Request JSON for Updation and same to be recieved from get publishedEvent
  {
+    "publishid": 1,
     "eventid": 1,
-    "organiserid": 1,
     "eventdate": "2025-02-15",
-    "eventtime": "10:00:00",
-    "price": 100,
-    "capacity": 50,
+    "eventtime": "10:00:56",
+    "price": 150,
+    "street": "New Beach Road",
+    "pincode": "500002",
+    "cityid": 9,
     "status": "PROCESSING",
-    "street": "Beach Road",
-    "cityid": 1,
-    "pincode": "500001"
+    "capacity": 200
   }
  */
