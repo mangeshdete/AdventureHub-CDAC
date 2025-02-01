@@ -1,5 +1,4 @@
 ﻿using AdventureHub.Models;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,6 +23,7 @@ namespace AdventureHub.Controllers
         [HttpPut]
         public IActionResult updateOrganiserDetails([FromBody] Organiser updated)
         {
+            Console.WriteLine("hello");
             if (updated == null)
                 return BadRequest("Null Updates not allowed");
 

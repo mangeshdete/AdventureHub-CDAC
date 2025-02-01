@@ -1,4 +1,4 @@
-//create Event Component
+//create Event Component added
 import React, { useState, useEffect } from "react";
 
 function CreateEventComponent({ cityid: propCityid }) {
@@ -20,7 +20,7 @@ function CreateEventComponent({ cityid: propCityid }) {
   const regexPatterns = {
     price: /^\d+(\.\d{1,2})?$/,
     capacity: /^\d+$/, // Ensures only positive integers
-    street: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9\s,'-]{3,}$/,
+    street: /^(?=.[A-Za-z])(?=.\d)[A-Za-z0-9\s,'-]{3,}$/,
     pincode: /^\d{6}$/, // Exactly 6 digits
   };
 

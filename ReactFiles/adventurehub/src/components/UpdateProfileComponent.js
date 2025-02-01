@@ -1,4 +1,4 @@
-//Updat event Component
+//Updat event Component  added 
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector } from "react-redux";
@@ -29,7 +29,7 @@ const UpdateProfileComponent = () => {
     orgname: /^[A-Za-z0-9\s\-'&()]+$/,
     email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
     contactno: /^[0-9]{10}$/,
-    street: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9\s,'-]{3,}$/,
+    // street: /^(?=.[A-Za-z])(?=.\d)[A-Za-z0-9\s,'-]{3,}$/,
     pincode: /^\d{6}$/,
   };
 
@@ -105,7 +105,7 @@ const UpdateProfileComponent = () => {
   };
 
   // Handle form submission
-  const handleSubmit = async (e) => {
+  const handleSubmit = async(e) => {
   e.preventDefault();
 
   // Construct the updatedData object in the required format
@@ -117,9 +117,7 @@ const UpdateProfileComponent = () => {
     pancard: organiserData.pancard,
     street: organiserData.street,
     cityid: organiserData.cityid, // Include cityid
-    stateid: organiserData.stateid, // Include stateid
     pincode: organiserData.pincode,
-    rating: organiserData.rating || 0, // Include rating (default to 0 if not provided)
     user: {
       userid: organiserData.user?.userid, // Include userid
       password: organiserData.user?.password, // Include password
@@ -127,7 +125,6 @@ const UpdateProfileComponent = () => {
       email: editableFields.email, // Use updated email
       securityqid: organiserData.user?.securityqid, // Include securityqid
       securityqans: organiserData.user?.securityqans, // Include securityqans
-      roleid: organiserData.user?.roleid, // Include roleid
     },
   };
 
@@ -150,10 +147,10 @@ const UpdateProfileComponent = () => {
     return;
   }
 
-  if (!regexPatterns.street.test(updatedData.street)) {
-    alert("Street address must contain at least one letter and one number.");
-    return;
-  }
+  // if (!regexPatterns.street.test(updatedData.street)) {
+  //   alert("Street address must contain at least one letter and one number.");
+  //   return;
+  // }
 
   if (!regexPatterns.pincode.test(updatedData.pincode)) {
     alert("Please enter a valid 6-digit pincode.");
@@ -175,7 +172,7 @@ const UpdateProfileComponent = () => {
     if (!response.ok) {
       const errorResponse = await response.json(); // Parse the error response
       console.error("Server error response:", errorResponse);
-      throw new Error(`Error: ${response.statusText}`);
+      throw new Error(Error+" : "+`${response.statusText}`);
     }
 
     const result = await response.json();

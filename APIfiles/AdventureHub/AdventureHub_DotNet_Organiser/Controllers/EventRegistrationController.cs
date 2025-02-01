@@ -46,10 +46,14 @@ namespace AdventureHub.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetParticipantNumbersByPublishId([FromQuery]int id)
+        public IActionResult GetParticipantNumbersByPublishId([FromQuery] int id)
         {
-            var numbers = Db.Eventregistrations.Where(e => e.Publishid==id).Select(e => e.Participants);
-            return Ok(numbers);
+            // Sum all participants for the given Publishid
+            var totalParticipants = Db.Eventregistrations
+                .Where(e => e.Publishid == id)
+                .Sum(e => e.Participants);
+
+            return Ok(totalParticipants);
         }
 
     }
