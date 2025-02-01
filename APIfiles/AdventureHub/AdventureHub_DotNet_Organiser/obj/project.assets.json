@@ -1354,19 +1354,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Gaurav\\.nuget\\packages\\": {}
+    "C:\\Users\\tejas\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Gaurav\\Desktop\\Adv\\AdventureHub-CDAC\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Organiser\\AdventureHub.csproj",
+      "projectUniqueName": "C:\\Users\\tejas\\OneDrive\\Desktop\\Github\\AdventureHub-CDAC\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Organiser\\AdventureHub.csproj",
       "projectName": "AdventureHub",
-      "projectPath": "C:\\Users\\Gaurav\\Desktop\\Adv\\AdventureHub-CDAC\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Organiser\\AdventureHub.csproj",
-      "packagesPath": "C:\\Users\\Gaurav\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Gaurav\\Desktop\\Adv\\AdventureHub-CDAC\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Organiser\\obj\\",
+      "projectPath": "C:\\Users\\tejas\\OneDrive\\Desktop\\Github\\AdventureHub-CDAC\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Organiser\\AdventureHub.csproj",
+      "packagesPath": "C:\\Users\\tejas\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\tejas\\OneDrive\\Desktop\\Github\\AdventureHub-CDAC\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Organiser\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Gaurav\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\tejas\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1391,8 +1391,9 @@
       "restoreAuditProperties": {
         "enableAudit": "true",
         "auditLevel": "low",
-        "auditMode": "direct"
-      }
+        "auditMode": "all"
+      },
+      "SdkAnalysisLevel": "9.0.100"
     },
     "frameworks": {
       "net6.0": {
@@ -1446,7 +1447,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100-preview.7.24407.12\\RuntimeIdentifierGraph.json"
       }
     }
   }
