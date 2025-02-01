@@ -1,18 +1,37 @@
+//Updat event Component
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useSelector } from "react-redux";
 
 const UpdateProfileComponent = () => {
-  const [organiserData, setOrganiserData] = useState({
-    orgname: "",
-    email: "",
-    contact: "",
-    gst: "",
-    pancard: "",
-    stateid: "",
-    cityid: "",
-    street: "",
-    pincode: "",
+  const user = useSelector((state) => state.user.user);
+  console.log("User from Redux:", user); // Debugging line
+
+  // Initialize states only if user is available
+  const [organiserData, setOrganiserData] = useState(user || {});
+  const [editableFields, setEditableFields] = useState({
+    email: user?.user?.email || "", // Access nested email
+    contact: user?.user?.contact || "", // Access nested contact
   });
+
+  // Update states when user changes
+  useEffect(() => {
+    if (user) {
+      setOrganiserData(user);
+      setEditableFields({
+        email: user.user?.email || "", // Access nested email
+        contact: user.user?.contact || "", // Access nested contact
+      });
+    }
+  }, [user]);
+
+  const regexPatterns = {
+    orgname: /^[A-Za-z0-9\s\-'&()]+$/,
+    email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+    contactno: /^[0-9]{10}$/,
+    street: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9\s,'-]{3,}$/,
+    pincode: /^\d{6}$/,
+  };
 
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
@@ -36,20 +55,26 @@ const UpdateProfileComponent = () => {
     fetchStates();
   }, []);
 
-  // Fetch all cities (independent of state selection)
+  // Fetch cities based on selected state
   useEffect(() => {
-    async function fetchAllCities() {
-      try {
-        const response = await fetch("http://localhost:8142/getAllCities");
-        const data = await response.json();
-        setCities(data);
-      } catch (err) {
-        console.error("Error fetching cities", err);
-        setError("Failed to load cities.");
+    if (organiserData.stateid) {
+      async function fetchCities() {
+        try {
+          const response = await fetch(
+            `http://localhost:8142/getCitiesByStateId?stateId=${organiserData.stateid}`
+          );
+          const data = await response.json();
+          setCities(data);
+        } catch (err) {
+          console.error("Error fetching cities", err);
+          setError("Failed to load cities.");
+        }
       }
+      fetchCities();
+    } else {
+      setCities([]); // Clear cities if no state is selected
     }
-    fetchAllCities();
-  }, []);
+  }, [organiserData.stateid]);
 
   // Handle input changes
   const handleChange = (e) => {
@@ -60,53 +85,107 @@ const UpdateProfileComponent = () => {
     }));
   };
 
+  const handleEditableChange = (e) => {
+    const { name, value } = e.target;
+    setEditableFields((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   // Reset form
   const handleReset = () => {
-    setOrganiserData({
-      orgname: "",
-      email: "",
-      contact: "",
-      gst: "",
-      pancard: "",
-      stateid: "",
-      cityid: "",
-      street: "",
-      pincode: "",
-    });
+    if (user) {
+      setOrganiserData(user);
+      setEditableFields({
+        email: user.user?.email || "", // Access nested email
+        contact: user.user?.contact || "", // Access nested contact
+      });
+    }
   };
 
   // Handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      const response = await fetch(
-        "https://localhost:9144/Organiser/updateOrganiserDetails",
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(organiserData),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`);
-      }
-
-      const result = await response.json();
-      alert("Profile updated successfully!");
-      console.log(result);
-    } catch (err) {
-      console.error("Error during PUT request:", err);
-      alert("Failed to update profile.");
-    }
+  // Construct the updatedData object in the required format
+  const updatedData = {
+    organiserid: organiserData.organiserid, // Include organiserid
+    userid: organiserData.user?.userid, // Include userid
+    orgname: organiserData.orgname,
+    gst: organiserData.gst,
+    pancard: organiserData.pancard,
+    street: organiserData.street,
+    cityid: organiserData.cityid, // Include cityid
+    stateid: organiserData.stateid, // Include stateid
+    pincode: organiserData.pincode,
+    rating: organiserData.rating || 0, // Include rating (default to 0 if not provided)
+    user: {
+      userid: organiserData.user?.userid, // Include userid
+      password: organiserData.user?.password, // Include password
+      contact: editableFields.contact, // Use updated contact
+      email: editableFields.email, // Use updated email
+      securityqid: organiserData.user?.securityqid, // Include securityqid
+      securityqans: organiserData.user?.securityqans, // Include securityqans
+      roleid: organiserData.user?.roleid, // Include roleid
+    },
   };
 
-  if (loading) {
-    return <div className="text-center mt-5">Loading...</div>;
+  console.log("Data being sent to the server:", updatedData); // Debugging line
+
+  // Validate required fields
+  if (!updatedData.orgname || !updatedData.user.email || !updatedData.user.contact) {
+    alert("Please fill in all required fields.");
+    return;
   }
+
+  // Validate email and contact number
+  if (!regexPatterns.email.test(updatedData.user.email)) {
+    alert("Please enter a valid email address.");
+    return;
+  }
+
+  if (!regexPatterns.contactno.test(updatedData.user.contact)) {
+    alert("Please enter a valid 10-digit contact number.");
+    return;
+  }
+
+  if (!regexPatterns.street.test(updatedData.street)) {
+    alert("Street address must contain at least one letter and one number.");
+    return;
+  }
+
+  if (!regexPatterns.pincode.test(updatedData.pincode)) {
+    alert("Please enter a valid 6-digit pincode.");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      "https://localhost:9144/Organiser/updateOrganiserDetails",
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedData),
+      }
+    );
+
+    if (!response.ok) {
+      const errorResponse = await response.json(); // Parse the error response
+      console.error("Server error response:", errorResponse);
+      throw new Error(`Error: ${response.statusText}`);
+    }
+
+    const result = await response.json();
+    alert("Profile updated successfully!");
+    console.log(result);
+  } catch (err) {
+    console.error("Error during PUT request:", err);
+    alert("Failed to update profile.");
+  }
+};
 
   if (error) {
     return <div className="alert alert-danger">{error}</div>;
@@ -124,7 +203,7 @@ const UpdateProfileComponent = () => {
               type="text"
               name="orgname"
               className="form-control"
-              value={organiserData.orgname}
+              value={organiserData.orgname || ""}
               onChange={handleChange}
             />
           </div>
@@ -136,8 +215,8 @@ const UpdateProfileComponent = () => {
               type="email"
               name="email"
               className="form-control"
-              value={organiserData.email}
-              onChange={handleChange}
+              value={editableFields.email}
+              onChange={handleEditableChange}
             />
           </div>
 
@@ -148,8 +227,8 @@ const UpdateProfileComponent = () => {
               type="text"
               name="contact"
               className="form-control"
-              value={organiserData.contact}
-              onChange={handleChange}
+              value={editableFields.contact}
+              onChange={handleEditableChange}
             />
           </div>
 
@@ -160,8 +239,8 @@ const UpdateProfileComponent = () => {
               type="text"
               name="gst"
               className="form-control"
-              value={organiserData.gst}
-              onChange={handleChange}
+              value={organiserData.gst || ""}
+              readOnly
             />
           </div>
 
@@ -172,8 +251,8 @@ const UpdateProfileComponent = () => {
               type="text"
               name="pancard"
               className="form-control"
-              value={organiserData.pancard}
-              onChange={handleChange}
+              value={organiserData.pancard || ""}
+              readOnly
             />
           </div>
 
@@ -183,13 +262,13 @@ const UpdateProfileComponent = () => {
             <select
               name="stateid"
               className="form-select"
-              value={organiserData.stateid}
+              value={organiserData.stateid || ""}
               onChange={handleChange}
             >
               <option value="">Select State</option>
               {states.map((state) => (
-                <option key={state.id} value={state.id}>
-                  {state.name}
+                <option key={state.stateid} value={state.stateid}>
+                  {state.statename}
                 </option>
               ))}
             </select>
@@ -201,13 +280,14 @@ const UpdateProfileComponent = () => {
             <select
               name="cityid"
               className="form-select"
-              value={organiserData.cityid}
+              value={organiserData.cityid || ""}
               onChange={handleChange}
+              disabled={!organiserData.stateid} // Disable city dropdown if no state is selected
             >
               <option value="">Select City</option>
               {cities.map((city) => (
-                <option key={city.id} value={city.id}>
-                  {city.name}
+                <option key={city.cityid} value={city.cityid}>
+                  {city.cityname}
                 </option>
               ))}
             </select>
@@ -220,7 +300,7 @@ const UpdateProfileComponent = () => {
               type="text"
               name="street"
               className="form-control"
-              value={organiserData.street}
+              value={organiserData.street || ""}
               onChange={handleChange}
             />
           </div>
@@ -232,7 +312,7 @@ const UpdateProfileComponent = () => {
               type="text"
               name="pincode"
               className="form-control"
-              value={organiserData.pincode}
+              value={organiserData.pincode || ""}
               onChange={handleChange}
             />
           </div>
