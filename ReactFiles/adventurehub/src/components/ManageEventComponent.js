@@ -7,8 +7,8 @@ function ViewRegistrationsComponent() {
   const [events, setEvents] = useState([]);
   const [selectedEventId, setSelectedEventId] = useState(0);
   const [eventDetails, setEventDetails] = useState({});
-  const [updatedEventDetails, setUpdatedEventDetails] = useState([]);
-  const [isEligibleForUpdate, setIsEligibleForUpdate] = useState(false);
+  const [updatedEventDetails, setUpdatedEventDetails] = useState({});
+  const [errors, setErrors] = useState({}); // To store validation errors
 
   const organiser = useSelector((state) => state.user?.user);
 
@@ -35,6 +35,7 @@ function ViewRegistrationsComponent() {
       setEventDetails(data[0]);
       setUpdatedEventDetails(data[0]); // Initialize updatedEventDetails with the original data
       setActiveTab("update");
+      setErrors({}); // Clear any previous errors
     } catch (error) {
       console.error("Error fetching event details:", error);
     }
@@ -46,87 +47,77 @@ function ViewRegistrationsComponent() {
       ...updatedEventDetails,
       [name]: value,
     });
-  };
-
-  const handleCheckEligibility = () => {
-   
+    // Clear the error for the field being updated
+    setErrors({
+      ...errors,
+      [name]: "",
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    fetch(`https://localhost:9144/EventRegistration/GetParticipantNumbersByPublishId?id=${eventDetails.publishid}`)
-    .then((response) => response.json())
-    .then(data => 
-      {
-        console.log("Participants : "+data);
 
-        const num=Number(data);
+    // Validate the form fields
+    const newErrors = {};
 
-        if(num === 0 && new Date(updatedEventDetails.eventdate) >= new Date(eventDetails.eventdate) && updatedEventDetails.capacity >= eventDetails.capacity){
-          setIsEligibleForUpdate(true);
-          alert("This event is eligible for update.");
-        }
-        else if(new Date(eventDetails.eventdate) < new Date(updatedEventDetails.eventdate))
-          alert("Date should be after the event date.");
-        else if(num !== 0)
-          alert("Number of Participants are not zero");
-        else if(updatedEventDetails.capacity < eventDetails.capacity)
-          alert("New Capacity should be more than previous capacity");
-        else
-          alert("Not eligible for updates");
-      })
-    if (!isEligibleForUpdate) {
-      alert("This event is not eligible for update.");
+    if (new Date(updatedEventDetails.eventdate) < new Date(eventDetails.eventdate)) {
+      newErrors.eventdate = "New date must be after the original event date.";
+    }
+
+    if (updatedEventDetails.capacity < eventDetails.capacity) {
+      newErrors.capacity = "New capacity must be greater than or equal to the original capacity.";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
-    console.log("Updated Event Details:", updatedEventDetails);
 
-    try{
-      const response = await fetch(`https://localhost:9144/PublishEvent/UpdatePulishedEventDetails`,{
+    // Check if the event is eligible for update (participant count must be 0)
+    try {
+      const participantResponse = await fetch(
+        `https://localhost:9144/EventRegistration/GetParticipantNumbersByPublishId?id=${eventDetails.publishid}`
+      );
+      const participantData = await participantResponse.json();
+      const participantCount = Number(participantData);
+
+      if (participantCount !== 0) {
+        setErrors({ ...errors, general: "The event cannot be updated because the number of participants is not zero." });
+        return;
+      }
+
+      // If all validations pass, proceed with the update
+      const response = await fetch(`https://localhost:9144/PublishEvent/UpdatePulishedEventDetails`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          publishid : updatedEventDetails.publishid,
-          eventid : updatedEventDetails.eventid,
-          eventdate : updatedEventDetails.eventdate,
-          eventtime : updatedEventDetails.eventtime,
-          price : updatedEventDetails.price,
-          street : updatedEventDetails.street,
-          pincode : updatedEventDetails.pincode,
-          cityid : updatedEventDetails.cityid,
-          status : 'PROCESSING',
-          capacity : updatedEventDetails.capacity
+          publishid: updatedEventDetails.publishid,
+          eventid: updatedEventDetails.eventid,
+          eventdate: updatedEventDetails.eventdate,
+          eventtime: updatedEventDetails.eventtime,
+          price: updatedEventDetails.price,
+          street: updatedEventDetails.street,
+          pincode: updatedEventDetails.pincode,
+          cityid: updatedEventDetails.cityid,
+          status: "PROCESSING",
+          capacity: updatedEventDetails.capacity,
         }),
-        /*
-            sample request JSON
-            {
-              "publishid": 1,
-              "eventid": 1,
-              "eventdate": "2025-02-15",
-              "eventtime": "10:00:56",
-              "price": 150,
-              "street": "New Beach Road",
-              "pincode": "500002",
-              "cityid": 9,
-              "status": "PROCESSING",
-              "capacity": 200
-            }
-        */ 
       });
 
       if (!response.ok) {
-        throw new Error(`${response.statusText}`);
+        throw new Error("Failed to update event.");
       }
-      const result =await response.json();
-      alert("Event updated successfully!");
-      console.log(result);
-      setActiveTab("view")
-  } catch (err) {
-    alert("Failed to update EVENT");
-  }
+      setErrors({ general: "Event updated successfully!" });
+      setTimeout((e)=>{
+        setActiveTab("view");
+      },1000);
+      
+    } catch (err) {
+      console.error("Failed to update event:", err);
+      setErrors({ general: "Failed to update event: " + err.message });
+    }
   };
 
   return (
@@ -145,27 +136,46 @@ function ViewRegistrationsComponent() {
               </tr>
             </thead>
             <tbody>
-              {events.map((event, index) => (
-                <tr key={event.id} className="fw-bold">
-                  <td>{index + 1}</td>
-                  <td>{event.eventname}</td>
-                  <td>{event.cityname}</td>
-                  <td>
-                    <span className={`badge ${event.status === "ACTIVE" ? "bg-success" : "bg-secondary"}`}>
-                      {event.status}
-                    </span>
-                  </td>
-                  <td>
-                    <button className="btn btn-outline-primary btn-sm me-2" onClick={() => handleUpdateClick(event.eventid)}>
-                      Update Event
-                    </button>
-                    <button className="btn btn-outline-danger btn-sm" onClick={() => setActiveTab("cancel")}>
-                      Cancel Event
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+            {events.map((event, index) => (
+              <tr key={event.id} className="fw-bold">
+                <td>{index + 1}</td>
+                <td>{event.eventname}</td>
+                <td>{event.cityname}</td>
+                <td>
+                  <span
+                    className={`badge ${
+                      event.status === "ACTIVE"
+                        ? "bg-success"
+                        : event.status === "CANCELLED"
+                        ? "bg-danger"
+                        : event.status === "TO_BE_CANCELLED"
+                        ? "bg-warning text-dark"
+                        : event.status === "PROCESSING"
+                        ? "bg-warning"
+                        : "bg-secondary"
+                    }`}
+                  >
+                    {event.status}
+                  </span>
+                </td>
+                <td>
+                  <button
+                    className="btn btn-outline-primary btn-sm me-2"
+                    onClick={() => handleUpdateClick(event.eventid)}
+                  >
+                    Update
+                  </button>
+                  <button
+                    className="btn btn-outline-danger btn-sm"
+                    onClick={() => setActiveTab("cancel")}
+                  >
+                    Cancel
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+
           </table>
         )}
 
@@ -206,16 +216,6 @@ function ViewRegistrationsComponent() {
             <div className="col-md-6">
               <h3 style={{ color: "black" }}>Update Event Details</h3>
               <form onSubmit={handleSubmit}>
-                {/* <div className="form-group mb-3">
-                  <label>New Event Name</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="eventname"
-                    value={updatedEventDetails.eventname || ''}
-                    onChange={handleInputChange}
-                  />
-                </div> */}
                 <div className="form-group mb-3">
                   <label>New Price</label>
                   <input
@@ -235,6 +235,7 @@ function ViewRegistrationsComponent() {
                     value={updatedEventDetails.capacity || ''}
                     onChange={handleInputChange}
                   />
+                  {errors.capacity && <div className="text-danger">{errors.capacity}</div>}
                 </div>
                 <div className="form-group mb-3">
                   <label>New Date</label>
@@ -245,6 +246,7 @@ function ViewRegistrationsComponent() {
                     value={updatedEventDetails.eventdate || ''}
                     onChange={handleInputChange}
                   />
+                  {errors.eventdate && <div className="text-danger">{errors.eventdate}</div>}
                 </div>
                 <div className="form-group mb-3">
                   <label>New Time</label>
@@ -261,24 +263,21 @@ function ViewRegistrationsComponent() {
                   <input
                     type="text"
                     className="form-control"
-                    name="address"
+                    name="street"
                     value={updatedEventDetails.street || ''}
                     onChange={handleInputChange}
                   />
                 </div>
 
-                {/* Check Eligibility Button */}
-                <button
-                  type="button"
-                  className="btn btn-warning mb-3"
-                  onClick={handleCheckEligibility}
-                  style={{display : isEligibleForUpdate? 'none' : 'block' }}
-                >
-                  Check for Ability to Update
-                </button>
+                {/* General error or success message */}
+                {errors.general && (
+                  <div className={`alert ${errors.general.includes("success") ? "alert-success" : "alert-danger"}`}>
+                    {errors.general}
+                  </div>
+                )}
 
                 {/* Submit and Cancel Buttons */}
-                <button type="submit" className="btn btn-success me-2" style={{display : isEligibleForUpdate ? 'block': 'none'}} onClick={handleSubmit}>
+                <button type="submit" className="btn btn-success me-2">
                   Update Event
                 </button>
                 <button type="button" className="btn btn-secondary" onClick={() => setActiveTab("view")}>
@@ -301,7 +300,7 @@ function ViewRegistrationsComponent() {
                 <input type="checkbox" id="notify" className="form-check-input" />
                 <label htmlFor="notify" className="form-check-label ms-2">Notify Registered Participants</label>
               </div>
-              <button type="submit" className="btn btn-danger">Cancel Event</button>
+              <button type="button" className="btn btn-danger">Cancel Event</button>
               <button type="button" className="btn btn-secondary ms-2" onClick={() => setActiveTab("view")}>
                 Back
               </button>
