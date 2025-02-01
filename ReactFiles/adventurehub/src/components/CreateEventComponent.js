@@ -134,7 +134,7 @@ function CreateEventComponent({ cityid: propCityid }) {
       eventid: parseInt(eventDetails.eventid),
       organiserid: 1,
       eventdate: eventDetails.eventdate,
-      eventtime: eventDetails.eventtime || "00:00:00", // Default time if not provided
+      eventtime: eventDetails.eventtime + ":00" || "00:00:00", // Default time if not provided
       price: parseFloat(eventDetails.price) || 0,
       capacity: parseInt(eventDetails.capacity) || 0,
       status: "PROCESSING",
