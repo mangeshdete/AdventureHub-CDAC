@@ -48,11 +48,11 @@ namespace AdventureHub.Controllers
         [HttpGet]
         public IActionResult GetPublishedEventById([FromQuery] int id) 
         {
-            return Ok(Db.Publishevents.Select(e => new {e.Publishid, e.Eventid, e.Eventdate, e.Eventtime, e.Price, e.Street, e.Pincode, e.Cityid, e.Status, e.Capacity, e.Event.Eventname}).Where(e => e.Publishid==id));
+            return Ok(Db.Publishevents.Select(e => new {e.Publishid, e.Eventid, e.Eventdate, e.Eventtime, e.Price, e.Street, e.Pincode, e.City.Cityname, e.City.State.Statename, e.Status, e.Capacity, e.Event.Eventname}).Where(e => e.Publishid==id));
             //return Ok(Db.Publishevents.Where(e => e.Publishid == id).Include(e => e.Event).Include(e => e.City).Include(e => e.City.State   ));
         }
         [HttpPut]
-        public IActionResult UpdatPulishedEventDetails([FromBody] Publishevent? updated)
+        public IActionResult UpdatePulishedEventDetails([FromBody] Publishevent? updated)
         {
             if (updated == null)
                 return BadRequest("Null Updates not allowed");
@@ -68,19 +68,30 @@ namespace AdventureHub.Controllers
             // 🔹 Update only provided fields (avoid overwriting with null)
             original.Eventdate = updated.Eventdate;
             original.Eventtime = updated.Eventtime;
-            original.Cityid = updated.Cityid;
             original.Status = updated.Status;
-            original.Capacity = updated.Capacity != 0 ? updated.Capacity : original.Capacity;
+            original.Capacity = updated.Capacity;
             original.Street = updated.Street ?? original.Street;
             original.Pincode = updated.Pincode ?? original.Pincode;
             original.Price = updated.Price != 0 ? updated.Price : original.Price;
 
-
-            Console.WriteLine(original);
+            /*
+             {
+                 "publishid": 1,
+                 "eventid": 1,
+                 "eventdate": "2025-02-15",
+                 "eventtime": "10:00:56",
+                 "price": 150,
+                 "street": "New Beach Road",
+                 "pincode": "500002",
+                 "cityid": 9,
+                 "status": "PROCESSING",
+                 "capacity": 200
+            }
+             */
             try
             {
                 Db.SaveChanges();
-                return Ok(original);
+                return Ok();
             }
             catch (Exception ex){
                 return StatusCode(500, "Error Updating Published Event: " + ex.Message);
