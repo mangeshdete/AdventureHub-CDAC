@@ -1,0 +1,105 @@
+/* General Form Styling */
+.event-card {
+    max-width: 700px;
+    
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.event-title {
+    text-align: center;
+    color: #2c3e50;
+    font-size: 2 rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #1abc9c, #16a085);
+    padding:12px;
+}
+
+/* Form Layout */
+.event-form-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.event-form-field {
+    flex: 1;
+    min-width: 50%;
+    margin-bottom: 10px;
+}
+
+/* Input Fields */
+.event-form-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #34495e;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.event-form-control {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: all 0.3s ease-in-out;
+    font-size: 1rem;
+}
+
+.event-form-control:focus {
+    border-color: #1abc9c;
+    box-shadow: 0 0 10px rgba(26, 188, 156, 0.3);
+    outline: none;
+}
+
+/* Textarea */
+.event-textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Submit Button */
+.event-btn-primary {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #1abc9c, #16a085);
+    border: none;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.event-btn-primary:hover {
+    background: linear-gradient(135deg, #16a085, #1abc9c);
+    transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .event-card {
+        max-width: 90%;
+        padding: 20px;
+    }
+
+    .event-form-group {
+        flex-direction: column;
+    }
+
+    .event-form-field {
+        min-width: 100%;
+    }
+}

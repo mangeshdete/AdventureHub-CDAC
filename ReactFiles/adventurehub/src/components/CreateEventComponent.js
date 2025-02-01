@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../styles/CreateEventComponent.css";
 
 function CreateEventComponent() {
   const [eventDetails, setEventDetails] = useState({
@@ -24,7 +25,6 @@ function CreateEventComponent() {
       alert("Please fill out all required fields.");
       return;
     }
-    // Mock database save
     console.log("Event Created:", eventDetails);
     alert("Event created successfully!");
     setEventDetails({
@@ -38,72 +38,82 @@ function CreateEventComponent() {
   };
 
   return (
-    <div className="card p-3">
-      <h2>Create Event</h2>
+    <div className="event-card p-3">
+      <h2 className="event-title">Create Event</h2>
       <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label className="form-label">Event Name*</label>
-          <input
-            type="text"
-            className="form-control"
-            name="name"
-            value={eventDetails.name}
-            onChange={handleChange}
-            required
-          />
+        <div className="event-form-group">
+          <div className="event-form-field">
+            <label className="event-form-label">Event Name*</label>
+            <input
+              type="text"
+              className="event-form-control"
+              name="name"
+              value={eventDetails.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="event-form-field">
+            <label className="event-form-label">Date and Time*</label>
+            <input
+              type="datetime-local"
+              className="event-form-control"
+              name="date"
+              value={eventDetails.date}
+              onChange={handleChange}
+              required
+            />
+          </div>
         </div>
-        <div className="mb-3">
-          <label className="form-label">Date and Time*</label>
-          <input
-            type="datetime-local"
-            className="form-control"
-            name="date"
-            value={eventDetails.date}
-            onChange={handleChange}
-            required
-          />
+
+        <div className="event-form-group">
+          <div className="event-form-field">
+            <label className="event-form-label">Location*</label>
+            <input
+              type="text"
+              className="event-form-control"
+              name="location"
+              value={eventDetails.location}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="event-form-field">
+            <label className="event-form-label">Price</label>
+            <input
+              type="number"
+              className="event-form-control"
+              name="price"
+              value={eventDetails.price}
+              onChange={handleChange}
+            />
+          </div>
         </div>
-        <div className="mb-3">
-          <label className="form-label">Location*</label>
-          <input
-            type="text"
-            className="form-control"
-            name="location"
-            value={eventDetails.location}
-            onChange={handleChange}
-            required
-          />
+
+        <div className="event-form-group">
+          <div className="event-form-field">
+            <label className="event-form-label">Contact Information</label>
+            <input
+              type="text"
+              className="event-form-control"
+              name="contact"
+              value={eventDetails.contact}
+              onChange={handleChange}
+            />
+          </div>
         </div>
-        <div className="mb-3">
-          <label className="form-label">Description</label>
+
+        <div className="event-form-group">
+          <label className="event-form-label">Description</label>
           <textarea
-            className="form-control"
+            className="event-form-control event-textarea"
             name="description"
             value={eventDetails.description}
             onChange={handleChange}
           />
         </div>
-        <div className="mb-3">
-          <label className="form-label">Price</label>
-          <input
-            type="number"
-            className="form-control"
-            name="price"
-            value={eventDetails.price}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Contact Information</label>
-          <input
-            type="text"
-            className="form-control"
-            name="contact"
-            value={eventDetails.contact}
-            onChange={handleChange}
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">
+
+        <button type="submit" className="event-btn-primary">
           Create Event
         </button>
       </form>

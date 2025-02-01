@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "../styles/ViewEventRegistrationsComponent.css";
+import { FaUser, FaEnvelope, FaPhone, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
 function ViewEventRegistrationsComponent({ eventId }) {
   const [registrations, setRegistrations] = useState([]);
 
-  // Fetch event registrations from API or mock data source
   useEffect(() => {
-    // Mock API call (replace with actual API call)
-      fetch(`/api/events/${eventId}/registrations`)
-      .then((response) => {
-        setRegistrations(response.data);
+    fetch(`/api/events/${eventId}/registrations`)
+      .then((response) => response.json())
+      .then((data) => {
+        setRegistrations(data);
       })
       .catch((error) => {
         console.error("Error fetching registrations", error);
@@ -17,36 +17,38 @@ function ViewEventRegistrationsComponent({ eventId }) {
   }, [eventId]);
 
   return (
-    <div className="container view-registrations-container">
-      <h3 className="mb-4">Event Registrations</h3>
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>Participant Name</th>
-            <th>Contact Information</th>
-            <th>Registration Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {registrations.length === 0 ? (
-            <tr>
-              <td colSpan="3" className="text-center">
-                No registrations found.
-              </td>
-            </tr>
-          ) : (
-            registrations.map((registration, index) => (
-              <tr key={index}>
-                <td>{registration.name}</td>
-                <td>
-                  {registration.email} <br /> {registration.phone}
-                </td>
-                <td>{registration.status}</td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+    <div className="registrations-container">
+      <h2 className="registrations-title">🎟️ Event Registrations</h2>
+      {registrations.length === 0 ? (
+        <p className="no-registrations">No registrations found.</p>
+      ) : (
+        <div className="registrations-list">
+          {registrations.map((registration, index) => (
+            <div key={index} className="registration-card">
+              <h3 className="participant-name">
+                <FaUser className="icon" /> {registration.name}
+              </h3>
+              <p className="participant-info">
+                <FaEnvelope className="icon" /> {registration.email}
+              </p>
+              <p className="participant-info">
+                <FaPhone className="icon" /> {registration.phone}
+              </p>
+              <p className={`status ${registration.status === "Confirmed" ? "confirmed" : "pending"}`}>
+                {registration.status === "Confirmed" ? (
+                  <>
+                    <FaCheckCircle className="icon confirmed-icon" /> Confirmed
+                  </>
+                ) : (
+                  <>
+                    <FaTimesCircle className="icon pending-icon" /> Pending
+                  </>
+                )}
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
