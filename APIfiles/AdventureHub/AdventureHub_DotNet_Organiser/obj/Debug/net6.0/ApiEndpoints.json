@@ -47,6 +47,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "AdventureHub.Controllers.EventRegistrationController",
+    "Method": "GetParticipantNumbersByPublishId",
+    "RelativePath": "EventRegistration/GetParticipantNumbersByPublishId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "AdventureHub.Controllers.OrganiserController",
     "Method": "getOrganiserById",
     "RelativePath": "Organiser/getOrganiserById",
