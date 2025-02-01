@@ -1,4 +1,4 @@
-//create Event Component
+//create Event Component added
 import React, { useState, useEffect } from "react";
 
 function CreateEventComponent({ cityid: propCityid }) {
