@@ -1,4 +1,4 @@
-//create Event Component added
+//create Event Component added with updated regex
 import React, { useState, useEffect } from "react";
 
 function CreateEventComponent({ cityid: propCityid }) {
