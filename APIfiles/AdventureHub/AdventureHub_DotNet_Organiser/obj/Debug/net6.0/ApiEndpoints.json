@@ -144,8 +144,8 @@
   },
   {
     "ContainingType": "AdventureHub.Controllers.PublishEventController",
-    "Method": "UpdatPulishedEventDetails",
-    "RelativePath": "PublishEvent/UpdatPulishedEventDetails",
+    "Method": "UpdatePulishedEventDetails",
+    "RelativePath": "PublishEvent/UpdatePulishedEventDetails",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,

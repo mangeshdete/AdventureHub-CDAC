@@ -219,7 +219,7 @@
         }
       }
     },
-    "/PublishEvent/UpdatPulishedEventDetails": {
+    "/PublishEvent/UpdatePulishedEventDetails": {
       "put": {
         "tags": [
           "PublishEvent"
