@@ -14,5 +14,21 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub_DotNet_Customer.Controllers.EventRegistrationController",
+    "Method": "GetEventRegistrationsByEventId",
+    "RelativePath": "EventRegistration/GetEventRegistrationsByEventId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "eid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
   }
 ]
