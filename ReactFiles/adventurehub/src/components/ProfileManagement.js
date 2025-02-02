@@ -1,4 +1,6 @@
+//profile management
 import React, { useState } from "react";
+
 
 function ProfileManagement() {
   const [profile, setProfile] = useState({

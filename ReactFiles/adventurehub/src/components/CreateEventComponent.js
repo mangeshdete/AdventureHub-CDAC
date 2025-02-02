@@ -1,4 +1,4 @@
-//create Event Component added
+//create Event Component added with updated regex
 import React, { useState, useEffect } from "react";
 
 function CreateEventComponent({ cityid: propCityid }) {
@@ -20,7 +20,7 @@ function CreateEventComponent({ cityid: propCityid }) {
   const regexPatterns = {
     price: /^\d+(\.\d{1,2})?$/,
     capacity: /^\d+$/, // Ensures only positive integers
-    street: /^(?=.[A-Za-z])(?=.\d)[A-Za-z0-9\s,'-]{3,}$/,
+    street: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9\s,'-]{3,}$/,
     pincode: /^\d{6}$/, // Exactly 6 digits
   };
 
@@ -134,7 +134,7 @@ function CreateEventComponent({ cityid: propCityid }) {
       eventid: parseInt(eventDetails.eventid),
       organiserid: 1,
       eventdate: eventDetails.eventdate,
-      eventtime: eventDetails.eventtime || "00:00:00", // Default time if not provided
+      eventtime: eventDetails.eventtime + ":00" || "00:00:00", // Default time if not provided
       price: parseFloat(eventDetails.price) || 0,
       capacity: parseInt(eventDetails.capacity) || 0,
       status: "PROCESSING",
