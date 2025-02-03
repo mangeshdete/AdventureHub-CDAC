@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../styles/PaymentComponent.css";
+import "../../styles/PaymentComponent.css";
 
 function PaymentComponent() {
   const [refundRequests, setRefundRequests] = useState([]);

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../styles/CustomerDashboard.css";
+import "../../styles/CustomerDashboard.css";
 
 // Importing all the components
 import ViewRegisteredEvents from "./ViewRegisteredEvents";
