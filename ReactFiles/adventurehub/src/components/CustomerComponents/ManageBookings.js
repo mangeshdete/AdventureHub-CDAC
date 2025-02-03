@@ -20,28 +20,22 @@ function CustomerBookingsComponent() {
       status: "Confirmed",
       tickets: 2,
       totalprice: 100,
-    },
-    {
-      bookingid: 2,
-      eventname: "Tech Conference",
-      bookingdate: "2024-07-15T00:00:00Z",
-      status: "Pending",
-      tickets: 1,
-      totalprice: 50,
-    },
+    }
   ];
 
   // Fetch bookings or use sample data
   useEffect(() => {
-    if (customer?.customerid) {
-      fetch(`https://localhost:9144/Booking/GetBookingsByCustomerId?customerId=${customer.customerid}`)
-        .then((response) => response.json())
-        .then((data) => setBookings(data))
-        .catch((error) => console.error("Error fetching bookings:", error));
+    if (customer?.custid) {
+      fetch(`https://localhost:9145/EventRegistration/GetEventRegistrationsByCustId?cid=${customer.custid}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setBookings(data)})
+      .catch((error) => console.error("Error fetching bookings:", error));
     } else {
       setBookings(sampleBookings);
     }
-  }, [customer?.customerid]);
+  }, [customer?.custid]);
 
   // Handle Update Click
   const handleUpdateClick = (bookingId) => {
@@ -61,19 +55,29 @@ function CustomerBookingsComponent() {
               <tr>
                 <th>Sr No</th>
                 <th>Event Name</th>
-                <th>Booking Date</th>
+                <th>Booking Date and Time</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
               {bookings.map((booking, index) => (
-                <tr key={booking.bookingid} className="fw-bold">
+                <tr key={booking.eventid} className="fw-bold">
                   <td>{index + 1}</td>
                   <td>{booking.eventname}</td>
-                  <td>{new Date(booking.bookingdate).toLocaleDateString()}</td>
+                  <td>{new Date(booking.eventdate).toLocaleDateString()}, {booking.eventtime}</td>
                   <td>
-                    <span className={`badge ${booking.status === "Confirmed" ? "bg-success" : "bg-secondary"}`}>
+                    <span className={`badge ${
+                      booking.status === "ACTIVE"
+                        ? "bg-success"
+                        : booking.status === "CANCELLED"
+                        ? "bg-danger"
+                        : booking.status === "TO_BE_CANCELLED"
+                        ? "bg-warning text-dark"
+                        : booking.status === "PROCESSING"
+                        ? "bg-warning"
+                        : "bg-secondary"
+                    }`}>
                       {booking.status}
                     </span>
                   </td>
@@ -107,7 +111,7 @@ function CustomerBookingsComponent() {
               </div>
               <div className="form-group mb-3">
                 <label>Booking Date</label>
-                <input type="text" className="form-control" value={new Date(bookingDetails.bookingdate).toLocaleDateString()} readOnly />
+                <input type="text" className="form-control" value={new Date(bookingDetails.eventdate).toLocaleDateString()} readOnly />
               </div>
               <div className="form-group mb-3">
                 <label>Number of Tickets</label>

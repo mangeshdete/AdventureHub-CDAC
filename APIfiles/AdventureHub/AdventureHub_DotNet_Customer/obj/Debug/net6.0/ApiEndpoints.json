@@ -1,14 +1,14 @@
 [
   {
     "ContainingType": "AdventureHub_DotNet_Customer.Controllers.EventRegistrationController",
-    "Method": "GetEventRegistrationsByCustId",
-    "RelativePath": "EventRegistration/GetEventRegistrationsByCustId",
+    "Method": "GetEventRegistrationDetailsByEventId",
+    "RelativePath": "EventRegistration/GetEventRegistrationDetailsByEventId",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "cid",
+        "Name": "eid",
         "Type": "System.Int32",
         "IsRequired": false
       }
@@ -17,14 +17,14 @@
   },
   {
     "ContainingType": "AdventureHub_DotNet_Customer.Controllers.EventRegistrationController",
-    "Method": "GetEventRegistrationsByEventId",
-    "RelativePath": "EventRegistration/GetEventRegistrationsByEventId",
+    "Method": "GetEventRegistrationsByCustId",
+    "RelativePath": "EventRegistration/GetEventRegistrationsByCustId",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "eid",
+        "Name": "cid",
         "Type": "System.Int32",
         "IsRequired": false
       }

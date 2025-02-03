@@ -5,17 +5,18 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace AdventureHub.Models
 {
-    public partial class MyDbContext : DbContext
+    public partial class p14_adventurehubContext : DbContext
     {
-        public MyDbContext()
+        public p14_adventurehubContext()
         {
         }
 
-        public MyDbContext(DbContextOptions<MyDbContext> options)
+        public p14_adventurehubContext(DbContextOptions<p14_adventurehubContext> options)
             : base(options)
         {
         }
 
+        public virtual DbSet<Cancelrequest> Cancelrequests { get; set; } = null!;
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<City> Cities { get; set; } = null!;
         public virtual DbSet<Customer> Customers { get; set; } = null!;
@@ -44,6 +45,34 @@ namespace AdventureHub.Models
         {
             modelBuilder.UseCollation("utf8mb4_0900_ai_ci")
                 .HasCharSet("utf8mb4");
+
+            modelBuilder.Entity<Cancelrequest>(entity =>
+            {
+                entity.ToTable("cancelrequests");
+
+                entity.HasIndex(e => e.Publishid, "publishid");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CancellationReason)
+                    .HasColumnType("text")
+                    .HasColumnName("cancellation_reason");
+
+                entity.Property(e => e.FromStatus)
+                    .HasColumnType("enum('PROCESSING','TO_BE_CANCELLED')")
+                    .HasColumnName("from_status");
+
+                entity.Property(e => e.Publishid).HasColumnName("publishid");
+
+                entity.Property(e => e.ToStatus)
+                    .HasColumnType("enum('ACTIVE','CANCELLED','PROCESSING')")
+                    .HasColumnName("to_status");
+
+                entity.HasOne(d => d.Publish)
+                    .WithMany(p => p.Cancelrequests)
+                    .HasForeignKey(d => d.Publishid)
+                    .HasConstraintName("cancelrequests_ibfk_1");
+            });
 
             modelBuilder.Entity<Category>(entity =>
             {
@@ -120,13 +149,13 @@ namespace AdventureHub.Models
                 entity.HasOne(d => d.City)
                     .WithMany(p => p.Customers)
                     .HasForeignKey(d => d.Cityid)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("city_id_fk");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Customers)
                     .HasForeignKey(d => d.Userid)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("userid_fk");
             });
 
@@ -173,13 +202,13 @@ namespace AdventureHub.Models
                 entity.HasOne(d => d.Cust)
                     .WithMany(p => p.Eventregistrations)
                     .HasForeignKey(d => d.Custid)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("eventregistrations_cust_id_fk");
 
                 entity.HasOne(d => d.Publish)
                     .WithMany(p => p.Eventregistrations)
                     .HasForeignKey(d => d.Publishid)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("eventregistrations_publish_id_fk");
             });
 
@@ -224,13 +253,13 @@ namespace AdventureHub.Models
                 entity.HasOne(d => d.City)
                     .WithMany(p => p.Organisers)
                     .HasForeignKey(d => d.Cityid)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("org_city_id_fk");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Organisers)
                     .HasForeignKey(d => d.Userid)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("org_userid_fk");
             });
 
@@ -318,7 +347,7 @@ namespace AdventureHub.Models
                 entity.Property(e => e.Price).HasColumnName("price");
 
                 entity.Property(e => e.Status)
-                    .HasColumnType("enum('ACTIVE','PROCESSING','CANCELLED','COMPLETED')")
+                    .HasColumnType("enum('ACTIVE','PROCESSING','CANCELLED','COMPLETED','TO_BE_CANCELLED')")
                     .HasColumnName("status");
 
                 entity.Property(e => e.Street)
@@ -328,19 +357,19 @@ namespace AdventureHub.Models
                 entity.HasOne(d => d.City)
                     .WithMany(p => p.Publishevents)
                     .HasForeignKey(d => d.Cityid)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("publishevent_city_id_fk");
 
                 entity.HasOne(d => d.Event)
                     .WithMany(p => p.Publishevents)
                     .HasForeignKey(d => d.Eventid)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("publishevent_eventid_fk");
 
                 entity.HasOne(d => d.Organiser)
                     .WithMany(p => p.Publishevents)
                     .HasForeignKey(d => d.Organiserid)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("publishevent_orgid_fk");
             });
 
