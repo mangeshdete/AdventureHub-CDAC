@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\AdventureHub_DotNet_Admin.props" />
+</Project>

@@ -16,7 +16,6 @@ namespace AdventureHub_DotNet_Customer.Models
         {
         }
 
-        public virtual DbSet<Cancelrequest> Cancelrequests { get; set; } = null!;
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<City> Cities { get; set; } = null!;
         public virtual DbSet<Customer> Customers { get; set; } = null!;
@@ -37,7 +36,7 @@ namespace AdventureHub_DotNet_Customer.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseMySql("server=localhost;port=3306;user=root;password=0000;database=p14_adventurehub", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.2.0-mysql"));
+                optionsBuilder.UseMySql("server=localhost;port=3306;user=root;password=root;database=p14_adventurehub", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.2.0-mysql"));
             }
         }
 
@@ -45,34 +44,6 @@ namespace AdventureHub_DotNet_Customer.Models
         {
             modelBuilder.UseCollation("utf8mb4_0900_ai_ci")
                 .HasCharSet("utf8mb4");
-
-            modelBuilder.Entity<Cancelrequest>(entity =>
-            {
-                entity.ToTable("cancelrequests");
-
-                entity.HasIndex(e => e.Publishid, "publishid");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.CancellationReason)
-                    .HasColumnType("text")
-                    .HasColumnName("cancellation_reason");
-
-                entity.Property(e => e.FromStatus)
-                    .HasColumnType("enum('PROCESSING','TO_BE_CANCELLED')")
-                    .HasColumnName("from_status");
-
-                entity.Property(e => e.Publishid).HasColumnName("publishid");
-
-                entity.Property(e => e.ToStatus)
-                    .HasColumnType("enum('ACTIVE','CANCELLED','PROCESSING')")
-                    .HasColumnName("to_status");
-
-                entity.HasOne(d => d.Publish)
-                    .WithMany(p => p.Cancelrequests)
-                    .HasForeignKey(d => d.Publishid)
-                    .HasConstraintName("cancelrequests_ibfk_1");
-            });
 
             modelBuilder.Entity<Category>(entity =>
             {
