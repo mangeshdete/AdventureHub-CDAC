@@ -1,17 +1,17 @@
-//Updat event Component  added 
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector } from "react-redux";
+import '../styles/UpdateProfileComponent.css';
 
 const UpdateProfileComponent = () => {
   const user = useSelector((state) => state.user.user);
-  console.log("User from Redux:", user); // Debugging line
+  console.log("User from Redux:", user);
 
   // Initialize states only if user is available
   const [organiserData, setOrganiserData] = useState(user || {});
   const [editableFields, setEditableFields] = useState({
-    email: user?.user?.email || "", // Access nested email
-    contact: user?.user?.contact || "", // Access nested contact
+    email: user?.user?.email || "",
+    contact: user?.user?.contact || "",
   });
 
   // Update states when user changes
@@ -19,8 +19,8 @@ const UpdateProfileComponent = () => {
     if (user) {
       setOrganiserData(user);
       setEditableFields({
-        email: user.user?.email || "", // Access nested email
-        contact: user.user?.contact || "", // Access nested contact
+        email: user.user?.email || "",
+        contact: user.user?.contact || "",
       });
     }
   }, [user]);
@@ -29,7 +29,6 @@ const UpdateProfileComponent = () => {
     orgname: /^[A-Za-z0-9\s\-'&()]+$/,
     email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
     contactno: /^[0-9]{10}$/,
-    // street: /^(?=.[A-Za-z])(?=.\d)[A-Za-z0-9\s,'-]{3,}$/,
     pincode: /^\d{6}$/,
   };
 
@@ -98,102 +97,92 @@ const UpdateProfileComponent = () => {
     if (user) {
       setOrganiserData(user);
       setEditableFields({
-        email: user.user?.email || "", // Access nested email
-        contact: user.user?.contact || "", // Access nested contact
+        email: user.user?.email || "",
+        contact: user.user?.contact || "",
       });
     }
   };
 
   // Handle form submission
-  const handleSubmit = async(e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  // Construct the updatedData object in the required format
-  const updatedData = {
-    organiserid: organiserData.organiserid, // Include organiserid
-    userid: organiserData.user?.userid, // Include userid
-    orgname: organiserData.orgname,
-    gst: organiserData.gst,
-    pancard: organiserData.pancard,
-    street: organiserData.street,
-    cityid: organiserData.cityid, // Include cityid
-    pincode: organiserData.pincode,
-    user: {
-      userid: organiserData.user?.userid, // Include userid
-      password: organiserData.user?.password, // Include password
-      contact: editableFields.contact, // Use updated contact
-      email: editableFields.email, // Use updated email
-      securityqid: organiserData.user?.securityqid, // Include securityqid
-      securityqans: organiserData.user?.securityqans, // Include securityqans
-    },
-  };
+    const updatedData = {
+      organiserid: organiserData.organiserid,
+      userid: organiserData.user?.userid,
+      orgname: organiserData.orgname,
+      gst: organiserData.gst,
+      pancard: organiserData.pancard,
+      street: organiserData.street,
+      cityid: organiserData.cityid,
+      pincode: organiserData.pincode,
+      user: {
+        userid: organiserData.user?.userid,
+        password: organiserData.user?.password,
+        contact: editableFields.contact,
+        email: editableFields.email,
+        securityqid: organiserData.user?.securityqid,
+        securityqans: organiserData.user?.securityqans,
+      },
+    };
 
-  console.log("Data being sent to the server:", updatedData); // Debugging line
-
-  // Validate required fields
-  if (!updatedData.orgname || !updatedData.user.email || !updatedData.user.contact) {
-    alert("Please fill in all required fields.");
-    return;
-  }
-
-  // Validate email and contact number
-  if (!regexPatterns.email.test(updatedData.user.email)) {
-    alert("Please enter a valid email address.");
-    return;
-  }
-
-  if (!regexPatterns.contactno.test(updatedData.user.contact)) {
-    alert("Please enter a valid 10-digit contact number.");
-    return;
-  }
-
-  // if (!regexPatterns.street.test(updatedData.street)) {
-  //   alert("Street address must contain at least one letter and one number.");
-  //   return;
-  // }
-
-  if (!regexPatterns.pincode.test(updatedData.pincode)) {
-    alert("Please enter a valid 6-digit pincode.");
-    return;
-  }
-
-  try {
-    const response = await fetch(
-      "https://localhost:9144/Organiser/updateOrganiserDetails",
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedData),
-      }
-    );
-
-    if (!response.ok) {
-      const errorResponse = await response.json(); // Parse the error response
-      console.error("Server error response:", errorResponse);
-      throw new Error(Error+" : "+`${response.statusText}`);
+    // Validate required fields
+    if (!updatedData.orgname || !updatedData.user.email || !updatedData.user.contact) {
+      alert("Please fill in all required fields.");
+      return;
     }
 
-    const result = await response.json();
-    alert("Profile updated successfully!");
-    console.log(result);
-  } catch (err) {
-    console.error("Error during PUT request:", err);
-    alert("Failed to update profile.");
-  }
-};
+    // Validate email and contact number
+    if (!regexPatterns.email.test(updatedData.user.email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    if (!regexPatterns.contactno.test(updatedData.user.contact)) {
+      alert("Please enter a valid 10-digit contact number.");
+      return;
+    }
+
+    if (!regexPatterns.pincode.test(updatedData.pincode)) {
+      alert("Please enter a valid 6-digit pincode.");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        "https://localhost:9144/Organiser/updateOrganiserDetails",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedData),
+        }
+      );
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        console.error("Server error response:", errorResponse);
+        throw new Error(Error + " : " + `${response.statusText}`);
+      }
+
+      const result = await response.json();
+      alert("Profile updated successfully!");
+    } catch (err) {
+      console.error("Error during PUT request:", err);
+      alert("Failed to update profile.");
+    }
+  };
 
   if (error) {
     return <div className="alert alert-danger">{error}</div>;
   }
 
   return (
-    <div className="container mt-4">
+    <div className="update-profile-container mt-4">
       <h2 className="text-center mb-4">Update Profile</h2>
-      <form onSubmit={handleSubmit} className="card p-4 shadow">
+      <form onSubmit={handleSubmit} className="profile-form card p-4 shadow">
         <div className="row">
-          {/* Organization Name */}
           <div className="col-md-6 mb-3">
             <label className="form-label">Organization Name</label>
             <input
@@ -204,8 +193,6 @@ const UpdateProfileComponent = () => {
               onChange={handleChange}
             />
           </div>
-
-          {/* Email */}
           <div className="col-md-6 mb-3">
             <label className="form-label">Email</label>
             <input
@@ -216,8 +203,6 @@ const UpdateProfileComponent = () => {
               onChange={handleEditableChange}
             />
           </div>
-
-          {/* Contact Number */}
           <div className="col-md-6 mb-3">
             <label className="form-label">Contact Number</label>
             <input
@@ -228,8 +213,6 @@ const UpdateProfileComponent = () => {
               onChange={handleEditableChange}
             />
           </div>
-
-          {/* GST */}
           <div className="col-md-6 mb-3">
             <label className="form-label">GST</label>
             <input
@@ -240,8 +223,6 @@ const UpdateProfileComponent = () => {
               readOnly
             />
           </div>
-
-          {/* Pancard */}
           <div className="col-md-6 mb-3">
             <label className="form-label">Pancard</label>
             <input
@@ -252,8 +233,6 @@ const UpdateProfileComponent = () => {
               readOnly
             />
           </div>
-
-          {/* State Selection */}
           <div className="col-md-6 mb-3">
             <label className="form-label">State</label>
             <select
@@ -270,8 +249,6 @@ const UpdateProfileComponent = () => {
               ))}
             </select>
           </div>
-
-          {/* City Selection */}
           <div className="col-md-6 mb-3">
             <label className="form-label">City</label>
             <select
@@ -279,7 +256,7 @@ const UpdateProfileComponent = () => {
               className="form-select"
               value={organiserData.cityid || ""}
               onChange={handleChange}
-              disabled={!organiserData.stateid} // Disable city dropdown if no state is selected
+              disabled={!organiserData.stateid}
             >
               <option value="">Select City</option>
               {cities.map((city) => (
@@ -289,8 +266,6 @@ const UpdateProfileComponent = () => {
               ))}
             </select>
           </div>
-
-          {/* Street */}
           <div className="col-md-6 mb-3">
             <label className="form-label">Street</label>
             <input
@@ -301,8 +276,6 @@ const UpdateProfileComponent = () => {
               onChange={handleChange}
             />
           </div>
-
-          {/* Pincode */}
           <div className="col-md-6 mb-3">
             <label className="form-label">Pincode</label>
             <input
@@ -314,8 +287,6 @@ const UpdateProfileComponent = () => {
             />
           </div>
         </div>
-
-        {/* Buttons */}
         <div className="text-center mt-3">
           <button type="button" className="btn btn-secondary me-2" onClick={handleReset}>
             Reset

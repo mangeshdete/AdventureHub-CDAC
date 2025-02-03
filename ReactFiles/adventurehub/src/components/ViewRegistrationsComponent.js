@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector } from "react-redux";
+import '../styles/ViewEventRegistrationsComponent.css';
 
 function ViewRegistrationsComponent() {
   const [events, setEvents] = useState([]);
