@@ -26,7 +26,7 @@ function ViewRegisteredEvents() {
     } else {
       setSelectedEventId(eventid); // Show the details for the selected event
       // Fetch event details for the selected event
-      fetch(`https://localhost:9145/EventRegistration/GetEventRegistrationsByEventId?eid=${eventid}`) // Replace with actual API endpoint
+      fetch(`https://localhost:9145/EventRegistration/GetEventRegistrationDetailsByEventId?eid=${eventid}`) // Replace with actual API endpoint
         .then((response) => response.json())
         .then((data) => {
           setSelectedEvent(data[0]); // Set the event details

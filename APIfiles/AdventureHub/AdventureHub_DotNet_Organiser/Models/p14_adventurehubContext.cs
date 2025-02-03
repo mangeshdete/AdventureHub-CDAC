@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace AdventureHub_DotNet_Customer.Models
+namespace AdventureHub.Models
 {
     public partial class p14_adventurehubContext : DbContext
     {

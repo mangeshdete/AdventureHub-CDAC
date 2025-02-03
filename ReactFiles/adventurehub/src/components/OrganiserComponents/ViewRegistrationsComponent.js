@@ -65,7 +65,17 @@ function ViewRegistrationsComponent() {
                     <td>{event.eventname}</td>
                     <td>{event.cityname}</td>
                     <td>
-                      <span className={`badge ${event.status === "Upcoming" ? "bg-success" : "bg-secondary"}`}>
+                      <span className={`badge ${
+                        event.status === "ACTIVE"
+                          ? "bg-success"
+                          : event.status === "CANCELLED"
+                          ? "bg-danger"
+                          : event.status === "TO_BE_CANCELLED"
+                          ? "bg-warning text-dark"
+                          : event.status === "PROCESSING"
+                          ? "bg-warning"
+                          : "bg-secondary"
+                      }`}>
                         {event.status}
                       </span>
                     </td>
@@ -91,7 +101,6 @@ function ViewRegistrationsComponent() {
                                   <th>Last Name</th>
                                   <th>Date of Birth</th>
                                   <th>Contact No</th>
-                                  <th>No. of Participants</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -101,7 +110,6 @@ function ViewRegistrationsComponent() {
                                     <td>{participant.lname}</td>
                                     <td>{participant.dob}</td>
                                     <td>{participant.contact}</td>
-                                    <td>{participant.participants}</td>
                                   </tr>
                                 ))}
                               </tbody>
