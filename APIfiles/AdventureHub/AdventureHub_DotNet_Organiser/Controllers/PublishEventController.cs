@@ -9,19 +9,29 @@ namespace AdventureHub.Controllers
     [Route("[controller]/[action]")]
     public class PublishEventController : Controller
     {
-        public static readonly MyDbContext Db;
+        public static readonly p14_adventurehubContext Db;
 
         static PublishEventController()
         {
-            Db = new MyDbContext();
+            Db = new p14_adventurehubContext();
         }
 
         //Get All the Events which are published by any Organiser by Organiser Id
         [HttpGet]
         public IActionResult GetPublishedEventsByOrganiserId([FromQuery] int orgId)
         {
-            // var publishedEvents=Db.Publishevents.Include(p => p.City).Include(p => p.Event).Where(e => e.Organiserid == orgId).ToList();
-            var publishedEvents = Db.Publishevents.Where(e => e.Organiserid == orgId).OrderByDescending(e => e.Eventdate).Select(p => new {p.Eventid ,p.City.Cityname, p.Event.Eventname, p.Eventdate, p.Status }).ToList();
+            var publishedEvents = Db.Publishevents.Where(e => e.Organiserid == orgId).OrderByDescending(e => e.Eventdate).Select(p => new {
+                p.Eventid,
+                p.City.Cityname,
+                p.Event.Eventname,
+                p.Eventdate,
+                p.Status,
+                p.Publishid,
+                p.Capacity,
+                participants = Db.Eventregistrations.
+                    Where(n => n.Publishid == p.Publishid).
+                    Sum(r => r.Participants)
+            }).ToList();
             return Ok(publishedEvents);
         }
 
@@ -95,6 +105,28 @@ namespace AdventureHub.Controllers
             }
             catch (Exception ex){
                 return StatusCode(500, "Error Updating Published Event: " + ex.Message);
+            }
+        }
+
+        [HttpPut]
+        public IActionResult UpdateStatusToBeCancelledByPublishId([FromQuery] int eid,[FromBody] CancelRequestMessageHelper msg)
+        {
+            //Console.WriteLine(eid+", "+msg.message);
+            var evnt = Db.Publishevents.FirstOrDefault(e => e.Publishid == eid);
+            if (evnt == null)
+                return Ok(false);
+            evnt.Status = "TO_BE_CANCELLED";
+            Db.Cancelrequests.Add(new Cancelrequest() { Publishid = eid, FromStatus= "TO_BE_CANCELLED", ToStatus=null, CancellationReason=msg.message});
+            try
+            {
+                Db.Cancelrequests.Add(new Cancelrequest() { Publishid = eid, FromStatus = "TO_BE_CANCELLED", ToStatus = null, CancellationReason = msg.message });
+                Db.SaveChanges();
+                return Ok(true);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return StatusCode(500, "Error Updating Status");
             }
         }
 

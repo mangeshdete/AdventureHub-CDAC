@@ -249,10 +249,90 @@
           }
         }
       }
+    },
+    "/PublishEvent/UpdateStatusToBeCancelledByPublishId": {
+      "put": {
+        "tags": [
+          "PublishEvent"
+        ],
+        "parameters": [
+          {
+            "name": "eid",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelRequestMessageHelper"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelRequestMessageHelper"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelRequestMessageHelper"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "CancelRequestMessageHelper": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Cancelrequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "publishid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fromStatus": {
+            "type": "string",
+            "nullable": true
+          },
+          "toStatus": {
+            "type": "string",
+            "nullable": true
+          },
+          "cancellationReason": {
+            "type": "string",
+            "nullable": true
+          },
+          "publish": {
+            "$ref": "#/components/schemas/Publishevent"
+          }
+        },
+        "additionalProperties": false
+      },
       "Category": {
         "type": "object",
         "properties": {
@@ -573,8 +653,7 @@
           },
           "organiserid": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "eventdate": {
             "type": "string",
@@ -616,6 +695,13 @@
           },
           "organiser": {
             "$ref": "#/components/schemas/Organiser"
+          },
+          "cancelrequests": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Cancelrequest"
+            },
+            "nullable": true
           },
           "eventregistrations": {
             "type": "array",
