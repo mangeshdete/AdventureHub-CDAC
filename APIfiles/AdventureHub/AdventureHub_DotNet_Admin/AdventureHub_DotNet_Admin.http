@@ -1,0 +1,6 @@
+@AdventureHub_DotNet_Admin_HostAddress = http://localhost:5021
+
+GET {{AdventureHub_DotNet_Admin_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

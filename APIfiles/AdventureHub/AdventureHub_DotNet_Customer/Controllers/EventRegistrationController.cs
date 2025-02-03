@@ -16,7 +16,7 @@ namespace AdventureHub_DotNet_Customer.Controllers
         [HttpGet]
         public IActionResult GetEventRegistrationsByCustId([FromQuery]int cid)
         {
-            var events = Db.Eventregistrations.Where(e => e.Custid == cid).Select(e => new {e.Publish.Eventid, e.Publish.Event.Eventname, e.Publish.Eventdate, e.Publish.Eventtime, e.Publish.City.Cityname}).ToList();
+            var events = Db.Eventregistrations.Where(e => e.Custid == cid).Select(e => new {e.Publish.Eventid, e.Publish.Event.Eventname, e.Publish.Eventdate, e.Publish.Eventtime, e.Publish.City.Cityname, e.Publish.Status }).ToList();
             return Ok(events);
         }
 
@@ -27,12 +27,12 @@ namespace AdventureHub_DotNet_Customer.Controllers
         //    return Ok(events);
         //}
         [HttpGet]
-        public IActionResult GetEventRegistrationsByEventId([FromQuery] int eid)
+        public IActionResult GetEventRegistrationDetailsByEventId([FromQuery] int eid)
         {
-            var eventDetails = Db.Eventregistrations.Where(e => e.Publishid == eid).Select(e => new { e.Publish.Organiser.Orgname, e.Publish.Event.Eventname, e.Publish.Organiser.Rating, e.Publish.Eventdate, e.Publish.Eventtime, e.Publish.Price, e.Publish.Organiser.User.Contact }).ToList();
+            var eventDetails = Db.Eventregistrations.Where(e => e.Publishid == eid).Select(e => new { e.Publish.Organiser.Orgname, e.Publish.Event.Eventname, e.Publish.Organiser.Rating, e.Publish.Eventdate, e.Publish.Eventtime, e.Publish.Price, e.Publish.Organiser.User.Contact}).ToList();
             return Ok(eventDetails);
         }
-
+            
 
 
 

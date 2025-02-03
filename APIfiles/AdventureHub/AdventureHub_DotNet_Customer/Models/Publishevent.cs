@@ -7,6 +7,7 @@ namespace AdventureHub_DotNet_Customer.Models
     {
         public Publishevent()
         {
+            Cancelrequests = new HashSet<Cancelrequest>();
             Eventregistrations = new HashSet<Eventregistration>();
         }
 
@@ -25,6 +26,7 @@ namespace AdventureHub_DotNet_Customer.Models
         public virtual City City { get; set; } = null!;
         public virtual Event Event { get; set; } = null!;
         public virtual Organiser Organiser { get; set; } = null!;
+        public virtual ICollection<Cancelrequest> Cancelrequests { get; set; }
         public virtual ICollection<Eventregistration> Eventregistrations { get; set; }
     }
 }
