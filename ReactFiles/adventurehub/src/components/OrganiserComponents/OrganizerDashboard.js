@@ -6,7 +6,7 @@ import UpdateProfileComponent from "./UpdateProfileComponent";
 import ViewRegistrationsComponent from "./ViewRegistrationsComponent";
 import PaymentComponent from "./PaymentComponent";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../styles/OrganizerDashboard.css";
+import "../../styles/OrganizerDashboard.css";
 
 function OrganizerDashboard() {
   const [selectedView, setSelectedView] = useState("dashboard");
