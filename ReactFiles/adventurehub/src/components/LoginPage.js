@@ -43,12 +43,13 @@ const LoginPage = () => {
       throw new Error("Response couldn't be resolved!");
     })
     .then((data) => {
+      console.log(data);
       
       if (data) {
         dispatch(setUser(data));
         if(data.roleid){
           if(data.roleid.roleid === 3)
-            navigate("/");
+            navigate("/admindashboard");
         }
         else if (data.user.roleid.roleid === 1)
             navigate("/customerdashboard");
