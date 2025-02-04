@@ -1,6 +1,7 @@
 ﻿using AdventureHub_DotNet_Admin.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AdventureHub_DotNet_Admin.Controllers
 {
@@ -10,18 +11,18 @@ namespace AdventureHub_DotNet_Admin.Controllers
     {
 
         public static readonly p14_adventurehubContext Db;
-
+        
         static AdminController()
         {
             Db= new p14_adventurehubContext();
         }
 
         [HttpGet]
-        public IActionResult GetPublishedEventsByStatus([FromQuery] string status) {
-            if (status == "PROCESSING")
+        public IActionResult GetPublishedEventsByStatus([FromQuery] string status,int id ) {
+            if (status == "PROCESSING" )
             {
 
-                return Ok(Db.Publishevents.Select(e => new { e.Publishid, e.Eventid, e.Event.Eventname, e.City.Cityname, e.Status }).Where(e => e.Status == status));
+                return Ok(Db.Publishevents.Select(e => new { e.Publishid, e.Eventid, e.Event.Eventname, e.City.Cityname, e.Status }).Where(e => e.Status == status ));
             }
             return StatusCode(500,"Invalid status");
         }
@@ -32,8 +33,18 @@ namespace AdventureHub_DotNet_Admin.Controllers
         {
             if (status == "TO_BE_CANCELLED")
             {
-
-                return Ok(Db.Publishevents.Select(e => new { e.Publishid, e.Eventid, e.Event.Eventname, e.City.Cityname, e.Status }).Where(e => e.Status == status));
+              
+                return Ok(from e in Db.Publishevents
+                          join o in Db.Cancelrequests on e.Publishid equals o.Publishid
+                          select new
+                          {
+                              e.Publishid,
+                              e.Eventid,
+                              e.Event.Eventname,
+                              e.City.Cityname,
+                              e.Status,
+                              o.CancellationReason
+                          });
             }
             return StatusCode(500, "Invalid status");
         }
@@ -41,7 +52,8 @@ namespace AdventureHub_DotNet_Admin.Controllers
         [HttpGet]
         public IActionResult GetPublishedEventsThatToBeViewByCityId([FromQuery] int id)
         {
-            return Ok(Db.Publishevents.Select(e => new { e.Publishid, e.Eventid, e.Event.Eventname, e.City.Cityname, e.Status,e.Cityid }).Where(e => e.Cityid == id));
+            var status = "ACTIVE";
+            return Ok(Db.Publishevents.Select(e => new { e.Publishid, e.Eventid, e.Event.Eventname, e.City.Cityname, e.Status,e.Cityid }).Where(e => e.Cityid == id ).Where(e=>e.Status==status));
             
         }
     }
