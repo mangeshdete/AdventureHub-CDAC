@@ -157,5 +157,26 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub.Controllers.PublishEventController",
+    "Method": "UpdateStatusToBeCancelledByPublishId",
+    "RelativePath": "PublishEvent/UpdateStatusToBeCancelledByPublishId",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "eid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "msg",
+        "Type": "AdventureHub.Models.CancelRequestMessageHelper",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "rBpHPzBC2xQNImBQy1NfY2/pIjvq0TmshLyf4YXAQ14=",
+  "Source": "AdventureHub_DotNet_Admin",
+  "BasePath": "_content/AdventureHub_DotNet_Admin",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

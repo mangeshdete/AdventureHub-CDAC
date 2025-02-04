@@ -26,6 +26,28 @@
           }
         }
       }
+    },
+    "/EventRegistration/GetEventRegistrationDetailsByEventId": {
+      "get": {
+        "tags": [
+          "EventRegistration"
+        ],
+        "parameters": [
+          {
+            "name": "eid",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
     }
   },
   "components": { }

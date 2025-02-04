@@ -9,6 +9,9 @@ function ViewRegistrationsComponent() {
   const [eventDetails, setEventDetails] = useState({});
   const [updatedEventDetails, setUpdatedEventDetails] = useState({});
   const [errors, setErrors] = useState({}); // To store validation errors
+  const [cancellationReason, setCancellationReason] = useState(null);
+  const [cancelEventMessage, setCancelEventMessage] = useState(null);
+  const [isCanceling, setIsCanceling] = useState(false); // To handle button disable after click
 
   const organiser = useSelector((state) => state.user?.user);
 
@@ -18,24 +21,21 @@ function ViewRegistrationsComponent() {
         .then((response) => response.json())
         .then((data) => {
           setEvents(data);
-          console.log(data);
         })
         .catch((error) => console.error("Error fetching events:", error));
     }
   }, [organiser?.organiserid]);
 
   const handleUpdateClick = async (eventId) => {
-    console.log(eventId);
     setSelectedEventId(eventId);
 
     try {
       const response = await fetch(`https://localhost:9144/PublishEvent/GetPublishedEventById?id=${eventId}`);
       const data = await response.json();
-      console.log(data[0]);
       setEventDetails(data[0]);
-      setUpdatedEventDetails(data[0]); // Initialize updatedEventDetails with the original data
+      setUpdatedEventDetails(data[0]);
       setActiveTab("update");
-      setErrors({}); // Clear any previous errors
+      setErrors({});
     } catch (error) {
       console.error("Error fetching event details:", error);
     }
@@ -47,7 +47,6 @@ function ViewRegistrationsComponent() {
       ...updatedEventDetails,
       [name]: value,
     });
-    // Clear the error for the field being updated
     setErrors({
       ...errors,
       [name]: "",
@@ -56,8 +55,6 @@ function ViewRegistrationsComponent() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validate the form fields
     const newErrors = {};
 
     if (new Date(updatedEventDetails.eventdate) < new Date(eventDetails.eventdate)) {
@@ -73,7 +70,6 @@ function ViewRegistrationsComponent() {
       return;
     }
 
-    // Check if the event is eligible for update (participant count must be 0)
     try {
       const participantResponse = await fetch(
         `https://localhost:9144/EventRegistration/GetParticipantNumbersByPublishId?id=${eventDetails.publishid}`
@@ -86,7 +82,6 @@ function ViewRegistrationsComponent() {
         return;
       }
 
-      // If all validations pass, proceed with the update
       const response = await fetch(`https://localhost:9144/PublishEvent/UpdatePulishedEventDetails`, {
         method: "PUT",
         headers: {
@@ -110,14 +105,47 @@ function ViewRegistrationsComponent() {
         throw new Error("Failed to update event.");
       }
       setErrors({ general: "Event updated successfully!" });
-      setTimeout((e)=>{
+
+      setTimeout(() => {
         setActiveTab("view");
-      },1000);
-      
+      }, 2000);
     } catch (err) {
       console.error("Failed to update event:", err);
       setErrors({ general: "Failed to update event: " + err.message });
     }
+  };
+
+  const handleCancelClick = (publishId) => {
+    setSelectedEventId(publishId);
+    setActiveTab("cancel");
+  };
+
+  const requestAdminForCancellation = () => {
+    if (isCanceling) return; // Prevent multiple requests
+
+    setIsCanceling(true); // Disable button to prevent double click
+    fetch(`https://localhost:9144/PublishEvent/UpdateStatusToBeCancelledByPublishId?eid=${selectedEventId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message: cancellationReason }),
+    })
+      .then((resp) => resp.text())
+      .then((data) => {
+        if (data == "true") {
+          setCancelEventMessage("Request has been successfully sent to the admin for the cancellation");
+          setTimeout(() => {
+            setActiveTab("view");
+            setIsCanceling(false); // Enable button again
+          }, 2000);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setCancelEventMessage("Sending Request Failed :" + err);
+        setIsCanceling(false); // Enable button again if request fails
+      });
   };
 
   return (
@@ -131,51 +159,60 @@ function ViewRegistrationsComponent() {
                 <th>Sr No</th>
                 <th>Event Name</th>
                 <th>City</th>
+                <th>Event Date</th>
+                <th>Total Capacity</th>
+                <th>Participants</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-            {events.map((event, index) => (
-              <tr key={event.id} className="fw-bold">
-                <td>{index + 1}</td>
-                <td>{event.eventname}</td>
-                <td>{event.cityname}</td>
-                <td>
-                  <span
-                    className={`badge ${
-                      event.status === "ACTIVE"
-                        ? "bg-success"
-                        : event.status === "CANCELLED"
-                        ? "bg-danger"
-                        : event.status === "TO_BE_CANCELLED"
-                        ? "bg-warning text-dark"
-                        : event.status === "PROCESSING"
-                        ? "bg-warning"
-                        : "bg-secondary"
-                    }`}
-                  >
-                    {event.status}
-                  </span>
-                </td>
-                <td>
-                  <button
-                    className="btn btn-outline-primary btn-sm me-2"
-                    onClick={() => handleUpdateClick(event.eventid)}
-                  >
-                    Update
-                  </button>
-                  <button
-                    className="btn btn-outline-danger btn-sm"
-                    onClick={() => setActiveTab("cancel")}
-                  >
-                    Cancel
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-
+              {events.map((event, index) => (
+                <tr key={event.id} className="fw-bold">
+                  <td>{index + 1}</td>
+                  <td>{event.eventname}</td>
+                  <td>{event.cityname}</td>
+                  <td>{event.eventdate}</td>
+                  <td>{event.capacity}</td>
+                  <td>{event.participants}</td>
+                  <td>
+                    <span
+                      className={`badge ${
+                        event.status === "ACTIVE"
+                          ? "bg-success"
+                          : event.status === "CANCELLED"
+                          ? "bg-danger"
+                          : event.status === "TO_BE_CANCELLED"
+                          ? "bg-warning text-dark"
+                          : event.status === "PROCESSING"
+                          ? "bg-warning"
+                          : "bg-secondary"
+                      }`}
+                    >
+                      {event.status}
+                    </span>
+                  </td>
+                  <td>
+                    {event.status === "ACTIVE" && (
+                      <button
+                        className="btn btn-outline-primary btn-sm me-2"
+                        onClick={() => handleUpdateClick(event.eventid)}
+                      >
+                        Update
+                      </button>
+                    )}
+                    {(event.status === "ACTIVE" || event.status === "PROCESSING") && (
+                      <button
+                        className="btn btn-outline-danger btn-sm"
+                        onClick={() => handleCancelClick(event.publishid)}
+                      >
+                        Cancel
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
           </table>
         )}
 
@@ -187,27 +224,32 @@ function ViewRegistrationsComponent() {
               <form>
                 <div className="form-group mb-3">
                   <label>Event Name</label>
-                  <input type="text" className="form-control" value={eventDetails.eventname || ''} disabled />
+                  <input type="text" className="form-control" value={eventDetails.eventname || ""} disabled />
                 </div>
                 <div className="form-group mb-3">
                   <label>Price</label>
-                  <input type="text" className="form-control" value={eventDetails.price || ''} disabled />
+                  <input type="text" className="form-control" value={eventDetails.price || ""} disabled />
                 </div>
                 <div className="form-group mb-3">
                   <label>Total Capacity</label>
-                  <input type="number" className="form-control" value={eventDetails.capacity || ''} disabled />
+                  <input type="number" className="form-control" value={eventDetails.capacity || ""} disabled />
                 </div>
                 <div className="form-group mb-3">
                   <label>Date</label>
-                  <input type="date" className="form-control" value={eventDetails.eventdate || ''} disabled />
+                  <input type="date" className="form-control" value={eventDetails.eventdate || ""} disabled />
                 </div>
                 <div className="form-group mb-3">
                   <label>Time</label>
-                  <input type="time" className="form-control" value={eventDetails.eventtime || ''} disabled />
+                  <input type="time" className="form-control" value={eventDetails.eventtime || ""} disabled />
                 </div>
                 <div className="form-group mb-3">
                   <label>Address</label>
-                  <input type="text" className="form-control" value={`${eventDetails.street}, ${eventDetails.cityname}, ${eventDetails.statename}, ${eventDetails.pincode}` || ''} disabled />
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={`${eventDetails.street}, ${eventDetails.cityname}, ${eventDetails.statename}, ${eventDetails.pincode}` || ""}
+                    disabled
+                  />
                 </div>
               </form>
             </div>
@@ -222,7 +264,7 @@ function ViewRegistrationsComponent() {
                     type="text"
                     className="form-control"
                     name="price"
-                    value={updatedEventDetails.price || ''}
+                    value={updatedEventDetails.price || ""}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -232,7 +274,7 @@ function ViewRegistrationsComponent() {
                     type="number"
                     className="form-control"
                     name="capacity"
-                    value={updatedEventDetails.capacity || ''}
+                    value={updatedEventDetails.capacity || ""}
                     onChange={handleInputChange}
                   />
                   {errors.capacity && <div className="text-danger">{errors.capacity}</div>}
@@ -243,7 +285,7 @@ function ViewRegistrationsComponent() {
                     type="date"
                     className="form-control"
                     name="eventdate"
-                    value={updatedEventDetails.eventdate || ''}
+                    value={updatedEventDetails.eventdate || ""}
                     onChange={handleInputChange}
                   />
                   {errors.eventdate && <div className="text-danger">{errors.eventdate}</div>}
@@ -254,7 +296,7 @@ function ViewRegistrationsComponent() {
                     type="time"
                     className="form-control"
                     name="eventtime"
-                    value={updatedEventDetails.eventtime || ''}
+                    value={updatedEventDetails.eventtime || ""}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -264,7 +306,7 @@ function ViewRegistrationsComponent() {
                     type="text"
                     className="form-control"
                     name="street"
-                    value={updatedEventDetails.street || ''}
+                    value={updatedEventDetails.street || ""}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -293,18 +335,34 @@ function ViewRegistrationsComponent() {
             <h3>Cancel Event</h3>
             <form>
               <div className="form-group mb-3">
-                <label>Reason for Cancellation (Optional)</label>
-                <textarea className="form-control" rows="4" placeholder="Enter reason (if any)"></textarea>
+                <label>Reason for Cancellation<span style={{ color: "red" }}>*</span></label>
+                <textarea
+                  className="form-control"
+                  rows="4"
+                  placeholder="Enter Cancellation Reason Here"
+                  required
+                  onChange={(e) => setCancellationReason(e.target.value)}
+                ></textarea>
               </div>
               <div className="form-group mb-3">
                 <input type="checkbox" id="notify" className="form-check-input" />
-                <label htmlFor="notify" className="form-check-label ms-2">Notify Registered Participants</label>
+                <label htmlFor="notify" className="form-check-label ms-2">
+                  Notify Registered Participants
+                </label>
               </div>
-              <button type="button" className="btn btn-danger">Cancel Event</button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={requestAdminForCancellation}
+                disabled={isCanceling} // Disable the button during cancellation request
+              >
+                {isCanceling ? "Requesting..." : "Request Cancellation"}
+              </button>
               <button type="button" className="btn btn-secondary ms-2" onClick={() => setActiveTab("view")}>
                 Back
               </button>
             </form>
+            {cancelEventMessage && <div className="alert alert-info mt-3">{cancelEventMessage}</div>}
           </div>
         )}
       </div>
