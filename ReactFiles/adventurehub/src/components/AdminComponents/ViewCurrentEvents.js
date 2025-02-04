@@ -2,71 +2,69 @@ import React, { useState, useEffect } from "react";
 import { Table, Form, Container, Card } from "react-bootstrap";
 
 function ViewCurrentEvents() {
-  const [cities, setCities] = useState([]); // Store list of cities from API
-  const [selectedCityId, setSelectedCityId] = useState(""); // Store selected city's ID
-  const [events, setEvents] = useState([]); // Store events of selected city
+  const [cities, setCities] = useState([]); 
+  const [selectedCityId, setSelectedCityId] = useState(""); 
+  const [events, setEvents] = useState([]); 
+  const [filteredEvents, setFilteredEvents] = useState([]); 
 
-  // Fetch Cities from API
-  const getCities = async () => {
-    try {
-      const response = await fetch("http://localhost:8142/getAllCities", {
-        method: "GET",
-        headers: {
-          "Accept": "application/json", // Ensure API returns JSON response
-          "Content-Type": "application/json"
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json(); // Parse JSON response
-      setCities(data); // Assuming API returns an array of cities
-    } catch (error) {
-      console.error("Error fetching cities:", error);
-    }
-  };
-
-  // Fetch Events based on selected city ID
-  const getEvents = async (cityId) => {
-    try {
-      const response = await fetch(`https://localhost:7099/Admin/GetPublishedEventsByStatus?status=PROCESSING`, {
-        method: "GET",
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json"
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setEvents(data); // Store fetched events
-    } catch (error) {
-      console.error("Error fetching events:", error);
-    }
-  };
-
-  // Fetch cities on component mount
+  // Fetch all cities from API
   useEffect(() => {
-    getCities();
+    const fetchCities = async () => {
+      try {
+        const response = await fetch("http://localhost:8142/getAllCities");
+        const data = await response.json();
+        console.log("Cities API Response:", data);
+        setCities(data);
+      } catch (error) {
+        console.error("Error fetching cities:", error);
+      }
+    };
+    fetchCities();
   }, []);
 
-  // Handle city selection
+  // Fetch events when a city is selected
+  useEffect(() => {
+    if (!selectedCityId) return;
+
+    const fetchEvents = async () => {
+      try {
+        const response = await fetch(
+          `https://localhost:7099/Admin/GetPublishedEventsThatToBeViewByCityId?id=${selectedCityId}`
+        );
+        const data = await response.json();
+        console.log("Events API Response:", data);
+        setEvents(Array.isArray(data) ? data : []); 
+      } catch (error) {
+        console.error("Error fetching events:", error);
+        setEvents([]); 
+      }
+    };
+
+    fetchEvents();
+  }, [selectedCityId]);
+
+  // Handle city selection and filter events
   const handleCityChange = (event) => {
     const cityId = event.target.value;
     setSelectedCityId(cityId);
-    if (cityId) {
-      getEvents(cityId); // Fetch events when a city is selected
+
+    if (cityId && Array.isArray(events)) {
+      const filtered = events.filter((event) => event.cityname === cityId);
+      setFilteredEvents(filtered);
+    } else {
+      setFilteredEvents([]); // If no city selected or events are empty, reset filtered events
     }
   };
 
   return (
-    <Container className="mt-5 d-flex justify-content-center">
-      <Card style={{ width: "400px", padding: "20px", boxShadow: "0px 4px 10px rgba(0,0,0,0.2)" }}>
+    <Container className="mt-5 d-flex flex-column align-items-center">
+      <Card
+        style={{
+          width: "400px",
+          padding: "20px",
+          boxShadow: "0px 4px 10px rgba(0,0,0,0.2)",
+        }}
+      >
         <Card.Body>
           <h3 className="text-center mb-3">Select City</h3>
           <Form.Group className="mb-3">
@@ -74,17 +72,21 @@ function ViewCurrentEvents() {
             <Form.Select value={selectedCityId} onChange={handleCityChange}>
               <option value="">-- Select a City --</option>
               {cities.map((city) => (
-                <option key={city.cityid} value={city.cityid}>{city.cityname}</option>
+                <option key={city.cityid} value={city.cityid}>
+                  {city.cityname}
+                </option>
               ))}
             </Form.Select>
           </Form.Group>
         </Card.Body>
       </Card>
 
-      {/* Show event list only after city selection */}
       {selectedCityId && (
         <Container className="mt-4">
-          <h2 className="text-center mb-3">Active Events in {cities.find(city => city.cityid=== selectedCityId)?.name}</h2>
+          <h2 className="text-center mb-3">
+            Active Events in{" "}
+            {cities.find((city) => city.cityid === selectedCityId)?.cityname}
+          </h2>
           <Table striped bordered hover>
             <thead>
               <tr>
@@ -97,16 +99,20 @@ function ViewCurrentEvents() {
             <tbody>
               {events.length > 0 ? (
                 events.map((event, index) => (
-                  <tr key={event.id}>
+                  <tr key={event.publishid}>
                     <td>{index + 1}</td>
-                    <td>{event.eventName}</td>
-                    <td>{event.city}</td>
+                    <td>{event.eventname}</td>
+                    <td>
+                      {cities.find((city) => city.cityid === event.city)?.cityname || "Unknown"}
+                    </td>
                     <td>{event.status}</td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="4" className="text-center">No active events found</td>
+                  <td colSpan="4" className="text-center">
+                    No active events found
+                  </td>
                 </tr>
               )}
             </tbody>

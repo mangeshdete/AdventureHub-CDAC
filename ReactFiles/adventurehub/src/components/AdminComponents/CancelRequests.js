@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Table, Button, Container } from "react-bootstrap";
 
 function CancelRequests() {
+  const [stat]=useState("TO_BE_CANCELLED");
   const [events, setEvents] = useState([]); // State to store events
 
   // Fetch "To Be Cancelled" Events from API
   const fetchEvents = async () => {
     try {
-      const response = await fetch("YOUR_API_URL_HERE"); // Replace with actual API
+      const response = await fetch("https://localhost:7099/Admin/GetPublishedEventsThatToBeCancel?status="+stat); // Replace with actual API
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -68,7 +69,7 @@ function CancelRequests() {
               <tr key={event.publishid}>
                 <td>{index + 1}</td>
                 <td>{event.eventname}</td>
-                <td>{event.cityid}</td>
+                <td>{event.cityname}</td>
                 <td>{event.status}</td>
                 <td>
                   <Button variant="danger" onClick={() => cancelEvent(event.publishid)}>

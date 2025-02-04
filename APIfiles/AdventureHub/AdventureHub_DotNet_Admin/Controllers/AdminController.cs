@@ -32,8 +32,20 @@ namespace AdventureHub_DotNet_Admin.Controllers
         {
             if (status == "TO_BE_CANCELLED")
             {
+                // var cr = Db.Cancelrequests.Where(c => c.Publishid == Db.Publishevents.Select(e=> e.Publishid));
+                // var evnts = Db.Publishevents.Select(e => new { e.Publishid, e.Eventid, e.Event.Eventname, e.City.Cityname, e.Status }).Where(e => e.Status == status);
 
-                return Ok(Db.Publishevents.Select(e => new { e.Publishid, e.Eventid, e.Event.Eventname, e.City.Cityname, e.Status }).Where(e => e.Status == status));
+                return Ok(from e in Db.Publishevents
+                          join o in Db.Cancelrequests on e.Publishid equals o.Publishid
+                          select new
+                          {
+                              e.Publishid,
+                              e.Eventid,
+                              e.Event.Eventname,
+                              e.City.Cityname,
+                              e.Status,
+                              o.CancellationReason
+                          });
             }
             return StatusCode(500, "Invalid status");
         }
@@ -41,8 +53,9 @@ namespace AdventureHub_DotNet_Admin.Controllers
         [HttpGet]
         public IActionResult GetPublishedEventsThatToBeViewByCityId([FromQuery] int id)
         {
-            return Ok(Db.Publishevents.Select(e => new { e.Publishid, e.Eventid, e.Event.Eventname, e.City.Cityname, e.Status,e.Cityid }).Where(e => e.Cityid == id));
-            
+            var status = "ACTIVE";
+            return Ok(Db.Publishevents.Select(e => new { e.Publishid, e.Eventid, e.Event.Eventname, e.City.Cityname, e.Status, e.Cityid }).Where(e => e.Cityid == id).Where(e => e.Status == status));
+
         }
     }
 }

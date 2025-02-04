@@ -6,10 +6,10 @@ import "../../styles/CustomerDashboard.css";
 import ViewRegisteredEvents from "./ViewRegisteredEvents";
 import ManageBookings from "./ManageBookings";
 import PaymentHistory from "./PaymentHistory";
-import ProfileManagement from "./ProfileManagement";
 import RefundRequests from "./RefundRequests";
 import SupportHelp from "./SupportHelp";
 import Feedback from "./FeedbackComponent";
+import UpdateProfileComponent from "./UpdateProfile";
 
 function CustomerDashboard() {
   const [selectedView, setSelectedView] = useState("viewRegisteredEvents");
@@ -22,8 +22,8 @@ function CustomerDashboard() {
         return <ManageBookings />;
       case "paymentHistory":
         return <PaymentHistory/>;
-      case "profileManagement":
-        return <ProfileManagement />;
+      case "UpdateProfile":
+        return <UpdateProfileComponent/>;
       case "refundRequests":
         return <RefundRequests />;
       case "supportHelp":
@@ -59,9 +59,9 @@ function CustomerDashboard() {
         </button>
         <button
           className="btn btn-link text-start"
-          onClick={() => setSelectedView("profileManagement")}
+          onClick={() => setSelectedView("UpdateProfile")}
         >
-          Profile Management
+          Update Profile
         </button>
         <button
           className="btn btn-link text-start"
