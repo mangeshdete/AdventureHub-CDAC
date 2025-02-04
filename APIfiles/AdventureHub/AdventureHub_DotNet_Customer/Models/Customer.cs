@@ -19,10 +19,10 @@ namespace AdventureHub_DotNet_Customer.Models
         public string Street { get; set; } = null!;
         public int Cityid { get; set; }
         public string Pincode { get; set; } = null!;
-        public DateOnly Dob { get; set; }
+        public DateOnly? Dob { get; set; }
 
-        public virtual City City { get; set; } = null!;
-        public virtual User User { get; set; } = null!;
+        public virtual City? City { get; set; }
+        public virtual User? User { get; set; }
         public virtual ICollection<Eventregistration> Eventregistrations { get; set; }
         public virtual ICollection<Rating> Ratings { get; set; }
     }
