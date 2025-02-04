@@ -14,8 +14,7 @@ function CancelRequests() {
       const data = await response.json(); // Parse JSON response
 
       // Filter only "To Be Cancelled" events
-      const toBeCancelledEvents = data.filter(event => event.status === "To Be Cancelled");
-      setEvents(toBeCancelledEvents); // Store filtered events in state
+      setEvents(data);
     } catch (error) {
       console.error("Error fetching events:", error);
     }
@@ -37,7 +36,7 @@ function CancelRequests() {
       }
 
       // Remove the event from state after successful deletion
-      setEvents(prevEvents => prevEvents.filter(event => event.id !== eventId));
+      setEvents(prevEvents => prevEvents.filter(event => event.publishid !== eventId));
 
       console.log(`Event ID ${eventId} has been cancelled`);
     } catch (error) {
@@ -66,13 +65,13 @@ function CancelRequests() {
         <tbody>
           {events.length > 0 ? (
             events.map((event, index) => (
-              <tr key={event.id}>
+              <tr key={event.publishid}>
                 <td>{index + 1}</td>
-                <td>{event.eventName}</td>
-                <td>{event.city}</td>
+                <td>{event.eventname}</td>
+                <td>{event.cityid}</td>
                 <td>{event.status}</td>
                 <td>
-                  <Button variant="danger" onClick={() => cancelEvent(event.id)}>
+                  <Button variant="danger" onClick={() => cancelEvent(event.publishid)}>
                     Cancel
                   </Button>
                 </td>

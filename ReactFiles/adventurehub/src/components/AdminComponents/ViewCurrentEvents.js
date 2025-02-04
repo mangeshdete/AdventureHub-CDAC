@@ -31,7 +31,7 @@ function ViewCurrentEvents() {
   // Fetch Events based on selected city ID
   const getEvents = async (cityId) => {
     try {
-      const response = await fetch(`YOUR_GET_EVENTS_API_URL?cityId=${cityId}`, {
+      const response = await fetch(`https://localhost:7099/Admin/GetPublishedEventsByStatus?status=PROCESSING`, {
         method: "GET",
         headers: {
           "Accept": "application/json",

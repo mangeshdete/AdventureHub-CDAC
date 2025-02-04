@@ -7,15 +7,13 @@ function UpdateRequests() {
   // Fetch "In Process" Events from API
   const fetchEvents = async () => {
     try {
-      const response = await fetch("YOUR_API_URL_HERE"); // Replace with actual API
+      const response = await fetch("https://localhost:7099/Admin/GetPublishedEventsByStatus?status=PROCESSING"); // Replace with actual API
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json(); // Parse JSON response
-
-      // Filter only "In Process" events
-      const inProcessEvents = data.filter(event => event.status === "In Process");
-      setEvents(inProcessEvents); // Store filtered events in state
+    
+      setEvents(data);
     } catch (error) {
       console.error("Error fetching events:", error);
     }
@@ -67,22 +65,22 @@ function UpdateRequests() {
         <tbody>
           {events.length > 0 ? (
             events.map((event, index) => (
-              <tr key={event.id}>
+              <tr key={event.publishid}>
                 <td>{index + 1}</td>
-                <td>{event.eventName}</td>
-                <td>{event.city}</td>
+                <td>{event.eventname}</td>
+                <td>{event.cityname}</td>
                 <td>{event.status}</td>
                 <td>
                   <Button
                     variant="success"
                     className="me-2"
-                    onClick={() => updateEventStatus(event.id, "Approved")}
+                    onClick={() => updateEventStatus(event.publishid, "Approved")}
                   >
                     Allow
                   </Button>
                   <Button
                     variant="danger"
-                    onClick={() => updateEventStatus(event.id, "Rejected")}
+                    onClick={() => updateEventStatus(event.publishid, "Rejected")}
                   >
                     Reject
                   </Button>
