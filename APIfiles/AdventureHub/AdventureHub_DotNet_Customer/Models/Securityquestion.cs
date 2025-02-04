@@ -11,7 +11,7 @@ namespace AdventureHub_DotNet_Customer.Models
         }
 
         public int Qid { get; set; }
-        public string Question { get; set; } = null!;
+        public string? Question { get; set; } 
 
         public virtual ICollection<User> Users { get; set; }
     }

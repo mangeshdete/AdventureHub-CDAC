@@ -119,7 +119,6 @@ namespace AdventureHub.Controllers
             Db.Cancelrequests.Add(new Cancelrequest() { Publishid = eid, FromStatus= "TO_BE_CANCELLED", ToStatus=null, CancellationReason=msg.message});
             try
             {
-                Db.Cancelrequests.Add(new Cancelrequest() { Publishid = eid, FromStatus = "TO_BE_CANCELLED", ToStatus = null, CancellationReason = msg.message });
                 Db.SaveChanges();
                 return Ok(true);
             }

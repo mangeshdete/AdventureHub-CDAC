@@ -13,10 +13,10 @@ namespace AdventureHub_DotNet_Customer.Models
         }
 
         public int Cityid { get; set; }
-        public string Cityname { get; set; } = null!;
+        public string? Cityname { get; set; }
         public int Stateid { get; set; }
 
-        public virtual State State { get; set; } = null!;
+        public virtual State? State { get; set; }
         public virtual ICollection<Customer> Customers { get; set; }
         public virtual ICollection<Organiser> Organisers { get; set; }
         public virtual ICollection<Publishevent> Publishevents { get; set; }

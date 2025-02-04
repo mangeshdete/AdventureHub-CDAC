@@ -11,7 +11,7 @@ namespace AdventureHub_DotNet_Customer.Models
         }
 
         public int Roleid { get; set; }
-        public string Rolename { get; set; } = null!;
+        public string? Rolename { get; set; }
 
         public virtual ICollection<User> Users { get; set; }
     }
