@@ -51,6 +51,7 @@ function ViewRegisteredEvents() {
               <th className="p-3 fs-5">Event Name</th>
               <th className="p-3 fs-5">Date & Time</th>
               <th className="p-3 fs-5">Location</th>
+              <th className="p-3 fs-5">Status</th>
               <th className="p-3 fs-5">Action</th>
             </tr>
           </thead>
@@ -60,6 +61,21 @@ function ViewRegisteredEvents() {
                 <tr className="align-middle">
                   <td className="p-4 fw-bold text-primary">{event.eventname}</td>
                   <td className="p-4">{event.eventdate}, {event.eventtime}</td>
+                  <td className="p-4"><span
+                      className={`badge ${
+                        event.status === "ACTIVE"
+                          ? "bg-success"
+                          : event.status === "CANCELLED"
+                          ? "bg-danger"
+                          : event.status === "TO_BE_CANCELLED"
+                          ? "bg-warning text-dark"
+                          : event.status === "PROCESSING"
+                          ? "bg-warning"
+                          : "bg-secondary"
+                      }`}
+                    >
+                      {event.status}
+                    </span></td>
                   <td className="p-4">{event.cityname}</td>
                   <td className="p-4">
                     <button

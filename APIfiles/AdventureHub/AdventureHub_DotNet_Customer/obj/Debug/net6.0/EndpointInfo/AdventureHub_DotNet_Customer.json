@@ -48,7 +48,105 @@
           }
         }
       }
+    },
+    "/EventRegistration/CancelEventRegistrationByRegistrationId": {
+      "put": {
+        "tags": [
+          "EventRegistration"
+        ],
+        "parameters": [
+          {
+            "name": "rid",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelRequestMessageHelper"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelRequestMessageHelper"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelRequestMessageHelper"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/EventRegistration/GetAllRefundRequestsByCustomerId": {
+      "get": {
+        "tags": [
+          "EventRegistration"
+        ],
+        "parameters": [
+          {
+            "name": "cid",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Payment/getPaymentHistoryByCustId": {
+      "get": {
+        "tags": [
+          "Payment"
+        ],
+        "parameters": [
+          {
+            "name": "cid",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
     }
   },
-  "components": { }
+  "components": {
+    "schemas": {
+      "CancelRequestMessageHelper": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
 }

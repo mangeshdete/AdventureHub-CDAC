@@ -8,10 +8,10 @@ namespace AdventureHub.Controllers
     [Route("/[Controller]/[Action]")]
     public class OrganiserController : Controller
     {
-        public readonly MyDbContext Db;
+        public readonly p14_adventurehubContext Db;
         public OrganiserController() 
         {
-            Db = new MyDbContext();
+            Db = new p14_adventurehubContext();
         }
 
         [HttpGet]
