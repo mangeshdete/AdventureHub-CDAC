@@ -202,4 +202,17 @@ body:hover {
     width: 90%;
     margin: 0 auto;
   }
+  .feature-card img {
+    width: 100%;
+    height: auto;
+    max-width: 300px; /* Adjust the max width */
+    object-fit: cover;
+  }
+
+  .feature-card:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+  }
+  
+  
 }
