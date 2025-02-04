@@ -14,6 +14,8 @@ namespace AdventureHub.Models
         public int Custid { get; set; }
         public int Publishid { get; set; }
         public int Participants { get; set; }
+        public string Status { get; set; } = null!;
+        public string? Cancellationreason { get; set; }
 
         public virtual Customer Cust { get; set; } = null!;
         public virtual Publishevent Publish { get; set; } = null!;

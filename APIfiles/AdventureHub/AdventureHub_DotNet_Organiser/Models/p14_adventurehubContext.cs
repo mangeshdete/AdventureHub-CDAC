@@ -193,11 +193,20 @@ namespace AdventureHub.Models
 
                 entity.Property(e => e.Registrationid).HasColumnName("registrationid");
 
+                entity.Property(e => e.Cancellationreason)
+                    .HasColumnType("text")
+                    .HasColumnName("cancellationreason");
+
                 entity.Property(e => e.Custid).HasColumnName("custid");
 
                 entity.Property(e => e.Participants).HasColumnName("participants");
 
                 entity.Property(e => e.Publishid).HasColumnName("publishid");
+
+                entity.Property(e => e.Status)
+                    .HasColumnType("enum('ACTIVE','CANCELLED')")
+                    .HasColumnName("status")
+                    .HasDefaultValueSql("'ACTIVE'");
 
                 entity.HasOne(d => d.Cust)
                     .WithMany(p => p.Eventregistrations)

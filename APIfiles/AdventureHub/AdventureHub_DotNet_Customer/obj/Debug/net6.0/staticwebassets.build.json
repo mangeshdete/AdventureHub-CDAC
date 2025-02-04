@@ -1,11 +1,12 @@
 {
   "Version": 1,
-  "Hash": "duns8rULdcRFGLbUXQtm+v1yeNaLoY3DwcCf1VhbKGk=",
+  "Hash": "nQp47hV2DzQg8s2BgpDLp91TZXzKFeoUFP6nnhJqWMY=",
   "Source": "AdventureHub_DotNet_Customer",
   "BasePath": "_content/AdventureHub_DotNet_Customer",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": []
+  "Assets": [],
+  "Endpoints": []
 }
