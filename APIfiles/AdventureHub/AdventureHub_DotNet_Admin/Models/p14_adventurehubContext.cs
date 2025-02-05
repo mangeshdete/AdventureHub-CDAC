@@ -37,7 +37,7 @@ namespace AdventureHub_DotNet_Admin.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseMySql("server=localhost;port=3306;user=root;password=Tej@s2002;database=p14_adventurehub", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.31-mysql"));
+                optionsBuilder.UseMySql("server=localhost;port=3306;user=root;password=0000;database=p14_adventurehub", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.2.0-mysql"));
             }
         }
 
@@ -193,11 +193,20 @@ namespace AdventureHub_DotNet_Admin.Models
 
                 entity.Property(e => e.Registrationid).HasColumnName("registrationid");
 
+                entity.Property(e => e.Cancellationreason)
+                    .HasColumnType("text")
+                    .HasColumnName("cancellationreason");
+
                 entity.Property(e => e.Custid).HasColumnName("custid");
 
                 entity.Property(e => e.Participants).HasColumnName("participants");
 
                 entity.Property(e => e.Publishid).HasColumnName("publishid");
+
+                entity.Property(e => e.Status)
+                    .HasColumnType("enum('ACTIVE','CANCELLED')")
+                    .HasColumnName("status")
+                    .HasDefaultValueSql("'ACTIVE'");
 
                 entity.HasOne(d => d.Cust)
                     .WithMany(p => p.Eventregistrations)

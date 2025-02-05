@@ -7,10 +7,10 @@ namespace AdventureHub.Controllers
     [Route("/[Controller]/[Action]")]
     public class EventController : Controller
     {
-        private static readonly MyDbContext Db;
+        private static readonly p14_adventurehubContext Db;
         static EventController()
         {
-            Db= new MyDbContext();
+            Db= new p14_adventurehubContext();
         }
         [HttpGet]
         public IActionResult GetAllEventsFromCategoryId([FromQuery]int catId)
