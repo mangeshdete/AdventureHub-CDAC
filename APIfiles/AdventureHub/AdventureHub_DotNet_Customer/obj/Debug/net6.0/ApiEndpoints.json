@@ -1,6 +1,43 @@
 [
   {
     "ContainingType": "AdventureHub_DotNet_Customer.Controllers.EventRegistrationController",
+    "Method": "CancelEventRegistrationByRegistrationId",
+    "RelativePath": "EventRegistration/CancelEventRegistrationByRegistrationId",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "rid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "message",
+        "Type": "AdventureHub.Models.CancelRequestMessageHelper",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub_DotNet_Customer.Controllers.EventRegistrationController",
+    "Method": "GetAllRefundRequestsByCustomerId",
+    "RelativePath": "EventRegistration/GetAllRefundRequestsByCustomerId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub_DotNet_Customer.Controllers.EventRegistrationController",
     "Method": "getCustomerById",
     "RelativePath": "EventRegistration/getCustomerById",
     "HttpMethod": "GET",
@@ -59,6 +96,22 @@
         "Name": "updated",
         "Type": "AdventureHub_DotNet_Customer.Models.Customer",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub_DotNet_Customer.Controllers.PaymentController",
+    "Method": "getPaymentHistoryByCustId",
+    "RelativePath": "Payment/getPaymentHistoryByCustId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cid",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

@@ -8,6 +8,7 @@ import img5 from "../resources/Rock_Climbing.jpg";
 import img6 from "../resources/Alpine_Skiing_Adventure.jpg";
 import img7 from "../resources/Lake_View_Sightseeing_Tour.jpg";
 import img8 from "../resources/Himalayan_Hiking_Trails.jpg";
+import ExploreEvents from "./ExploreEvents";
 
 function HomePage() {
   return (
@@ -25,9 +26,10 @@ function HomePage() {
           <button className="search-button">Search</button>
         </div>
       </div>
-
+      
       {/* Features Section */}
       <div className="features-section">
+      <ExploreEvents/>
         <h2 className="features-title">Featured Adventures</h2>
         <div className="feature-cards">
           <div className="feature-card">
@@ -77,3 +79,5 @@ function HomePage() {
 }
 
 export default HomePage;
+
+

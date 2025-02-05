@@ -6,7 +6,7 @@ import { FaList, FaEdit, FaMoneyBill, FaUser , FaRegMoneyBillAlt, FaQuestionCirc
 import ViewRegisteredEvents from "./ViewRegisteredEvents";
 import ManageBookings from "./ManageBookings";
 import PaymentHistory from "./PaymentHistory";
-import ProfileManagement from "./ProfileManagement";
+import UpdateProfileComponent from "./UpdateProfile";
 import RefundRequests from "./RefundRequests";
 import SupportHelp from "./SupportHelp";
 import Feedback from "./FeedbackComponent";
@@ -22,8 +22,8 @@ function CustomerDashboard() {
         return <ManageBookings />;
       case "paymentHistory":
         return <PaymentHistory />;
-      case "profileManagement":
-        return <ProfileManagement />;
+      case "UpdateProfile":
+        return <UpdateProfileComponent />;
       case "refundRequests":
         return <RefundRequests />;
       case "supportHelp":
@@ -60,8 +60,8 @@ function CustomerDashboard() {
             <FaMoneyBill className="icon" /> Payment History
           </button>
           <button
-            className={`nav-button ${selectedView === "profileManagement" ? "active" : ""}`}
-            onClick={() => setSelectedView("profileManagement")}
+            className={`nav-button ${selectedView === "UpdateProfile" ? "active" : ""}`}
+            onClick={() => setSelectedView("UpdateProfile")}
           >
             <FaUser  className="icon" /> Profile Management
           </button>
