@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import { useNavigate } from 'react-router';
-import '../../styles/RegistrationForms.css';
+import '../../styles/CustomerStyles/RegistrationForms.css';
 
 const initialState = {
   formData: {
@@ -35,7 +35,6 @@ const regexPatterns = {
   street: /^[A-Za-z0-9\s,'-]{3,}$/, // At least 3 chars, allows letters, numbers, spaces, and common punctuation
   pincode: /^\d{6}$/, // Exactly 6 digits
   securityqans: /^[A-Za-z0-9\s]{3,}$/, // At least 3 chars, allows letters, numbers, and spaces
-
 };
 
 function reducer(state, action) {
@@ -56,15 +55,6 @@ export default function CustomerRegisterPage() {
   const [securityQuestions, setSecurityQuestions] = useState([]);
   const [cities, setCities] = useState([]);
   const [formErrors, setFormErrors] = useState({});
-  // const [dateofBirth]=useState({
-  //   formData: {
-  //     dob: "",
-  //   },
-  //   formErrors: {
-  //     dob: "",
-  //   },
-  //});
-
   const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -84,17 +74,12 @@ export default function CustomerRegisterPage() {
   // Handle input changes and update form data
   const handleChange = (e) => {
     const { id, value, name } = e.target;
-  
+
     // Handle date of birth validation
     if (name === 'dob') {
-      // Get today's date
       const today = new Date();
       today.setHours(0, 0, 0, 0); // Remove time part for accurate comparison
-  
-      // Parse the entered date
       const enteredDate = new Date(value);
-  
-      // Check if the entered date is ahead of today
       if (enteredDate > today) {
         setFormErrors((prevErrors) => ({
           ...prevErrors,
@@ -102,17 +87,15 @@ export default function CustomerRegisterPage() {
         }));
         return; // Stop further processing
       }
-  
-      // Clear the error if the date is valid
       setFormErrors((prevErrors) => ({
         ...prevErrors,
         dob: "",
       }));
     }
-  
+
     // Update the main form data
     dispatch({ type: 'UPDATE_FORM_DATA', payload: { id, value } });
-  
+
     // Fetch cities if the state is changed
     if (id === 'stateid') {
       fetch("http://localhost:8142/getCitiesByStateId?stateId=" + value)
@@ -125,43 +108,37 @@ export default function CustomerRegisterPage() {
     }
   };
 
-  const [userExists,setUserExists]=useState(false);
+  const [userExists, setUserExists] = useState(false);
   const handleBlurOfEmail = (e) => {
     const { value } = e.target;
-    fetch("http://localhost:8142/getUserByEmailId?email=" + value)
-      .then((response) => response.json()) // Parse the response as JSON
+    fetch("http://localhost:8142/getUser ByEmailId?email=" + value)
+      .then((response 
+) => response.json())
       .then((data) => {
-        if (data === true) { // Check if the response is true
+        if (data === true) {
           setError("User  with this email already exists");
           setUserExists(true);
         } else {
-          setError(""); // Clear the error if the user does not exist
+          setError("");
           setUserExists(false);
         }
       })
       .catch((err) => {
         console.error("Error checking email:", err);
-       // setError("Error checking email availability");
       });
   };
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
-  
-    // Validate form data before submitting
     const errors = validateForm(state.formData);
     
     if (Object.keys(errors).length > 0) {
-      // If there are validation errors, show the errors and do not proceed
       setFormErrors(errors);
-      return; // Stop further execution
+      return;
     }
-  
-    // Clear previous errors if form is valid
+    
     setFormErrors({});
-  
     const formData = { ...state.formData };
-  
     const newCustDetails = {
       user: {
         email: formData.email,
@@ -194,7 +171,6 @@ export default function CustomerRegisterPage() {
     };
     
     console.log(newCustDetails);
-    // Proceed with the API call if there are no validation errors
     fetch("http://localhost:8142/registerNewCustomer", {
       method: "POST",
       headers: {
@@ -202,10 +178,8 @@ export default function CustomerRegisterPage() {
       },
       body: JSON.stringify(newCustDetails)
     })
-      .then((response) => response.json()
-      )
+      .then((response) => response.json())
       .then((data) => {
-        
         console.log('Customer registered successfully:', data);
         navigate("/");
       })
@@ -214,48 +188,37 @@ export default function CustomerRegisterPage() {
         setError("Error Registering you");
       });
   };
-  
-  //formvalidation
+
   const validateForm = (formData) => {
     const errors = {};
-  
     if (!regexPatterns.email.test(formData.email)) {
       errors.email = "Please enter a valid email address.";
     }
-  
     if (!regexPatterns.password.test(formData.password)) {
-      errors.password =
-        "Password must be at least 8 characters long and contain at least one letter and one number.";
+      errors.password = "Password must be at least 8 characters long and contain at least one letter and one number.";
     }
-  
     if (!regexPatterns.contact.test(formData.contact)) {
       errors.contact = "Please enter a valid 10-digit contact number.";
     }
-  
     if (!regexPatterns.fname.test(formData.fname)) {
       errors.fname = "First name must be at least 2 letters long.";
     }
-  
     if (!regexPatterns.lname.test(formData.lname)) {
       errors.lname = "Last name must be at least 2 letters long.";
     }
-  
     if (!regexPatterns.aadhaar.test(formData.aadhaar)) {
       errors.aadhaar = "Aadhaar number must be exactly 12 digits.";
     }
-  
     if (!regexPatterns.street.test(formData.street)) {
       errors.street = "Street address must be at least 3 characters long.";
     }
-  
     if (!regexPatterns.pincode.test(formData.pincode)) {
       errors.pincode = "Pincode must be exactly 6 digits.";
     }
-  
     if (!regexPatterns.securityqans.test(formData.securityqans)) {
       errors.securityqans = "Security answer must be at least 3 characters long.";
     }
-    setFormErrors(errors); // Set the errors in state
+    setFormErrors(errors);
     return errors;
   };
 
@@ -265,7 +228,6 @@ export default function CustomerRegisterPage() {
         <h1>Customer Registration</h1>
         <form onSubmit={handleSubmit}>
           {error && <p className="text-danger">{error}</p>}
-
           <div className="mb-3">
             <label>Email</label>
             <input
@@ -278,7 +240,6 @@ export default function CustomerRegisterPage() {
             />
             {formErrors.email && <p className="text-danger">{formErrors.email}</p>}
           </div>
-
           <div className="mb-3">
             <label>Password</label>
             <input
@@ -290,7 +251,6 @@ export default function CustomerRegisterPage() {
             />
             {formErrors.password && <p className="text-danger">{formErrors.password}</p>}
           </div>
-
           <div className="mb-3">
             <label>Contact Number</label>
             <input
@@ -302,7 +262,6 @@ export default function CustomerRegisterPage() {
             />
             {formErrors.contact && <p className="text-danger">{formErrors.contact}</p>}
           </div>
-
           <div className="mb-3">
             <label>First Name</label>
             <input
@@ -314,7 +273,6 @@ export default function CustomerRegisterPage() {
             />
             {formErrors.fname && <p className="text-danger">{formErrors.fname}</p>}
           </div>
-
           <div className="mb-3">
             <label>Last Name</label>
             <input
@@ -326,7 +284,6 @@ export default function CustomerRegisterPage() {
             />
             {formErrors.lname && <p className="text-danger">{formErrors.lname}</p>}
           </div>
-
           <div className="mb-3">
             <label>Date Of Birth</label>
             <input
@@ -337,11 +294,8 @@ export default function CustomerRegisterPage() {
               value={state.formData.dob}
               onChange={handleChange}
             />
-            {formErrors.dob && (
-            <p className="text-danger">{formErrors.dob}</p>
-            )}
+            {formErrors.dob && <p className="text-danger">{formErrors.dob}</p>}
           </div>
-
           <div className="mb-3">
             <label>Aadhaar</label>
             <input
@@ -351,9 +305,8 @@ export default function CustomerRegisterPage() {
               value={state.formData.aadhaar}
               onChange={handleChange}
             />
-            {formErrors.contact && <p className="text-danger">{formErrors.aadhaar}</p>}
+            {formErrors.aadhaar && <p className="text-danger">{formErrors.aadhaar}</p>}
           </div>
-
           <div className="mb-3">
             <label>Street</label>
             <input
@@ -363,9 +316,8 @@ export default function CustomerRegisterPage() {
               value={state.formData.street}
               onChange={handleChange}
             />
-            {formErrors.contact && <p className="text-danger">{formErrors.street}</p>}
+            {formErrors.street && <p className="text-danger">{formErrors.street}</p>}
           </div>
-
           <div className="mb-3">
             <label>State</label>
             <select
@@ -382,7 +334,6 @@ export default function CustomerRegisterPage() {
               ))}
             </select>
           </div>
-
           <div className="mb-3">
             <label>City</label>
             <select
@@ -399,7 +350,6 @@ export default function CustomerRegisterPage() {
               ))}
             </select>
           </div>
-
           <div className="mb-3">
             <label>Pincode</label>
             <input
@@ -409,9 +359,8 @@ export default function CustomerRegisterPage() {
               value={state.formData.pincode}
               onChange={handleChange}
             />
-            {formErrors.contact && <p className="text-danger">{formErrors.pincode}</p>}
+            {formErrors.pincode && <p className="text-danger">{formErrors.pincode}</p>}
           </div>
-
           <div className="mb-3">
             <label>Security Question</label>
             <select
@@ -428,7 +377,6 @@ export default function CustomerRegisterPage() {
               ))}
             </select>
           </div>
-
           <div className="mb-3">
             <label>Security Answer</label>
             <input
@@ -438,10 +386,9 @@ export default function CustomerRegisterPage() {
               value={state.formData.securityqans}
               onChange={handleChange}
             />
-            {formErrors.contact && <p className="text-danger">{formErrors.securityqans}</p>}
+            {formErrors.securityqans && <p className="text-danger">{formErrors.securityqans}</p>}
           </div>
-
-          <button type="submit" className="btn btn-primary" disabled={userExists?true:false}>
+          <button type="submit" className="btn btn-primary" disabled={userExists ? true : false}>
             Register
           </button>
         </form>

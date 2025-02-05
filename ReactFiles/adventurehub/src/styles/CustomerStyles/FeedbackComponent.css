@@ -1,0 +1,69 @@
+/* FeedbackComponent.css */
+/* General Layout */
+.feedback-container {
+    padding: 60px 30px;
+    /* Increased padding for more space inside the container */
+    background-color: #ffffff;
+    /* White background for a clean look */
+    border-radius: 10px;
+    /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+    width: 80%;
+    /* Set a width to make it larger */
+    max-width: 800px;
+    /* Maximum width to prevent it from getting too large on wide screens */
+    margin: 20px auto;
+    /* Center the container with margin */
+    height: auto;
+    /* Allow height to adjust based on content */
+    border: 2px solid #080808;
+}
+
+.feedback-title {
+    font-size: 2.2rem;
+        font-weight: 700;
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 40px;
+        animation: slideInFromTop 0.7s ease-out forwards;
+}
+
+/* Form Styling */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.form-control {
+    border-radius: 8px;
+}
+
+/* Button Styling */
+.btn-primary {
+    background-color: #007bff;
+    /* Updated color */
+    border-color: #007bff;
+    /* Updated border color */
+    color: white;
+    /* Text color */
+}
+
+/* Fade In Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.feedback-title,
+.feedback-container {
+    animation: fadeIn 1s ease-in-out;
+}

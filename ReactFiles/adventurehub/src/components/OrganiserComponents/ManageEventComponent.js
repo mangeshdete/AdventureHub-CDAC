@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector } from "react-redux";
+import "../../styles/OrganiserStyles/ManageEventComponent.css";
 
-function ViewRegistrationsComponent() {
+function ManageEventComponent() {
   const [activeTab, setActiveTab] = useState("view");
   const [events, setEvents] = useState([]);
   const [selectedEventId, setSelectedEventId] = useState(0);
   const [eventDetails, setEventDetails] = useState({});
   const [updatedEventDetails, setUpdatedEventDetails] = useState({});
-  const [errors, setErrors] = useState({}); // To store validation errors
+  const [errors, setErrors] = useState({});
   const [cancellationReason, setCancellationReason] = useState(null);
   const [cancelEventMessage, setCancelEventMessage] = useState(null);
-  const [isCanceling, setIsCanceling] = useState(false); // To handle button disable after click
+  const [isCanceling, setIsCanceling] = useState(false);
 
   const organiser = useSelector((state) => state.user?.user);
 
@@ -116,14 +117,14 @@ function ViewRegistrationsComponent() {
   };
 
   const handleCancelClick = (publishId) => {
-    setSelectedEventId(publishId);
+ setSelectedEventId(publishId);
     setActiveTab("cancel");
   };
 
   const requestAdminForCancellation = () => {
-    if (isCanceling) return; // Prevent multiple requests
+    if (isCanceling) return;
 
-    setIsCanceling(true); // Disable button to prevent double click
+    setIsCanceling(true);
     fetch(`https://localhost:9144/PublishEvent/UpdateStatusToBeCancelledByPublishId?eid=${selectedEventId}`, {
       method: "PUT",
       headers: {
@@ -133,28 +134,28 @@ function ViewRegistrationsComponent() {
     })
       .then((resp) => resp.text())
       .then((data) => {
-        if (data == "true") {
+        if (data === "true") {
           setCancelEventMessage("Request has been successfully sent to the admin for the cancellation");
           setTimeout(() => {
             setActiveTab("view");
-            setIsCanceling(false); // Enable button again
+            setIsCanceling(false);
           }, 2000);
         }
       })
       .catch((err) => {
         console.log(err);
         setCancelEventMessage("Sending Request Failed :" + err);
-        setIsCanceling(false); // Enable button again if request fails
+        setIsCanceling(false);
       });
   };
 
   return (
-    <div className="container-fluid d-flex flex-column align-items-center vh-100 bg-light p-4">
-      <h3 className="mb-4">Manage Events</h3>
-      <div className="w-75">
+    <div className="manage-events-container">
+      <h3 className="manage-events-title">Manage Events</h3>
+      <div className="manage-events-content">
         {activeTab === "view" && (
-          <table className="table table-hover table-bordered text-center align-middle">
-            <thead className="table-primary">
+          <table className="manage-events-table">
+            <thead className="table-header">
               <tr>
                 <th>Sr No</th>
                 <th>Event Name</th>
@@ -168,7 +169,7 @@ function ViewRegistrationsComponent() {
             </thead>
             <tbody>
               {events.map((event, index) => (
-                <tr key={event.id} className="fw-bold">
+                <tr key={event.id} className="event-row">
                   <td>{index + 1}</td>
                   <td>{event.eventname}</td>
                   <td>{event.cityname}</td>
@@ -176,36 +177,18 @@ function ViewRegistrationsComponent() {
                   <td>{event.capacity}</td>
                   <td>{event.participants}</td>
                   <td>
-                    <span
-                      className={`badge ${
-                        event.status === "ACTIVE"
-                          ? "bg-success"
-                          : event.status === "CANCELLED"
-                          ? "bg-danger"
-                          : event.status === "TO_BE_CANCELLED"
-                          ? "bg-warning text-dark"
-                          : event.status === "PROCESSING"
-                          ? "bg-warning"
-                          : "bg-secondary"
-                      }`}
-                    >
+                    <span className={`badge ${event.status === "ACTIVE" ? "badge-success" : event.status === "CANCELLED" ? "badge-danger" : event.status === "TO_BE_CANCELLED" ? "badge-warning" : event.status === "PROCESSING" ? "badge-warning" : "badge-secondary"}`}>
                       {event.status}
                     </span>
                   </td>
                   <td>
                     {event.status === "ACTIVE" && (
-                      <button
-                        className="btn btn-outline-primary btn-sm me-2"
-                        onClick={() => handleUpdateClick(event.eventid)}
-                      >
+                      <button className="btn btn-outline-primary btn-sm me-2" onClick={() => handleUpdateClick(event.eventid)}>
                         Update
                       </button>
                     )}
                     {(event.status === "ACTIVE" || event.status === "PROCESSING") && (
-                      <button
-                        className="btn btn-outline-danger btn-sm"
-                        onClick={() => handleCancelClick(event.publishid)}
-                      >
+                      <button className="btn btn-outline-danger btn-sm" onClick={() => handleCancelClick(event.publishid)}>
                         Cancel
                       </button>
                     )}
@@ -217,32 +200,31 @@ function ViewRegistrationsComponent() {
         )}
 
         {activeTab === "update" && eventDetails && (
-          <div className="row">
-            {/* Left Side: Original Data (Disabled Form) */}
-            <div className="col-md-6">
-              <h3 style={{ color: "black" }}>Original Event Details</h3>
+          <div className="update-event-container">
+            <div className="original-event-details">
+              <h3>Original Event Details</h3>
               <form>
-                <div className="form-group mb-3">
+                <div className="form-group">
                   <label>Event Name</label>
                   <input type="text" className="form-control" value={eventDetails.eventname || ""} disabled />
                 </div>
-                <div className="form-group mb-3">
+                <div className="form-group">
                   <label>Price</label>
                   <input type="text" className="form-control" value={eventDetails.price || ""} disabled />
                 </div>
-                <div className="form-group mb-3">
+                <div className="form-group">
                   <label>Total Capacity</label>
                   <input type="number" className="form-control" value={eventDetails.capacity || ""} disabled />
                 </div>
-                <div className="form-group mb-3">
+                <div className="form-group">
                   <label>Date</label>
                   <input type="date" className="form-control" value={eventDetails.eventdate || ""} disabled />
                 </div>
-                <div className="form-group mb-3">
+                <div className="form-group">
                   <label>Time</label>
                   <input type="time" className="form-control" value={eventDetails.eventtime || ""} disabled />
                 </div>
-                <div className="form-group mb-3">
+                <div className="form-group">
                   <label>Address</label>
                   <input
                     type="text"
@@ -254,11 +236,10 @@ function ViewRegistrationsComponent() {
               </form>
             </div>
 
-            {/* Right Side: Editable Fields for Updating Data */}
-            <div className="col-md-6">
-              <h3 style={{ color: "black" }}>Update Event Details</h3>
+            <div className="update-event-details">
+              <h3> Update Event Details</h3>
               <form onSubmit={handleSubmit}>
-                <div className="form-group mb-3">
+                <div className="form-group">
                   <label>New Price</label>
                   <input
                     type="text"
@@ -268,7 +249,7 @@ function ViewRegistrationsComponent() {
                     onChange={handleInputChange}
                   />
                 </div>
-                <div className="form-group mb-3">
+                <div className="form-group">
                   <label>New Total Capacity</label>
                   <input
                     type="number"
@@ -279,7 +260,7 @@ function ViewRegistrationsComponent() {
                   />
                   {errors.capacity && <div className="text-danger">{errors.capacity}</div>}
                 </div>
-                <div className="form-group mb-3">
+                <div className="form-group">
                   <label>New Date</label>
                   <input
                     type="date"
@@ -290,7 +271,7 @@ function ViewRegistrationsComponent() {
                   />
                   {errors.eventdate && <div className="text-danger">{errors.eventdate}</div>}
                 </div>
-                <div className="form-group mb-3">
+                <div className="form-group">
                   <label>New Time</label>
                   <input
                     type="time"
@@ -300,7 +281,7 @@ function ViewRegistrationsComponent() {
                     onChange={handleInputChange}
                   />
                 </div>
-                <div className="form-group mb-3">
+                <div className="form-group">
                   <label>New Street</label>
                   <input
                     type="text"
@@ -311,14 +292,12 @@ function ViewRegistrationsComponent() {
                   />
                 </div>
 
-                {/* General error or success message */}
                 {errors.general && (
                   <div className={`alert ${errors.general.includes("success") ? "alert-success" : "alert-danger"}`}>
                     {errors.general}
                   </div>
                 )}
 
-                {/* Submit and Cancel Buttons */}
                 <button type="submit" className="btn btn-success me-2">
                   Update Event
                 </button>
@@ -331,10 +310,10 @@ function ViewRegistrationsComponent() {
         )}
 
         {activeTab === "cancel" && (
-          <div>
+          <div className="cancel-event-container">
             <h3>Cancel Event</h3>
             <form>
-              <div className="form-group mb-3">
+              <div className="form-group">
                 <label>Reason for Cancellation<span style={{ color: "red" }}>*</span></label>
                 <textarea
                   className="form-control"
@@ -344,7 +323,7 @@ function ViewRegistrationsComponent() {
                   onChange={(e) => setCancellationReason(e.target.value)}
                 ></textarea>
               </div>
-              <div className="form-group mb-3">
+              <div className="form-group">
                 <input type="checkbox" id="notify" className="form-check-input" />
                 <label htmlFor="notify" className="form-check-label ms-2">
                   Notify Registered Participants
@@ -354,7 +333,7 @@ function ViewRegistrationsComponent() {
                 type="button"
                 className="btn btn-danger"
                 onClick={requestAdminForCancellation}
-                disabled={isCanceling} // Disable the button during cancellation request
+                disabled={isCanceling}
               >
                 {isCanceling ? "Requesting..." : "Request Cancellation"}
               </button>
@@ -370,4 +349,4 @@ function ViewRegistrationsComponent() {
   );
 }
 
-export default ViewRegistrationsComponent;
+export default ManageEventComponent;

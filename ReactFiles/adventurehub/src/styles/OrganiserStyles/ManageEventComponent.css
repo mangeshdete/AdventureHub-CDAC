@@ -1,0 +1,123 @@
+/* General Styles for Manage Event Component */
+.manage-events-container {
+  padding: 30px;
+  background: linear-gradient(135deg, #fbfbfa, #f8f8f7);
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Title Styling */
+.manage-events-title {
+  margin-bottom: 20px;
+  color: #050404;
+  /* Changed to white for better contrast */
+  text-align: center;
+  animation: slideInFromTop 0.7s ease-out forwards;
+}
+
+@keyframes slideInFromTop {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Table Styles */
+.manage-events-table {
+  width: 100%;
+  margin-bottom: 20px;
+  background-color: #fff;
+  border-collapse: collapse;
+  border-radius: 10px;
+  /* Added border radius for a softer look */
+  overflow: hidden;
+  /* Ensures rounded corners are visible */
+}
+
+.manage-events-table th,
+.manage-events-table td {
+  padding: 12px;
+  /* Increased padding for better spacing */
+  text-align: left;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.manage-events-table th {
+  background-color: #007bff;
+  color: white;
+}
+
+.manage-events-table td {
+  background-color: #f8f9fa;
+}
+
+.manage-events-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Button Styles */
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  border-radius: 8px;
+  /* Added border radius for consistency */
+  padding: 10px 20px;
+  /* Added padding for better button size */
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  /* Smooth transition */
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+
+/* Additional Styles for Event Management */
+.event-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.event-row .event-name {
+  flex: 1;
+}
+
+.event-row .event-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .manage-events-container {
+    padding: 20px;
+  }
+
+  .manage-events-table th,
+  .manage-events-table td {
+    font-size: 0.9rem;
+  }
+
+  .btn-danger {
+    font-size: 0.85rem;
+  }
+}

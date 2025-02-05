@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { clearUser } from '../redux/userSlice';
+import { clearUser  } from '../redux/userSlice';
+import "../styles/Navbar.css";
 
 function Navbar() {
   const { user, loggedIn } = useSelector((state) => state.user);
@@ -11,7 +12,7 @@ function Navbar() {
   const dropdownRef = useRef(null);
 
   const handleLogout = () => {
-    dispatch(clearUser());
+    dispatch(clearUser ());
     navigate('/login');
     setShowPopup(false);
   };
@@ -25,7 +26,6 @@ function Navbar() {
   };
 
   const handleProfileClick = () => {
-    // console.log(user.user.roleid.roleid);
     if (user.user.roleid.roleid === 1) {
       navigate('/customerdashboard');
     } else if (user.user.roleid.roleid === 2) {
@@ -45,24 +45,24 @@ function Navbar() {
   }, []);
 
   return (
-    <nav className="navbar navbar-expand-lg" >
+    <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top"> {/* Added fixed-top class */}
       <div className="container-fluid">
-        <Link className="navbar-brand text-white" to="/">AdventureHub</Link>
+        <Link className="navbar-brand text-black" to="/">AdventureHub</Link>
         <div className="collapse navbar-collapse">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <Link className="nav-link text-white" to="/about">About</Link>
+              <Link className="nav-link text-black" to="/about">About</Link>
             </li>
             <li className="nav-item" style={{ display: loggedIn ? 'none' : 'block' }}>
-              <Link className="nav-link text-white" to="/login">Login</Link>
+              <Link className="nav-link text-black" to="/login">Login</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link text-white" style={{ display: loggedIn ? 'none' : 'block' }} to="/chooserole">Register</Link>
+              <Link className="nav-link text-black" style={{ display: loggedIn ? 'none' : 'block' }} to="/chooserole">Register</Link>
             </li>
             {loggedIn && (
               <li className="nav-item dropdown" ref={dropdownRef}>
                 <button
-                  className="nav-link btn btn-link text-white"
+                  className="nav-link btn btn-link text-black"
                   onClick={togglePopup}
                   style={{ border: 'none', background: 'none', position: 'relative' }}
                 >
