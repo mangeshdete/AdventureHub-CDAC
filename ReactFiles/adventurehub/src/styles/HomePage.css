@@ -1,14 +1,8 @@
 /* General Styles */
-/* Apply the background image to the entire page */
 html,
 body {
   margin: 0;
   padding: 0;
-}
-
-.container.mt-4 {
-  margin-top: 0 !important;
-  /* Override Bootstrap */
 }
 
 body {
@@ -20,7 +14,7 @@ body {
   background-position: center center;
   background-attachment: fixed;
   transition: background-position 0.3s ease-in-out;
-  color: white;
+  color: black;
   font-family: 'Arial', sans-serif;
 }
 
@@ -36,39 +30,42 @@ body:hover {
   z-index: 1;
 }
 
+/* Hero Section Animation */
+.hero-section {
+  padding: 100px 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 1s ease-in;
+  /* Fade-in effect */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+    /* Slide in from above */
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .hero-title {
   font-size: 3.5rem;
-  margin: 20px 0 10px 0;
+  margin: 40px 0 10px 0;
   font-weight: 700;
   text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
   letter-spacing: 1px;
-  background: linear-gradient(90deg, #101010, #ffffff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: rgb(250, 245, 245); /* Ensures text is white */
+  color: #faf7f7;
 }
 
-
-@keyframes gradient-animation {
-  0% {
-    background-position: 0%;
-  }
-
-  50% {
-    background-position: 100%;
-  }
-
-  100% {
-    background-position: 0%;
-  }
-}
 .hero-subtitle {
   font-size: 1.6rem;
   margin: 10px 0;
-  /* Adjust margin as needed */
   font-weight: 100;
-  /* Makes the text bold */
-  color: rgb(249, 247, 247);
-  /* Sets the text color to black */
+  color: #fbf8f8;
 }
 
 .hero-search {
@@ -113,11 +110,18 @@ body:hover {
 }
 
 /* Features Section */
-.features-section h2 {
+.features-section {
+  padding: 20px 20px;
+  background-color: #fafdfa;
+  /* border-radius: 15px; */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.features-title {
   font-size: 2.5rem;
-  color: #faf4f4;
-  /* margin-bottom: 40px; */
+  color: #333;
   font-weight: 800;
+  margin-bottom: 20px;
 }
 
 .feature-cards {
@@ -125,49 +129,63 @@ body:hover {
   justify-content: center;
   gap: 35px;
   flex-wrap: wrap;
-  margin-top: 50px;
+  margin-top: 20px;
 }
 
+/* Feature Card Animation */
 .feature-card {
-  background-color: #010407;
-  border: 1px solid #f8f7f4;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
   border-radius: 15px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   width: 300px;
-  height :425px;
-  padding: 5px;
+  height: 525px;
+  padding: 10px;
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
+  animation: slideIn 0.5s ease-in;
+  /* Slide-in effect for cards */
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+    /* Slide in from below */
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .feature-card img {
   width: 100%;
-  height: 65%;
+  height: 70%;
   object-fit: cover;
+  border-radius: 10px;
   margin-bottom: 10px;
 }
 
 .feature-card h3 {
   font-size: 1.6rem;
-  /* margin: 15px 0; */
-  color: #f0f1ee;
+  color: #0a0909;
   font-weight: 600;
 }
 
 .feature-card p {
   font-size: 1rem;
-  color: #f7f3f3;
+  color: #070707;
   line-height: 1.5;
-  font-weight: 600;
-
+  font-weight: 400;
 }
 
 .feature-card:hover {
-  transform: rotateX(5deg) rotateY(-5deg) translateY(-10px);
+  transform: translateY(-10px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
-
 
 /* Responsive Styles */
 @media (max-width: 768px) {

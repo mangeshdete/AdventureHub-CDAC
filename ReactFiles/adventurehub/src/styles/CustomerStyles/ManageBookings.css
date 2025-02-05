@@ -1,0 +1,131 @@
+/* General Layout */
+.manage-bookings-container {
+    padding: 60px 30px;
+    /* Increased padding for more space inside the container */
+    background-color: #f8f9fa;
+    /* Light background for consistency */
+    border-radius: 10px;
+    /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+    width: 80%;
+    /* Set a width to make it larger */
+    max-width: 800px;
+    /* Maximum width to prevent it from getting too large on wide screens */
+    margin: 20px auto;
+    /* Center the container with margin */
+    height: auto;
+    /* Allow height to adjust based on content */
+    border: 2px solid #080808;
+}
+
+.manage-bookings-title {
+    font-size: 2.2rem;
+    /* Title font size */
+    font-weight: 700;
+    /* Title font weight */
+    text-align: center;
+    /* Center the title */
+    color: #2c3e50;
+    /* Title color */
+    margin-bottom: 40px;
+    /* Space below the title */
+    animation: slideInFromTop 0.7s ease-out forwards;
+}
+
+/* Table Styling */
+.manage-bookings-table {
+    width: 100%;
+    /* Full width for the table */
+    margin-bottom: 20px;
+    /* Space below the table */
+}
+
+.manage-bookings-table-header {
+    background-color: #007bff;
+    /* Header background color */
+    color: white;
+    /* Header text color */
+}
+
+.manage-bookings-table-row {
+    transition: background-color 0.3s;
+    /* Transition for row hover effect */
+}
+
+.manage-bookings-table-row:hover {
+    background-color: #e9ecef;
+    /* Row hover background color */
+}
+
+/* Badge Styling */
+.badge {
+    font-size: 0.9rem;
+    /* Badge font size */
+}
+
+/* Update and Cancel Form Styling */
+.update-form,
+.cancel-form {
+    background-color: #ffffff;
+    /* White background for forms */
+    border-radius: 8px;
+    /* Rounded corners for forms */
+    padding: 20px;
+    /* Padding inside forms */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow for forms */
+    margin-top: 20px;
+    /* Space above forms */
+    max-height: 400px;
+    /* Set a maximum height for the forms */
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+}
+
+.update-form h3,
+.cancel-form h3 {
+    margin-bottom: 20px;
+    /* Space below form titles */
+}
+
+/* Button Styling */
+.btn-success {
+    background-color: #28a745;
+    /* Success button background color */
+    border-color: #28a745;
+    /* Success button border color */
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    /* Danger button background color */
+    border-color: #dc3545;
+    /* Danger button border color */
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    /* Secondary button background color */
+    border-color: #6c757d;
+    /* Secondary button border color */
+}
+
+/* Fade In Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        /* Start with opacity 0 */
+    }
+
+    to {
+        opacity: 1;
+        /* End with opacity 1 */
+    }
+}
+
+.manage-bookings-title,
+.manage-bookings-container {
+    animation: fadeIn 1s ease-in-out;
+    /* Apply fade-in animation */
+}

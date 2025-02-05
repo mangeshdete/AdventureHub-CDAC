@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../../styles/CustomerDashboard.css";
-
-// Importing all the components
+import "../../styles/CustomerStyles/CustomerDashboard.css";
+import { FaList, FaEdit, FaMoneyBill, FaUser , FaRegMoneyBillAlt, FaQuestionCircle, FaComment } from "react-icons/fa";
+// Importing all components
 import ViewRegisteredEvents from "./ViewRegisteredEvents";
 import ManageBookings from "./ManageBookings";
 import PaymentHistory from "./PaymentHistory";
@@ -21,7 +21,7 @@ function CustomerDashboard() {
       case "manageBookings":
         return <ManageBookings />;
       case "paymentHistory":
-        return <PaymentHistory/>;
+        return <PaymentHistory />;
       case "profileManagement":
         return <ProfileManagement />;
       case "refundRequests":
@@ -31,60 +31,63 @@ function CustomerDashboard() {
       case "feedback":
         return <Feedback />;
       default:
-        return <div>Welcome to the Customer Dashboard</div>;
+        return <div className="welcome-text">Welcome to the Customer Dashboard</div>;
     }
   };
 
   return (
-    <div className="d-flex customer-dashboard">
-      {/* Left Side Navigation */}
-      <div className="nav flex-column col-3 bg-light p-3">
-        <button
-          className="btn btn-link text-start"
-          onClick={() => setSelectedView("viewRegisteredEvents")}
-        >
-          View Registered Events
-        </button>
-        <button
-          className="btn btn-link text-start"
-          onClick={() => setSelectedView("manageBookings")}
-        >
-          Manage Bookings
-        </button>
-        <button
-          className="btn btn-link text-start"
-          onClick={() => setSelectedView("paymentHistory")}
-        >
-          Payment History
-        </button>
-        <button
-          className="btn btn-link text-start"
-          onClick={() => setSelectedView("profileManagement")}
-        >
-          Profile Management
-        </button>
-        <button
-          className="btn btn-link text-start"
-          onClick={() => setSelectedView("refundRequests")}
-        >
-          Refund Requests
-        </button>
-        <button
-          className="btn btn-link text-start"
-          onClick={() => setSelectedView("supportHelp")}
-        >
-          Support/Help
-        </button>
-        <button
-          className="btn btn-link text-start"
-          onClick={() => setSelectedView("feedback")}
-        >
-          Feedback
-        </button>
+    <div className="customer-dashboard">
+      {/* Sidebar Navigation */}
+      <div className="sidebar">
+        <div className="sidebar-title">Customer Dashboard</div>
+        <div className="sidebar-buttons">
+          <button
+            className={`nav-button ${selectedView === "viewRegisteredEvents" ? "active" : ""}`}
+            onClick={() => setSelectedView("viewRegisteredEvents")}
+          >
+            <FaList className="icon" /> View Registered Events
+          </button>
+          <button
+            className={`nav-button ${selectedView === "manageBookings" ? "active" : ""}`}
+            onClick={() => setSelectedView("manageBookings")}
+          >
+            <FaEdit className="icon" /> Manage Bookings
+          </button>
+          <button
+            className={`nav-button ${selectedView === "paymentHistory" ? "active" : ""}`}
+            onClick={() => setSelectedView("paymentHistory")}
+          >
+            <FaMoneyBill className="icon" /> Payment History
+          </button>
+          <button
+            className={`nav-button ${selectedView === "profileManagement" ? "active" : ""}`}
+            onClick={() => setSelectedView("profileManagement")}
+          >
+            <FaUser  className="icon" /> Profile Management
+          </button>
+          <button
+            className={`nav-button ${selectedView === "refundRequests" ? "active" : ""}`}
+            onClick={() => setSelectedView("refundRequests")}
+          >
+            <FaRegMoneyBillAlt className="icon" /> Refund Requests
+          </button>
+          <button
+            className={`nav-button ${selectedView === "supportHelp" ? "active" : ""}`}
+            onClick={() => setSelectedView("supportHelp")}
+          >
+            <FaQuestionCircle className="icon" /> Support/Help
+          </button>
+          <button
+            className={`nav-button ${selectedView === "feedback" ? "active" : ""}`}
+            onClick={() => setSelectedView("feedback")}
+          >
+            <FaComment className="icon" /> Feedback
+          </button>
+        </div>
       </div>
 
-      {/* Right Side Content */}
-      <div className="col-9 p-4">{renderContent()}</div>
+      {/* Main Content */}
+      <div className="main-content">{renderContent()}</div>
     </div>
   );
 }

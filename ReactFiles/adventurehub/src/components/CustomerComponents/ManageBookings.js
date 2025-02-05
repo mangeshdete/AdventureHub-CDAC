@@ -1,37 +1,36 @@
-//Manage Bookings
+// ManageBookings.js
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector } from "react-redux";
+import "../../styles/CustomerStyles/ManageBookings.css";
 
 function CustomerBookingsComponent() {
   const [activeTab, setActiveTab] = useState("view");
   const [bookings, setBookings] = useState([]);
-  const [selectedBookingId, setSelectedBookingId] = useState(null);
   const [bookingDetails, setBookingDetails] = useState(null);
 
   const customer = useSelector((state) => state.user?.user);
 
-  // Sample Data
-  const sampleBookings = [
-    {
-      bookingid: 1,
-      eventname: "Music Concert",
-      bookingdate: "2024-06-20T00:00:00Z",
-      status: "Confirmed",
-      tickets: 2,
-      totalprice: 100,
-    }
-  ];
-
   // Fetch bookings or use sample data
   useEffect(() => {
+    const sampleBookings = [
+      {
+        bookingid: 1,
+        eventname: "Music Concert",
+        bookingdate: "2024-06-20T00:00:00Z",
+        status: "Confirmed",
+        tickets: 2,
+        totalprice: 100,
+      }
+    ];
+
     if (customer?.custid) {
       fetch(`https://localhost:9145/EventRegistration/GetEventRegistrationsByCustId?cid=${customer.custid}`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setBookings(data)})
-      .catch((error) => console.error("Error fetching bookings:", error));
+        .then((response) => response.json())
+        .then((data) => {
+          setBookings(data);
+        })
+        .catch((error) => console.error("Error fetching bookings:", error));
     } else {
       setBookings(sampleBookings);
     }
@@ -39,19 +38,18 @@ function CustomerBookingsComponent() {
 
   // Handle Update Click
   const handleUpdateClick = (bookingId) => {
-    setSelectedBookingId(bookingId);
     setActiveTab("update");
     const booking = bookings.find((b) => b.bookingid === bookingId);
     setBookingDetails(booking);
   };
 
   return (
-    <div className="container-fluid d-flex flex-column align-items-center vh-100 bg-light p-4">
-      <h3 className="mb-4">My Bookings</h3>
-      <div className="w-75">
+    <div className="manage-bookings-container">
+      <h3 className="manage-bookings-title">My Bookings</h3>
+      <div className="manage-bookings-table-wrapper">
         {activeTab === "view" && (
-          <table className="table table-hover table-bordered text-center align-middle">
-            <thead className="table-primary">
+          <table className="manage-bookings-table table table-hover table-bordered text-center align-middle">
+            <thead className="manage-bookings-table-header">
               <tr>
                 <th>Sr No</th>
                 <th>Event Name</th>
@@ -62,34 +60,28 @@ function CustomerBookingsComponent() {
             </thead>
             <tbody>
               {bookings.map((booking, index) => (
-                <tr key={booking.eventid} className="fw-bold">
+                <tr key={booking.bookingid} className="manage-bookings-table-row">
                   <td>{index + 1}</td>
                   <td>{booking.eventname}</td>
-                  <td>{new Date(booking.eventdate).toLocaleDateString()}, {booking.eventtime}</td>
+                  <td>{new Date(booking.bookingdate).toLocaleString()}</td>
                   <td>
                     <span className={`badge ${
-                      booking.status === "ACTIVE"
-                        ? "bg-success"
-                        : booking.status === "CANCELLED"
-                        ? "bg-danger"
-                        : booking.status === "TO_BE_CANCELLED"
-                        ? "bg-warning text-dark"
-                        : booking.status === "PROCESSING"
-                        ? "bg-warning"
-                        : "bg-secondary"
+                      booking.status === "Confirmed" ? "bg-success" :
+                      booking.status === "Cancelled" ? "bg-danger" :
+                      booking.status === "Pending" ? "bg-warning" : "bg-secondary"
                     }`}>
                       {booking.status}
                     </span>
                   </td>
                   <td>
                     <button
-                      className="btn btn-outline-primary btn-sm me-2"
+                      className="update-btn btn btn-outline-primary btn-sm me-2"
                       onClick={() => handleUpdateClick(booking.bookingid)}
                     >
                       Update
                     </button>
                     <button
-                      className="btn btn-outline-danger btn-sm"
+                      className="cancel-btn btn btn-outline-danger btn-sm"
                       onClick={() => setActiveTab("cancel")}
                     >
                       Cancel
@@ -102,7 +94,7 @@ function CustomerBookingsComponent() {
         )}
 
         {activeTab === "update" && bookingDetails && (
-          <div>
+          <div className="update-form">
             <h3>Update Booking Details</h3>
             <form>
               <div className="form-group mb-3">
@@ -111,7 +103,7 @@ function CustomerBookingsComponent() {
               </div>
               <div className="form-group mb-3">
                 <label>Booking Date</label>
-                <input type="text" className="form-control" value={new Date(bookingDetails.eventdate).toLocaleDateString()} readOnly />
+                <input type="text" className="form-control" value={new Date(bookingDetails.bookingdate).toLocaleDateString()} readOnly />
               </div>
               <div className="form-group mb-3">
                 <label>Number of Tickets</label>
@@ -137,7 +129,7 @@ function CustomerBookingsComponent() {
         )}
 
         {activeTab === "cancel" && (
-          <div>
+          <div className="cancel-form">
             <h3>Cancel Booking</h3>
             <form>
               <div className="form-group mb-3">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import '../styles/CreateEventComponent.css';
+import "../../styles/OrganiserStyles/CreateEventComponent.css";
 
 function CreateEventComponent({ cityid: propCityid }) {
   const [eventDetails, setEventDetails] = useState({

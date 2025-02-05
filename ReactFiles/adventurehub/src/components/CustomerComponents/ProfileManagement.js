@@ -1,6 +1,6 @@
-//profile management
+// ProfileManagement.js
 import React, { useState } from "react";
-
+import "../../styles/CustomerStyles/ProfileManagement.css";
 
 function ProfileManagement() {
   const [profile, setProfile] = useState({
@@ -15,8 +15,8 @@ function ProfileManagement() {
   };
 
   return (
-    <div>
-      <h3>Profile Management</h3>
+    <div className="profile-management-container">
+      <h3 className="profile-management-title">Profile Management</h3>
       <form>
         <div className="mb-3">
           <label htmlFor="name" className="form-label">

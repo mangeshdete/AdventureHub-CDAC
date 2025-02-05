@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector } from "react-redux";
-import '../styles/UpdateProfileComponent.css';
+import '../../styles/OrganiserStyles/UpdateProfileComponent.css';
 
 const UpdateProfileComponent = () => {
   const user = useSelector((state) => state.user.user);
-  console.log("User from Redux:", user);
+  console.log("User  from Redux:", user);
 
   // Initialize states only if user is available
   const [organiserData, setOrganiserData] = useState(user || {});
@@ -34,7 +34,6 @@ const UpdateProfileComponent = () => {
 
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   // Fetch all states when component mounts
@@ -47,8 +46,6 @@ const UpdateProfileComponent = () => {
       } catch (err) {
         console.error("Error fetching states", err);
         setError("Failed to load states.");
-      } finally {
-        setLoading(false);
       }
     }
     fetchStates();
@@ -163,10 +160,9 @@ const UpdateProfileComponent = () => {
       if (!response.ok) {
         const errorResponse = await response.json();
         console.error("Server error response:", errorResponse);
-        throw new Error(Error + " : " + `${response.statusText}`);
+        throw new Error(`${response.statusText}`);
       }
 
-      const result = await response.json();
       alert("Profile updated successfully!");
     } catch (err) {
       console.error("Error during PUT request:", err);
@@ -180,7 +176,7 @@ const UpdateProfileComponent = () => {
 
   return (
     <div className="update-profile-container mt-4">
-      <h2 className="text-center mb-4">Update Profile</h2>
+      <h2 className="update-profile-title text-center mb-4">Update Profile</h2>
       <form onSubmit={handleSubmit} className="profile-form card p-4 shadow">
         <div className="row">
           <div className="col-md-6 mb-3">
