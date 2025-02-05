@@ -10,11 +10,11 @@ namespace AdventureHub.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        public static MyDbContext Db { get; }
+        public static p14_adventurehubContext Db { get; }
 
         static CategoryController()
         {
-            Db=new MyDbContext();
+            Db=new p14_adventurehubContext();
         }
 
         [HttpGet]

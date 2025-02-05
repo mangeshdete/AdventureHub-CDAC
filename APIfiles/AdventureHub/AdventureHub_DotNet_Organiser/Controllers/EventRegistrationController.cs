@@ -8,11 +8,11 @@ namespace AdventureHub.Controllers
     [ApiController]
     public class EventRegistrationController:ControllerBase
     {
-        public static MyDbContext Db { get; }
+        public static p14_adventurehubContext Db { get; }
 
         static EventRegistrationController()
         {
-            Db = new MyDbContext();
+            Db = new p14_adventurehubContext();
         }
 
         //Get all the EventRegistrations 

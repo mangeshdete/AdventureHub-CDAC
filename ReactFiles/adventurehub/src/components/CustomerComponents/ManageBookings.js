@@ -1,55 +1,99 @@
-// ManageBookings.js
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector } from "react-redux";
-import "../../styles/CustomerStyles/ManageBookings.css";
 
 function CustomerBookingsComponent() {
   const [activeTab, setActiveTab] = useState("view");
   const [bookings, setBookings] = useState([]);
-  const [bookingDetails, setBookingDetails] = useState(null);
+  const [selectedRegId, setSelectedRegId] = useState(0);
+  const [cancellationReason, setCancellationReason] = useState("");
+  const [notification, setNotification] = useState({ message: "", type: "" }); // For popup notifications
 
   const customer = useSelector((state) => state.user?.user);
 
-  // Fetch bookings or use sample data
+  // Fetch bookings
   useEffect(() => {
-    const sampleBookings = [
-      {
-        bookingid: 1,
-        eventname: "Music Concert",
-        bookingdate: "2024-06-20T00:00:00Z",
-        status: "Confirmed",
-        tickets: 2,
-        totalprice: 100,
-      }
-    ];
-
     if (customer?.custid) {
       fetch(`https://localhost:9145/EventRegistration/GetEventRegistrationsByCustId?cid=${customer.custid}`)
-        .then((response) => response.json())
-        .then((data) => {
-          setBookings(data);
+        .then((response) => {
+          if (!response.ok) throw new Error("Failed to fetch bookings");
+          return response.json();
         })
-        .catch((error) => console.error("Error fetching bookings:", error));
-    } else {
-      setBookings(sampleBookings);
+        .then((data) => setBookings(data))
+        .catch((error) => {
+          console.error("Error fetching bookings:", error);
+          showNotification("Failed to fetch bookings. Please try again later.", "error");
+        });
     }
   }, [customer?.custid]);
 
-  // Handle Update Click
-  const handleUpdateClick = (bookingId) => {
-    setActiveTab("update");
-    const booking = bookings.find((b) => b.bookingid === bookingId);
-    setBookingDetails(booking);
+  // Handle cancellation
+  const handleCancleRedirect = (regId) => {
+    setSelectedRegId(regId);
+    setActiveTab("cancel");
+  };
+
+  const handleCancleEvent = () => {
+    if (!cancellationReason.trim()) {
+      showNotification("Please provide a reason for cancellation.", "error");
+      return;
+    }
+
+    if (customer?.custid) {
+      fetch(`https://localhost:9145/EventRegistration/CancelEventRegistrationByRegistrationId?rid=${selectedRegId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message: cancellationReason }),
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error("Failed to cancel registration");
+          return response.text();
+        })
+        .then((data) => {
+          if (data === "success") {
+            showNotification("Cancellation successful!", "success");
+            setActiveTab("view");
+            // Refresh bookings after cancellation
+            fetch(`https://localhost:9145/EventRegistration/GetEventRegistrationsByCustId?cid=${customer.custid}`)
+              .then((response) => response.json())
+              .then((data) => setBookings(data))
+              .catch((error) => console.error("Error refreshing bookings:", error));
+          } else {
+            throw new Error("Cancellation failed");
+          }
+        })
+        .catch((error) => {
+          console.error("Error cancelling registration:", error);
+          showNotification("Failed to cancel registration. Please try again later.", "error");
+        });
+    }
+  };
+
+  // Show notification popup
+  const showNotification = (message, type) => {
+    setNotification({ message, type });
+    setTimeout(() => setNotification({ message: "", type: "" }), 2000); // Hide after 2 seconds
   };
 
   return (
-    <div className="manage-bookings-container">
-      <h3 className="manage-bookings-title">My Bookings</h3>
-      <div className="manage-bookings-table-wrapper">
+    <div className="container-fluid d-flex flex-column align-items-center vh-100 bg-light p-4">
+      {/* Notification Popup */}
+      {notification.message && (
+        <div
+          className={`position-fixed top-0 end-0 p-3 ${notification.type === "success" ? "bg-success" : "bg-danger"}`}
+          style={{ zIndex: 1000 }}
+        >
+          <div className="text-white">{notification.message}</div>
+        </div>
+      )}
+
+      <h3 className="mb-4">My Bookings</h3>
+      <div className="w-75">
         {activeTab === "view" && (
-          <table className="manage-bookings-table table table-hover table-bordered text-center align-middle">
-            <thead className="manage-bookings-table-header">
+          <table className="table table-hover table-bordered text-center align-middle">
+            <thead className="table-primary">
               <tr>
                 <th>Sr No</th>
                 <th>Event Name</th>
@@ -60,31 +104,34 @@ function CustomerBookingsComponent() {
             </thead>
             <tbody>
               {bookings.map((booking, index) => (
-                <tr key={booking.bookingid} className="manage-bookings-table-row">
+                <tr key={booking.eventid} className="fw-bold">
                   <td>{index + 1}</td>
                   <td>{booking.eventname}</td>
-                  <td>{new Date(booking.bookingdate).toLocaleString()}</td>
+                  <td>{new Date(booking.eventdate).toLocaleDateString()}, {booking.eventtime}</td>
                   <td>
-                    <span className={`badge ${
-                      booking.status === "Confirmed" ? "bg-success" :
-                      booking.status === "Cancelled" ? "bg-danger" :
-                      booking.status === "Pending" ? "bg-warning" : "bg-secondary"
-                    }`}>
+                    <span
+                      className={`badge ${
+                        booking.status === "ACTIVE"
+                          ? "bg-success"
+                          : booking.status === "CANCELLED"
+                          ? "bg-danger"
+                          : booking.status === "TO_BE_CANCELLED"
+                          ? "bg-warning text-dark"
+                          : booking.status === "PROCESSING"
+                          ? "bg-warning"
+                          : "bg-secondary"
+                      }`}
+                    >
                       {booking.status}
                     </span>
                   </td>
                   <td>
                     <button
-                      className="update-btn btn btn-outline-primary btn-sm me-2"
-                      onClick={() => handleUpdateClick(booking.bookingid)}
+                      className="btn btn-outline-danger btn-sm"
+                      onClick={() => handleCancleRedirect(booking.registrationid)}
+                      disabled={booking.status === "CANCELLED"}
                     >
-                      Update
-                    </button>
-                    <button
-                      className="cancel-btn btn btn-outline-danger btn-sm"
-                      onClick={() => setActiveTab("cancel")}
-                    >
-                      Cancel
+                      Cancel Registration
                     </button>
                   </td>
                 </tr>
@@ -93,54 +140,31 @@ function CustomerBookingsComponent() {
           </table>
         )}
 
-        {activeTab === "update" && bookingDetails && (
-          <div className="update-form">
-            <h3>Update Booking Details</h3>
-            <form>
-              <div className="form-group mb-3">
-                <label>Event Name</label>
-                <input type="text" className="form-control" value={bookingDetails.eventname} readOnly />
-              </div>
-              <div className="form-group mb-3">
-                <label>Booking Date</label>
-                <input type="text" className="form-control" value={new Date(bookingDetails.bookingdate).toLocaleDateString()} readOnly />
-              </div>
-              <div className="form-group mb-3">
-                <label>Number of Tickets</label>
-                <input
-                  type="number"
-                  className="form-control"
-                  value={bookingDetails.tickets}
-                  onChange={(e) => setBookingDetails({ ...bookingDetails, tickets: e.target.value })}
-                />
-              </div>
-              <div className="form-group mb-3">
-                <label>Total Price</label>
-                <input type="text" className="form-control" value={`$${bookingDetails.totalprice}`} readOnly />
-              </div>
-              <button type="submit" className="btn btn-success me-2">
-                Update Booking
-              </button>
-              <button type="button" className="btn btn-secondary" onClick={() => setActiveTab("view")}>
-                Cancel
-              </button>
-            </form>
-          </div>
-        )}
-
         {activeTab === "cancel" && (
-          <div className="cancel-form">
+          <div>
             <h3>Cancel Booking</h3>
             <form>
               <div className="form-group mb-3">
-                <label>Reason for Cancellation (Optional)</label>
-                <textarea className="form-control" rows="4" placeholder="Enter reason (if any)"></textarea>
+                <label>
+                  Reason for Cancellation<span style={{ color: "red" }}>*</span>
+                </label>
+                <textarea
+                  className="form-control"
+                  rows="4"
+                  placeholder="Enter Cancellation Reason Here"
+                  required
+                  onChange={(e) => setCancellationReason(e.target.value)}
+                ></textarea>
               </div>
               <div className="form-group mb-3">
                 <input type="checkbox" id="refund" className="form-check-input" />
-                <label htmlFor="refund" className="form-check-label ms-2">Request Refund</label>
+                <label htmlFor="refund" className="form-check-label ms-2">
+                  Request Refund
+                </label>
               </div>
-              <button type="submit" className="btn btn-danger">Cancel Booking</button>
+              <button type="button" className="btn btn-danger" onClick={handleCancleEvent}>
+                Cancel Booking
+              </button>
               <button type="button" className="btn btn-secondary ms-2" onClick={() => setActiveTab("view")}>
                 Back
               </button>

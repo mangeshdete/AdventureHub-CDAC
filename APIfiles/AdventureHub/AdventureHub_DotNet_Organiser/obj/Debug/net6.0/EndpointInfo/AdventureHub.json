@@ -505,6 +505,14 @@
             "type": "integer",
             "format": "int32"
           },
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "cancellationreason": {
+            "type": "string",
+            "nullable": true
+          },
           "cust": {
             "$ref": "#/components/schemas/Customer"
           },
