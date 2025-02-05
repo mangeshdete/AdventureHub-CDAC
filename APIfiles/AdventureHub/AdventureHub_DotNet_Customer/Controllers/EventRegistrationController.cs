@@ -17,7 +17,7 @@ namespace AdventureHub_DotNet_Customer.Controllers
         [HttpGet]
         public IActionResult GetEventRegistrationsByCustId([FromQuery] int cid)
         {
-            var events = Db.Eventregistrations.Where(e => e.Custid == cid).Where(e => e.Status=="ACTIVE").Select(e => new { e.Registrationid, e.Publish.Eventid, e.Publish.Event.Eventname, e.Publish.Eventdate, e.Publish.Eventtime, e.Publish.City.Cityname, e.Publish.Status }).ToList();
+            var events = Db.Eventregistrations.Where(e => e.Custid == cid).Where(e => e.Cancellationreason==null).Select(e => new { e.Registrationid, e.Publish.Eventid, e.Publish.Event.Eventname, e.Publish.Eventdate, e.Publish.Eventtime, e.Publish.City.Cityname, e.Publish.Status }).ToList();
             return Ok(events);
         }
 
@@ -31,7 +31,6 @@ namespace AdventureHub_DotNet_Customer.Controllers
         [HttpPut]
         public IActionResult CancelEventRegistrationByRegistrationId([FromQuery] int rid, [FromBody] CancelRequestMessageHelper message)
         {
-            Console.WriteLine("gelbmhjm");
             var record = Db.Eventregistrations.FirstOrDefault(r => r.Registrationid == rid);
             if (record == null)
                 return Ok("Registration doesn't exist");
@@ -67,20 +66,16 @@ namespace AdventureHub_DotNet_Customer.Controllers
                 if (registration == null)
                     return Ok(null);
 
-                // Determine refund status per customer
-                string refundStatus = registration.Status == "ACTIVE" && registration.Cancellationreason != null ? "APPROVED"
-                                      : registration.Status == "CANCELLED" && registration.Cancellationreason == null ? "PENDING"
-                                      : "TO_BE_REVIEWED";
-
                 var price = Db.Publishevents.Where(r => r.Publishid.Equals(Db.Eventregistrations.Where(e => e.Custid == cid).Select(e => e.Publishid).FirstOrDefault())).Select(e => e.Price).FirstOrDefault();
 
                 // Get all refund records for the customer
                 var records = Db.Eventregistrations
-                    .Where(r => r.Custid == cid && r.Status == "CANCELLED")
+                    .Where(r => r.Custid == cid && r.Cancellationreason!=null )
                     .Select(r => new
                     {
                         eventName = r.Publish != null ? r.Publish.Event.Eventname : "Unknown Event",
-                        refundStatus = r.Status == "ACTIVE" && r.Cancellationreason != null ? "APPROVED"
+                        refundStatus = r.Status == "ACTIVE" && r.Cancellationreason != null && r.Cancellationreason!="" ? "APPROVED"
+                                       : r.Status == "CANCELLED" && r.Cancellationreason == "" ? "REJECTED"
                                        : r.Status == "CANCELLED" && r.Cancellationreason != null ? "PENDING"
                                        : "TO_BE_REVIEWED",
                         participants = r.Participants,

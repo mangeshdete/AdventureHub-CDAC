@@ -129,7 +129,7 @@ function CustomerBookingsComponent() {
                     <button
                       className="btn btn-outline-danger btn-sm"
                       onClick={() => handleCancleRedirect(booking.registrationid)}
-                      disabled={booking.status === "CANCELLED"}
+                      // disabled={booking.status === "CANCELLED"}
                     >
                       Cancel Registration
                     </button>

@@ -69,7 +69,17 @@ const RefundRequests = () => {
                     {refundRequests.map((request, index) => (
                         <tr key={index}>
                             <td>{request.eventName}</td>
-                            <td className="fw-bold text-primary">{request.refundStatus}</td>
+                            <td><span className={`badge ${
+                            request.refundstatus === "APPROVED"
+                                ? "bg-success"
+                                : request.refundStatus === "REJECTED"
+                                ? "bg-danger"
+                                : request.refundStatus === "PENDING"
+                                ? "bg-warning text-dark"
+                                : "bg-secondary"
+                            }`}>
+                            {request.refundStatus}
+                            </span></td>
                             <td>{request.participants}</td>
                             <td>{request.pricePerPerson}.00 Rs</td>
                             <td className="fw-bold text-success">{request.refundAmount}.00 Rs</td>

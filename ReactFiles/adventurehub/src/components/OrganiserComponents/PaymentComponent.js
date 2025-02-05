@@ -1,77 +1,263 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../../styles/OrganiserStyles/PaymentComponent.css";
+import "../../styles/PaymentComponent.css";
+import { useSelector } from "react-redux";
 
 function PaymentComponent() {
+  const [publishedEvents, setPublishedEvents] = useState([]);
   const [refundRequests, setRefundRequests] = useState([]);
-
-  // Fetch refund requests from the server or database
+  const [selectedPublishId, setSelectedPublishId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
+  const [totalAmount, setTotalAmount] = useState(0);
+  const orgId = useSelector((state)=>state.user.user.organiserid)
+  console.log(orgId)
+  // Fetch published events by organiser ID
   useEffect(() => {
-    const fetchRefundRequests = async () => {
+    const fetchPublishedEvents = async () => {
+      setIsLoading(true);
       try {
-        const response = await fetch("/api/refund-requests"); // Replace with your API endpoint
+        const response = await fetch(
+          `https://localhost:9144/PublishEvent/GetPublishedEventsByOrganiserId?orgId=${orgId}`
+        );
         const data = await response.json();
-        setRefundRequests(data);
+        setPublishedEvents(data);
       } catch (error) {
-        console.error("Error fetching refund requests:", error);
+        console.error("Error fetching published events:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    fetchRefundRequests();
-  }, []);
+    fetchPublishedEvents();
+  }, [orgId]);
 
-  const handleRefundProcess = async (id) => {
+  // Fetch refund requests by publish ID
+  const fetchRefundRequests = async (publishId) => {
+    setIsLoading(true);
     try {
-      await fetch(`/api/refund-requests/${id}/process`, {
-        method: "POST",
-      });
-      const updatedRequests = refundRequests.filter(
-        (request) => request.id !== id
+      const response = await fetch(
+        `https://localhost:9144/Payments/GetAllRefundRequestsByPublishId?pid=${publishId}`
       );
-      setRefundRequests(updatedRequests);
-      alert("Refund processed successfully!");
+      const data = await response.json();
+      setRefundRequests(data);
+      setSelectedPublishId(publishId);
+
+      // Calculate total amount
+      const total = data.reduce((sum, request) => sum + request.amount, 0);
+      setTotalAmount(total);
     } catch (error) {
-      console.error("Error processing refund:", error);
-      alert("Failed to process refund. Please try again.");
+      console.error("Error fetching refund requests:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  // Handle approve refund request
+  const handleApproveRefund = async (registrationId) => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `https://localhost:9144/Payments/ApproveRefundRequestByRegistrationId?rid=${registrationId}`,
+        { method: "PUT" }
+      );
+      const result = await response.text();
+
+      if (response.status === 200) {
+        if (result === "success") {
+          setPopupMessage("Refund approved successfully!");
+          setShowPopup(true);
+          // Remove the approved request from the list
+          setRefundRequests((prev) =>
+            prev.filter((req) => req.registrationid !== registrationId)
+          );
+        } else {
+          setPopupMessage("Refund request not found.");
+          setShowPopup(true);
+        }
+      } else {
+        setPopupMessage("Failed to approve refund. Please try again.");
+        setShowPopup(true);
+      }
+    } catch (error) {
+      console.error("Error approving refund:", error);
+      setPopupMessage("An error occurred. Please try again.");
+      setShowPopup(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Handle reject refund request
+  const handleRejectRefund = async (registrationId) => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `https://localhost:9144/Payments/RejectRefundRequestByRegistrationId?rid=${registrationId}`,
+        { method: "PUT" }
+      );
+      const result = await response.text();
+
+      if (response.status === 200) {
+        if (result === "success") {
+          setPopupMessage("Refund rejected successfully!");
+          setShowPopup(true);
+          // Remove the rejected request from the list
+          setRefundRequests((prev) =>
+            prev.filter((req) => req.registrationid !== registrationId)
+          );
+        } else {
+          setPopupMessage("Refund request not found.");
+          setShowPopup(true);
+        }
+      } else {
+        setPopupMessage("Failed to reject refund. Please try again.");
+        setShowPopup(true);
+      }
+    } catch (error) {
+      console.error("Error rejecting refund:", error);
+      setPopupMessage("An error occurred. Please try again.");
+      setShowPopup(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Close popup after 2 seconds
+  useEffect(() => {
+    if (showPopup) {
+      const timer = setTimeout(() => {
+        setShowPopup(false);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [showPopup]);
+
   return (
     <div className="payment-component">
-      <h3>Manage Refund Requests</h3>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>User Name</th>
-            <th>Contact</th>
-            <th>Members</th>
-            <th>Event</th>
-            <th>Date</th>
-            <th>Amount</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {refundRequests.map((request) => (
-            <tr key={request.id}>
-              <td>{request.userName}</td>
-              <td>{request.contact}</td>
-              <td>{request.members}</td>
-              <td>{request.event}</td>
-              <td>{request.date}</td>
-              <td>${request.amount}</td>
-              <td>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleRefundProcess(request.id)}
-                >
-                  Process Refund
-                </button>
-              </td>
+      <h2>Published Events</h2>
+      {isLoading ? (
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      ) : (
+        <table className="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>Event Name</th>
+              <th>City</th>
+              <th>Event Date</th>
+              <th>Status</th>
+              <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {publishedEvents.map((event) => (
+              <tr key={event.publishid}>
+                <td>{event.eventname}</td>
+                <td>{event.cityname}</td>
+                <td>{event.eventdate}</td>
+                <td><span className={`badge ${
+                  event.status === "ACTIVE"
+                    ? "bg-success"
+                    : event.status === "CANCELLED"
+                    ? "bg-danger"
+                    : event.status === "TO_BE_CANCELLED"
+                    ? "bg-warning text-dark"
+                    : event.status === "PROCESSING"
+                    ? "bg-warning"
+                    : event.status === "COMPLETED"
+                    ? "bg-primary"  // Blue color for COMPLETED
+                    : "bg-secondary"
+                }`}>
+                  {event.status}
+                </span>
+                </td>
+                <td>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => fetchRefundRequests(event.publishid)}
+                  >
+                    See Refund Requests
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+
+      {selectedPublishId && (
+        <>
+          <h2>Refund Requests for Event ID: {selectedPublishId}</h2>
+          {isLoading ? (
+            <div className="spinner-border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          ) : (
+            <table className="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>Event Name</th>
+                  <th>Event Date</th>
+                  <th>Participant Name</th>
+                  <th>Amount</th>
+                  <th>Approve</th>
+                  <th>Reject</th>
+                </tr>
+              </thead>
+              <tbody>
+                {refundRequests.map((request) => (
+                  <tr key={request.registrationid}>
+                    <td>{request.eventname}</td>
+                    <td>{request.eventdate}</td>
+                    <td>{`${request.fname} ${request.lname}`}</td>
+                    <td>{request.amount}</td>
+                    <td>
+                      <button
+                        className="btn btn-success"
+                        onClick={() =>
+                          handleApproveRefund(request.registrationid)
+                        }
+                      >
+                        Approve
+                      </button>
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-danger"
+                        onClick={() =>
+                          handleRejectRefund(request.registrationid)
+                        }
+                      >
+                        Reject
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+                <tr>
+                  <td colSpan="3" className="text-end">
+                    <strong>Total Amount:</strong>
+                  </td>
+                  <td colSpan="3">
+                    <strong>{totalAmount}</strong>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          )}
+        </>
+      )}
+
+      {/* Popup Modal */}
+      {showPopup && (
+        <div className="popup">
+          <div className="popup-content">
+            <p>{popupMessage}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
