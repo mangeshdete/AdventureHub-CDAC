@@ -17,8 +17,8 @@ namespace AdventureHub_DotNet_Customer.Models
         public string Status { get; set; } = null!;
         public string? Cancellationreason { get; set; }
 
-        public virtual Customer Cust { get; set; } = null!;
-        public virtual Publishevent Publish { get; set; } = null!;
+        public virtual Customer? Cust { get; set; }
+        public virtual Publishevent? Publish { get; set; }
         public virtual ICollection<Payment> Payments { get; set; }
     }
 }
