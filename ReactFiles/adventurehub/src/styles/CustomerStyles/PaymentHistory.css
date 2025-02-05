@@ -1,0 +1,94 @@
+/* General Layout */
+.payment-history-container {
+    padding: 60px 30px;
+    /* Increased padding for more space inside the container */
+    background-color: #f8f9fa;
+    /* Light background for consistency */
+    border-radius: 10px;
+    /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+    width: 80%;
+    /* Set a width to make it larger */
+    max-width: 800px;
+    /* Maximum width to prevent it from getting too large on wide screens */
+    margin: 20px auto;
+    /* Center the container with margin */
+    height: auto;
+    /* Allow height to adjust based on content */
+    border: 2px solid #080808;
+}
+
+.payment-history-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 40px;
+    animation: slideInFromTop 0.7s ease-out forwards;
+}
+
+/* Table Styling */
+.payment-history-table-wrapper {
+    margin-top: 30px;
+}
+
+.payment-history-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 8px;
+    /* Rounded corners for the table */
+    overflow: hidden;
+    /* To ensure rounded corners are visible */
+}
+
+.payment-history-table th,
+.payment-history-table td {
+    padding: 15px;
+    text-align: left;
+}
+
+.payment-history-table-header {
+    background-color: #34495e;
+    /* Dark header for contrast */
+    color: #ffffff;
+    font-size: 1.1rem;
+}
+
+.payment-history-table-row td {
+    font-size: 1rem;
+    color: #2c3e50;
+}
+
+.payment-history-table-row:nth-of-type(odd) {
+    background-color: #ecf0f1;
+    /* Light gray for odd rows */
+}
+
+.payment-history-table-row:hover {
+    background-color: #bdc3c7;
+    /* Hover effect */
+}
+
+.payment-history-table {
+    border: 1px solid #ddd;
+    /* Border for the table */
+}
+
+/* Fade In Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.payment-history-table,
+.payment-history-title {
+    animation: fadeIn 1s ease-in-out;
+    /* Fade in effect */
+}

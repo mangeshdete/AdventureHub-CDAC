@@ -1,10 +1,10 @@
-//create Event Component added with updated regex
 import React, { useState, useEffect } from "react";
+import "../../styles/OrganiserStyles/CreateEventComponent.css";
 
 function CreateEventComponent({ cityid: propCityid }) {
   const [eventDetails, setEventDetails] = useState({
     eventid: "",
-    organiserid: 1, // Assuming it's static, should ideally come from auth
+    organiserid: 1,
     eventdate: "",
     eventtime: "",
     price: "",
@@ -13,15 +13,15 @@ function CreateEventComponent({ cityid: propCityid }) {
     street: "",
     cityid: propCityid || "",
     pincode: "",
-    stateid: "", // Add stateid field
-    categoryId: "", // Add categoryId field
+    stateid: "",
+    categoryId: "",
   });
 
   const regexPatterns = {
     price: /^\d+(\.\d{1,2})?$/,
-    capacity: /^\d+$/, // Ensures only positive integers
-    street: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9\s,'-]{3,}$/,
-    pincode: /^\d{6}$/, // Exactly 6 digits
+    capacity: /^\d+$/,
+    street: /^(?=.[A-Za-z])(?=.\d)[A-Za-z0-9\s,'-]{3,}$/,
+    pincode: /^\d{6}$/,
   };
 
   const [categories, setCategories] = useState([]);
@@ -67,7 +67,6 @@ function CreateEventComponent({ cityid: propCityid }) {
       cityid: "",
     }));
 
-    //Srelected state
     if (selectedStateId) {
       fetch(`http://localhost:8142/getCitiesByStateId?stateId=${selectedStateId}`)
         .then((resp) => resp.json())
@@ -80,7 +79,6 @@ function CreateEventComponent({ cityid: propCityid }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     setEventDetails((prev) => ({
       ...prev,
       [name]: value,
@@ -95,36 +93,26 @@ function CreateEventComponent({ cityid: propCityid }) {
       return;
     }
 
-    // Validate price using regex pattern
     if (eventDetails.price && !regexPatterns.price.test(eventDetails.price)) {
       alert("Invalid price format. Please enter a valid price.");
       return;
     }
-
-    // Validate street using regex pattern
     if (eventDetails.street && !regexPatterns.street.test(eventDetails.street)) {
       alert("Invalid street format. Please enter a valid street address.");
       return;
     }
-
-    // Validate pincode using regex pattern
     if (eventDetails.pincode && !regexPatterns.pincode.test(eventDetails.pincode)) {
       alert("Invalid pincode format. Please enter a valid 6-digit pincode.");
       return;
     }
-
-    // Validate capacity using regex pattern
     if (eventDetails.capacity && !regexPatterns.capacity.test(eventDetails.capacity)) {
       alert("Invalid capacity. Please enter a valid integer value.");
       return;
     }
 
-
-    // Validate event date
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Remove time part for accurate comparison
+    today.setHours(0, 0, 0, 0);
     const enteredDate = new Date(eventDetails.eventdate);
-
     if (enteredDate < today) {
       alert("Event date cannot be in the past.");
       return;
@@ -134,7 +122,7 @@ function CreateEventComponent({ cityid: propCityid }) {
       eventid: parseInt(eventDetails.eventid),
       organiserid: 1,
       eventdate: eventDetails.eventdate,
-      eventtime: eventDetails.eventtime + ":00" || "00:00:00", // Default time if not provided
+      eventtime: eventDetails.eventtime || "00:00:00",
       price: parseFloat(eventDetails.price) || 0,
       capacity: parseInt(eventDetails.capacity) || 0,
       status: "PROCESSING",
@@ -166,128 +154,132 @@ function CreateEventComponent({ cityid: propCityid }) {
   };
 
   return (
-    <div className="card p-3">
-      <h2>Create Event</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label className="form-label">Category*</label>
-          <select
-            className="form-control"
-            name="categoryId"
-            value={eventDetails.categoryId}
-            onChange={handleCategoryChange}
-            required
-          >
-            <option value="">Select Category</option>
-            {categories.map((category) => (
-              <option key={category.categoryid} value={category.categoryid}>
-                {category.categoryname}
-              </option>
-            ))}
-          </select>
+    <div className="event-form-container">
+      <h2 className="form-title" class = "text-center mb-4" >Create Event</h2>
+      <form onSubmit={handleSubmit} className="event-form">
+        <div className="form-row">
+          <div className="form-column">
+            <label className="form-label">Category*</label>
+            <select
+              className="form-control"
+              name="categoryId"
+              value={eventDetails.categoryId}
+              onChange={handleCategoryChange}
+              required
+            >
+              <option value="">Select Category</option>
+              {categories.map((category) => (
+                <option key={category.categoryid} value={category.categoryid}>
+                  {category.categoryname}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="form-column">
+            <label className="form-label">Event*</label>
+            <select
+              className="form-control"
+              name="eventid"
+              value={eventDetails.eventid}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Event</option>
+              {events.map((event) => (
+                <option key={event.eventid} value={event.eventid}>
+                  {event.eventname}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
-        <div className="mb-3">
-          <label className="form-label">Event*</label>
-          <select
-            className="form-control"
-            name="eventid"
-            value={eventDetails.eventid}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select Event</option>
-            {events.map((event) => (
-              <option key={event.eventid} value={event.eventid}>
-                {event.eventname}
-              </option>
-            ))}
-          </select>
+        <div className="form-row">
+          <div className="form-column">
+            <label className="form-label">Date*</label>
+            <input
+              type="date"
+              className="form-control"
+              name="eventdate"
+              value={eventDetails.eventdate}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-column">
+            <label className="form-label">Time*</label>
+            <input
+              type="time"
+              className="form-control"
+              name="eventtime"
+              value={eventDetails.eventtime}
+              onChange={handleChange}
+              required
+            />
+          </div>
         </div>
 
-        <div className="mb-3">
-          <label className="form-label">Date*</label>
-          <input
-            type="date"
-            className="form-control"
-            name="eventdate"
-            value={eventDetails.eventdate}
-            onChange={handleChange}
-            required
-          />
+        <div className="form-row">
+          <div className="form-column">
+            <label className="form-label">Price per Person</label>
+            <input
+              type="number"
+              className="form-control"
+              name="price"
+              value={eventDetails.price}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-column">
+            <label className="form-label">Capacity</label>
+            <input
+              type="number"
+              className="form-control"
+              name="capacity"
+              value={eventDetails.capacity}
+              onChange={handleChange}
+            />
+          </div>
         </div>
 
-        <div className="mb-3">
-          <label className="form-label">Time*</label>
-          <input
-            type="time"
-            className="form-control"
-            name="eventtime"
-            value={eventDetails.eventtime}
-            onChange={handleChange}
-            required
-          />
+        <div className="form-row">
+          <div className="form-column">
+            <label className="form-label">State</label>
+            <select
+              className="form-control"
+              name="stateid"
+              value={eventDetails.stateid}
+              onChange={handleStateChange}
+              required
+            >
+              <option value="">Select State</option>
+              {states.map((state) => (
+                <option key={state.stateid} value={state.stateid}>
+                  {state.statename}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="form-column">
+            <label className="form-label">City</label>
+            <select
+              className="form-control"
+              name="cityid"
+              value={eventDetails.cityid}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select City</option>
+              {cities.map((city) => (
+                <option key={city.cityid} value={city.cityid}>
+                  {city.cityname}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
-        <div className="mb-3">
-          <label className="form-label">Price per Person</label>
-          <input
-            type="number"
-            className="form-control"
-            name="price"
-            value={eventDetails.price}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label">Capacity</label>
-          <input
-            type="number"
-            className="form-control"
-            name="capacity"
-            value={eventDetails.capacity}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label">State</label>
-          <select
-            className="form-control"
-            name="stateid"
-            value={eventDetails.stateid}
-            onChange={handleStateChange}
-            required
-          >
-            <option value="">Select State</option>
-            {states.map((state) => (
-              <option key={state.stateid} value={state.stateid}>
-                {state.statename}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label">City</label>
-          <select
-            className="form-control"
-            name="cityid"
-            value={eventDetails.cityid}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select City</option>
-            {cities.map((city) => (
-              <option key={city.cityid} value={city.cityid}>
-                {city.cityname}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="mb-3">
+        <div className="form-group">
           <label className="form-label">Street</label>
           <input
             type="text"
@@ -298,7 +290,7 @@ function CreateEventComponent({ cityid: propCityid }) {
           />
         </div>
 
-        <div className="mb-3">
+        <div className="form-group">
           <label className="form-label">Pincode</label>
           <input
             type="text"
@@ -309,7 +301,7 @@ function CreateEventComponent({ cityid: propCityid }) {
           />
         </div>
 
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="form-submit-btn">
           Create Event
         </button>
       </form>

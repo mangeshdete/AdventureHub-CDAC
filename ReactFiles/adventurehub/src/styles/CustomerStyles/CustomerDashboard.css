@@ -1,11 +1,10 @@
 /* General Layout */
-.organizer-dashboard {
+.customer-dashboard {
   display: flex;
   height: 100vh;
   background-color: #ecf0f1;
   font-family: 'Poppins', sans-serif;
   animation: fadeIn 1s ease-in-out;
-  overflow: hidden;
 }
 
 /* Sidebar Navigation */
@@ -22,7 +21,6 @@
   max-height: 100vh;
   border-right: 3px solid #1abc9c;
   overflow: hidden;
-  /* Removed scrollbar */
 }
 
 .sidebar-title {
@@ -34,6 +32,14 @@
   padding-bottom: 10px;
   letter-spacing: 1px;
   text-transform: uppercase;
+}
+
+/* Sidebar Buttons */
+.sidebar-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* Space between buttons */
 }
 
 .nav-button {
@@ -50,10 +56,8 @@
   transition: background 0.3s ease, transform 0.2s ease;
   font-weight: 600;
   text-transform: uppercase;
-}
-
-.nav-button .icon {
-  font-size: 1.3rem;
+  border-radius: 5px;
+  /* Rounded corners for buttons */
 }
 
 .nav-button:hover,
@@ -73,7 +77,12 @@
   align-items: center;
   max-height: 100vh;
   overflow: hidden;
-  /* Removed scrollbar */
+  background: #1abc9c;
+  border-radius: 10px;
+  /* Rounded corners for main content */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease-in-out;
+  /*background-image: url('../../resources/Lake_View_Sightseeing_Tour.jpg');*/
 }
 
 /* Welcome Text */
@@ -86,61 +95,6 @@
   margin-bottom: 30px;
   opacity: 0;
   animation: fadeIn 1s ease-in-out 0.5s forwards;
-  
-}
-
-/* Event Cards */
-.event-card {
-  margin-bottom: 10px;
-  background: white;
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  opacity: 0;
-  animation: fadeInUp 0.8s ease-in-out forwards;
-}
-
-.event-card:hover {
-  transform: translateY(-5px) scale(1.05);
-  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* Advantages Section */
-.advantages-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
-  margin-top: 30px;
-}
-
-.advantage-card {
-  width: 300px;
-  background: linear-gradient(135deg, #1abc9c, #16a085);
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  opacity: 0;
-  animation: fadeInUp 0.8s ease-in-out forwards;
-  text-align: center;
-  color: white;
-}
-
-.advantage-card:hover {
-  transform: translateY(-5px) scale(1.05);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-.advantage-title {
-  font-size: 1.6rem;
-  font-weight: bold;
-  margin-bottom: 12px;
-}
-
-.advantage-text {
-  font-size: 1.1rem;
 }
 
 /* Keyframes Animations */
@@ -151,18 +105,6 @@
 
   to {
     opacity: 1;
-  }
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }
 

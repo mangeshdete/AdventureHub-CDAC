@@ -3,10 +3,10 @@ import { FaPlus, FaEdit, FaUser, FaList, FaMoneyBill } from "react-icons/fa";
 import CreateEventComponent from "./CreateEventComponent";
 import ManageEventComponent from "./ManageEventComponent";
 import UpdateProfileComponent from "./UpdateProfileComponent";
-import ViewRegistrationsComponent from "./ViewRegistrationsComponent";
+import ViewRegistrationsComponent from "./ViewEventRegistrationsComponent";
 import PaymentComponent from "./PaymentComponent";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../../styles/OrganizerDashboard.css";
+import "../../styles/OrganiserStyles/OrganizerDashboard.css";
 
 function OrganizerDashboard() {
   const [selectedView, setSelectedView] = useState("dashboard");
