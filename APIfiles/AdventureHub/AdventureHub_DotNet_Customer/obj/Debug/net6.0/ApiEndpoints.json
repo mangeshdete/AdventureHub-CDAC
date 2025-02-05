@@ -83,5 +83,74 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub_DotNet_Customer.Controllers.PublishEventsController",
+    "Method": "CustomerRegistrationForAnEvent",
+    "RelativePath": "PublishEvents/CustomerRegistrationForAnEvent",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "eventReg",
+        "Type": "AdventureHub_DotNet_Customer.Models.Eventregistration",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub_DotNet_Customer.Controllers.PublishEventsController",
+    "Method": "getAllPublishedEventsByStateId",
+    "RelativePath": "PublishEvents/getAllPublishedEventsByStateId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stateid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub_DotNet_Customer.Controllers.PublishEventsController",
+    "Method": "GetNumberOfActiveEventsByStateId",
+    "RelativePath": "PublishEvents/GetNumberOfActiveEventsByStateId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stateid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub_DotNet_Customer.Controllers.PublishEventsController",
+    "Method": "getPublishedEventsByCityIdOrStateId",
+    "RelativePath": "PublishEvents/getPublishedEventsByCityIdOrStateId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cityid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "stateid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
   }
 ]
