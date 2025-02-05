@@ -1,0 +1,136 @@
+/* General Styles */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  /* Align items to the start for better spacing */
+  padding: 20px;
+  /* Add padding to the container */
+  /* background-color: #f8f9fa; */
+  /* Light background for the entire page */
+}
+
+/* Card Styles */
+.card {
+  width: 100%;
+  /* Full width on smaller screens */
+  max-width: 600px;
+  /* Max width for larger screens */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow */
+  background-color: #ffffff;
+  /* White background for the card */
+  overflow-y: auto;
+  /* Enable vertical scrolling */
+  max-height: 90vh;
+  /* Limit height to 90% of viewport height */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* Smooth transition */
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  /* Lift effect on hover */
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+  /* Increase shadow on hover */
+}
+
+/* Title Styles */
+.card h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+  /* Darker color for better readability */
+  font-weight: 600;
+  /* Bold title */
+}
+
+/* Form Label Styles */
+.form-label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+  /* Darker color for labels */
+}
+
+/* Input and Select Styles */
+.form-control-sm,
+.form-select-sm {
+  font-size: 0.875rem;
+  /* Smaller font size for inputs */
+  border-radius: 5px;
+  /* Rounded corners for inputs */
+  border: 1px solid #ced4da;
+  /* Light border color */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  /* Smooth transition */
+}
+
+.form-control-sm:focus,
+.form-select-sm:focus {
+  border-color: #007bff;
+  /* Change border color on focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  /* Add shadow on focus */
+}
+
+/* Button Styles */
+.btn-primary {
+  background-color: #007bff;
+  /* Bootstrap primary color */
+  border-color: #007bff;
+  /* Border color */
+  font-size: 1rem;
+  /* Font size for button */
+  padding: 0.5rem 1rem;
+  /* Padding for button */
+  text-align: center;
+  /* Center text in button */
+  border-radius: 5px;
+  /* Rounded corners for button */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  /* Smooth transition */
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  /* Darker shade on hover */
+  transform: scale(1.05);
+  /* Slightly increase size on hover */
+}
+
+/* Error Message Styles */
+.text-danger {
+  color: red;
+  /* Red color for error messages */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .card {
+    width: 90%;
+    /* Full width on smaller screens */
+    margin: 10px;
+    /* Margin for smaller screens */
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+    /* Slide in from below */
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: fadeIn 0.5s ease-in;
+  /* Apply fade-in animation */
+}

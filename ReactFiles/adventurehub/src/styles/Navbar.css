@@ -1,0 +1,88 @@
+/* Navbar.css */
+
+/* General Navbar Styles */
+.navbar {
+    background-color: #343a40;
+    /* Dark background for the navbar */
+    padding: 0.5rem 1rem;
+    /* Padding for the navbar */
+    position: fixed;
+    /* Fix the navbar at the top */
+    width: 100%;
+    /* Full width */
+    z-index: 1000;
+    /* Ensure it stays above other content */
+}
+
+/* Navbar Brand */
+.navbar-brand {
+    color: #ffffff;
+    /* White color for the brand */
+    font-weight: bold;
+    /* Bold font for the brand */
+    font-size: 1.5rem;
+    /* Font size for the brand */
+}
+
+/* Navbar Links */
+.nav-link {
+    color: #ffffff;
+    /* White color for the links */
+    transition: color 0.3s;
+    /* Smooth transition for hover effect */
+}
+
+.nav-link:hover {
+    color: #ffc107;
+    /* Yellow color on hover */
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    position: absolute;
+    background-color: #ffffff;
+    /* White background for dropdown */
+    border: 1px solid #dee2e6;
+    /* Light border for dropdown */
+    border-radius: 0.25rem;
+    /* Rounded corners */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    /* Shadow for dropdown */
+    min-width: 150px;
+    /* Minimum width for dropdown */
+    z-index: 1000;
+    /* Ensure it stays above other content */
+}
+
+/* Dropdown Items */
+.dropdown-item {
+    color: #212529;
+    /* Dark color for dropdown items */
+    padding: 0.5rem 1rem;
+    /* Padding for dropdown items */
+    text-align: left;
+    /* Align text to the left */
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+    /* Light background on hover */
+}
+
+/* Logout Button */
+.text-danger {
+    color: #dc3545 !important;
+    /* Red color for logout button */
+}
+
+/* Divider Styles */
+hr {
+    margin: 8px 0;
+    /* Margin for dividers */
+    border-top: 1px solid #dee2e6;
+    /* Light border for dividers */
+}
+/* Add this to your existing Navbar.css or main CSS file */
+body {
+  padding-top: 56px; /* Adjust this value based on the height of your navbar */
+}

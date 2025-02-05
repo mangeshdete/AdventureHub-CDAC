@@ -5,6 +5,7 @@ import '../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js';
 import HomePage from './components/Homepage';
 import LoginPage from './components/LoginPage';
 import Navbar from './components/Navbar.js';
+import Footer from './components/Footer.js';
 import ChooseRole from './components/ChooseRole.js';
 import OrganizerRegisterPage from './components/OrganiserComponents/OrganiserRegistrationPage';
 import CustomerRegistrationPage from './components/CustomerComponents/CustomerRegistrationPage.js';
@@ -12,6 +13,7 @@ import ForgotPassword from './components/ForgotPassword.js';
 import OrganizerDashboard from './components/OrganiserComponents/OrganizerDashboard';
 import CustomerDashboard from './components/CustomerComponents/CustomerDashboard';
 import AdminDashboard from './components/AdminComponents/AdminDashboard.js';
+
 
 function App() {
   return (
@@ -31,6 +33,7 @@ function App() {
           {/* <Route path="/profile" element={<Profile />} />  */}
         </Routes>
       </div>
+        <Footer /> 
     </div>
   );
 }

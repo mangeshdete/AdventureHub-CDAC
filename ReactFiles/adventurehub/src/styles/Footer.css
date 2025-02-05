@@ -1,0 +1,102 @@
+/* Footer.css */
+
+.footer-container {
+    background-color: #ffffff;
+    /* White background */
+    color: #000000;
+    /* Black text color */
+    padding: 10px 0;
+    /* Reduced padding for a smaller footer */
+    font-size: 14px;
+    /* Standard font size */
+    text-align: center;
+    /* Center text alignment */
+    
+}
+
+.footer-wrapper {
+    width: 90%;
+    /* Full width for the container */
+    /* max-width: 900px; */
+    /* Max width for the footer content */
+    margin: 0 auto;
+    /* Center the container */
+    display: flex;
+    /* Flexbox for layout */
+    justify-content: space-between;
+    /* Space between sections */
+    flex-wrap: wrap;
+    /* Wrap sections on smaller screens */
+}
+
+.footer-about,
+.footer-links,
+.footer-contact,
+.footer-social {
+    flex: 1;
+    /* Equal width for each section */
+    margin: 5px;
+    /* Margin between sections */
+    min-width: 150px;
+    /* Minimum width for sections */
+}
+
+.footer-about h4,
+.footer-links h4,
+.footer-contact h4,
+.footer-social h4 {
+    margin-bottom: 5px;
+    /* Space below section titles */
+    font-size: 16px;
+    /* Font size for section titles */
+    font-weight: bold;
+    /* Bold font for section titles */
+}
+
+.footer-wrapper p {
+    margin: 5px 0;
+    /* Space between paragraphs */
+}
+
+.footer-links ul,
+.footer-social ul {
+    list-style: none;
+    /* Remove bullet points */
+    padding: 0;
+    /* Remove padding */
+}
+
+.footer-links ul li,
+.footer-social ul li {
+    margin: 5px 0;
+    /* Space between list items */
+}
+
+.footer-links a,
+.footer-social a {
+    color: #000000;
+    /* Black color for links */
+    text-decoration: none;
+    /* Remove underline */
+    transition: color 0.3s;
+    /* Smooth transition for hover effect */
+}
+
+.footer-links a:hover,
+.footer-social a:hover {
+    color: #f39c12;
+    /* Change color on hover */
+    text-decoration: underline;
+    /* Underline on hover */
+}
+
+.footer-bottom {
+    margin-top: 10px;
+    /* Space above copyright text */
+    font-size: 12px;
+    /* Smaller font size for copyright */
+    border-top: 1px solid #bdc3c7;
+    /* Top border for separation */
+    padding-top: 10px;
+    /* Padding above copyright text */
+}

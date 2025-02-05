@@ -13,16 +13,44 @@
 /* Card Styles */
 .login-card {
   text-align: center;
-  /* padding: 50px 50px; */
   background: #ffffff;
   /* White background */
   color: #000000;
   /* Black text */
   border-radius: 15px;
   max-width: 600px;
-  /* margin: 30px 50px; */
+  margin: 30px auto;
+  /* Center the card horizontally and add vertical margin */
+  margin-top: 90px;
+  margin-bottom: 90px;
+  /* Add top margin to create space above the card */
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
   animation: fadeIn 1.5s ease-in-out;
+  /* Fade-in effect */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* Smooth transition for hover effects */
+}
+
+/* Hover Effect */
+.login-card:hover {
+  transform: scale(1.05);
+  /* Slightly increase size on hover */
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  /* Increase shadow on hover */
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+    /* Slide in from above */
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Heading Style */

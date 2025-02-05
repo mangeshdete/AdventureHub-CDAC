@@ -1,0 +1,153 @@
+/* General Layout */
+.registered-events-container {
+    padding: 60px 30px;
+    /* Increased padding for more space inside the container */
+    background-color: #f8f9fa;
+    /* Light background for consistency */
+    border-radius: 10px;
+    /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+    width: 80%;
+    /* Set a width to make it larger */
+    max-width: 800px;
+    /* Maximum width to prevent it from getting too large on wide screens */
+    margin: 20px auto;
+    /* Center the container with margin */
+    height: auto;
+    /* Allow height to adjust based on content */
+    border: 2px solid #080808;
+}
+
+.registered-events-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 40px;
+    animation: slideInFromTop 0.7s ease-out forwards;
+}
+
+/* Table Styling */
+.registered-events-table-wrapper {
+    margin-top: 30px;
+}
+
+.registered-events-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 8px;
+    /* Rounded corners for the table */
+    overflow: hidden;
+    /* To ensure rounded corners are visible */
+}
+
+.registered-events-table th,
+.registered-events-table td {
+    padding: 15px;
+    text-align: left;
+}
+
+.registered-events-table-header {
+    background-color: #077cf0;
+    /* Dark header for contrast */
+    color: #ffffff;
+    font-size: 1.1rem;
+}
+
+.registered-events-table-row td {
+    font-size: 1rem;
+    color: #2c3e50;
+}
+
+.registered-events-table-row:nth-of-type(odd) {
+    background-color: #ecf0f1;
+    /* Light gray for odd rows */
+}
+
+.registered-events-table-row:hover {
+    background-color: #bdc3c7;
+    /* Hover effect */
+}
+
+.registered-events-table {
+    border: 1px solid #ddd;
+    /* Border for the table */
+}
+
+/* Action Button Styling */
+.view-details-btn {
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 8px 15px;
+    transition: background-color 0.3s, transform 0.2s ease;
+    background-color: #1abc9c;
+    /* Button color */
+    border-color: #1abc9c;
+    color: white;
+    border-radius: 5px;
+    /* Rounded button */
+}
+
+.view-details-btn:hover {
+    background-color: #16a085;
+    /* Darker shade on hover */
+    border-color: #16a085;
+    transform: scale(1.05);
+    /* Slight scale effect */
+}
+
+/* Event Details Styling */
+.event-details-card {
+    background-color: #ffffff;
+    /* White background for details */
+    border-radius: 10px;
+    /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+    padding: 20px;
+    margin-top: 20px;
+    /* Space above the card */
+}
+
+.event-details-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.event-details-info {
+    font-size: 1rem;
+    color: #34495e;
+    margin-bottom: 8px;
+}
+
+.event-details-info strong {
+    font-weight: 600;
+}
+
+/* Ratings */
+.star-rating {
+    font-size: 1.2rem;
+    color: #f39c12;
+    /* Gold color for stars */
+}
+
+/* Fade In Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.registered-events-table,
+.event-details-card {
+    animation: fadeIn 1s ease-in-out;
+    /* Fade in effect */
+}

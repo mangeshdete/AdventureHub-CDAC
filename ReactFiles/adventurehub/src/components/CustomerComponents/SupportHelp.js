@@ -1,17 +1,18 @@
-//support Component
+// SupportHelp.js
 import React from "react";
+import "../../styles/CustomerStyles/SupportHelp.css";
 
 function SupportHelp() {
   return (
-    <div className="container mt-5">
-      <h3 className="mb-4 text-center">Support/Help</h3>
+    <div className="support-help-container">
+      <h3 className="support-help-title">Support & Help</h3>
 
       {/* FAQ Section */}
-      <div className="mb-5">
-        <h4>Frequently Asked Questions</h4>
+      <div className="faq-section">
+        <h4 className="faq-title">Frequently Asked Questions</h4>
         <div className="accordion" id="faqAccordion">
           {[
-            { question: "How do I book an event?", answer: "Login as customer first, , then search for your desired destination, and you can book the events you wanted as per availibility" },
+            { question: "How do I book an event?", answer: "Login as a customer first, then search for your desired destination, and you can book the events you want based on availability." },
             { question: "How do I list an event as an organizer?", answer: "Organizers can create an account, go to the 'Organizer Dashboard,' and click 'Create Event' to list an event." },
             { question: "Can I get a refund after booking?", answer: "Yes, refunds are available based on our cancellation policy. Please refer to our Refund and Cancellation Policy." },
             { question: "How can I modify my booking?", answer: "Log in to your account, navigate to 'My Bookings,' and select the booking you want to modify." },
@@ -22,7 +23,7 @@ function SupportHelp() {
             <div className="accordion-item" key={index}>
               <h2 className="accordion-header" id={`heading${index}`}>
                 <button
-                  className="accordion-button collapsed"
+                  className="accordion-button"
                   type="button"
                   data-bs-toggle="collapse"
                   data-bs-target={`#collapse${index}`}
@@ -43,7 +44,7 @@ function SupportHelp() {
       </div>
 
       {/* Contact Options */}
-      <div className="mb-5">
+      <div className="contact-section">
         <h4>Contact Us</h4>
         <p>If you have any questions or issues, please reach out to us:</p>
         <ul className="list-group">
@@ -53,7 +54,7 @@ function SupportHelp() {
       </div>
 
       {/* Helpful Resources */}
-      <div className="mb-5">
+      <div className="resources-section">
         <h4>Helpful Resources</h4>
         <ul className="list-group">
           <li className="list-group-item"><a href="/terms">Terms and Conditions</a></li>
@@ -63,7 +64,7 @@ function SupportHelp() {
       </div>
 
       {/* Feedback Section */}
-      <div>
+      <div className="feedback-section">
         <h4>Feedback and Suggestions</h4>
         <p>We'd love to hear from you! Share your feedback or suggestions:</p>
         <textarea
