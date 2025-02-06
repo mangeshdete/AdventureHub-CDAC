@@ -12,7 +12,6 @@
   from {
     opacity: 0;
   }
-
   to {
     opacity: 1;
   }
@@ -32,7 +31,6 @@
     transform: translateY(-20px);
     opacity: 0;
   }
-
   to {
     transform: translateY(0);
     opacity: 1;
@@ -106,6 +104,33 @@
   gap: 10px;
 }
 
+/* Expanding and Collapsing Effect for Update Form */
+.update-event-container {
+  display: flex;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  max-height: 800px; /* Adjust as needed */
+}
+
+.update-event-container.expand {
+  max-height: 1500px; /* Height when expanded */
+}
+
+.update-event-container .original-event-details,
+.update-event-container .update-event-details {
+  transition: all 0.3s ease;
+  flex: 1;
+  padding: 15px;
+}
+
+.update-event-container .original-event-details {
+  /* Original event details container styling */
+}
+
+.update-event-container .update-event-details {
+  /* Updated event details container styling */
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .manage-events-container {
@@ -119,5 +144,10 @@
 
   .btn-danger {
     font-size: 0.85rem;
+  }
+
+  /* Add responsiveness for the expanded form if needed */
+  .update-event-container.expand {
+    max-height: 1200px;
   }
 }
