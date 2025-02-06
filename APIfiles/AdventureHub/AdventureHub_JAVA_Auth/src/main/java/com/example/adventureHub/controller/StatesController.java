@@ -1,4 +1,4 @@
-package com.example.adventureHub.controller;
+	package com.example.adventureHub.controller;
 
 import java.util.List;
 

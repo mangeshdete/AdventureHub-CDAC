@@ -73,6 +73,7 @@ namespace AdventureHub_DotNet_Customer.Controllers
                 p.City.Cityname, 
                 p.Street, 
                 p.Pincode,
+                p.Capacity,
                 totalRegistrations = Db.Eventregistrations
                                         .Where(e => e.Publishid == p.Publishid)
                                         .Sum(e => e.Participants)
@@ -96,6 +97,7 @@ namespace AdventureHub_DotNet_Customer.Controllers
                     p.City.Cityname, 
                     p.Street, 
                     p.Pincode,
+                    p.Capacity,
                     totalRegistrations = Db.Eventregistrations
                                         .Where(e => e.Publishid == p.Publishid)
                                         .Sum(e => e.Participants)
