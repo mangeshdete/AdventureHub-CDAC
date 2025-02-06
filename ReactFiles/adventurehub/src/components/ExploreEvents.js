@@ -1,129 +1,161 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Card, Button, Row, Col, Container, Dropdown } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Star } from "lucide-react";
 
-const AdventureHubComponent = () => {
+const ExploreEvents = () => {
   const [states, setStates] = useState([]);
   const [events, setEvents] = useState([]);
-  const [selectedState, setSelectedState] = useState(null);
-  const [viewBy, setViewBy] = useState("state"); // 'state' or 'city'
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const user = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
-  // Fetch all states
-  const fetchStates = async () => {
+  const fetchStatesWithEvents = async () => {
+    setLoading(true);
+    setError(null);
+    console.log(" inside fetchStatesWithEvents");
+
     try {
-      const response = await axios.get("http://localhost:8142/getAllStates");
-      setStates(response.data);
+      const response = await fetch("http://localhost:8142/getAllStates");
+      const statesData = await response.json();
+      console.log(statesData);
+  
+      const statesWithEvents = [];
+      
+      for (const state of statesData) {
+        try {
+          const eventsResponse = await fetch(
+            `https://localhost:9145/PublishEvents/GetNumberOfActiveEventsByStateId?stateid=${state.stateid}`
+          );
+          const eventCount = await eventsResponse.json();
+          console.log(eventCount);
+  
+          statesWithEvents.push({ ...state, activeEvents: eventCount });
+        } catch (err) {
+          console.error(`Error fetching events for state ${state.stateid}:`, err);
+        }
+      }
+  
+      setStates(statesWithEvents);
     } catch (error) {
-      console.error("Error fetching states:", error);
+      setError("Error fetching states. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
+  
 
-  // Fetch number of active events for a state
-  const fetchActiveEventsCount = async (stateId) => {
+  const fetchEventsForLoggedInUser = async () => {
+    setLoading(true);
+    setError(null);
+    setEvents([]);
+    console.log("inside fetchEventsForLoggedInUser");
+  
     try {
-      const response = await axios.get(
-        `https://localhost:9145/PublishEvents/GetNumberOfActiveEventsByStateId?stateid=${stateId}`
+      const { cityid, states } = user.user.cities; // Corrected path
+      const stateid = states.stateid; // Extract stateid
+  
+      const response = await fetch(
+        `https://localhost:9145/PublishEvents/getPublishedEventsByCityIdOrStateId?cityid=${cityid}&stateid=${stateid}`
       );
-      return response.data;
+  
+      if (!response.ok) {
+        throw new Error("Failed to fetch events");
+      }
+  
+      const eventData = await response.json();
+      setEvents(eventData);
+      console.log("fetchEventsForLoggedInUser", eventData);
     } catch (error) {
-      console.error("Error fetching active events count:", error);
-      return 0;
+      setError("Error fetching events. Please try again.");
+      console.error("Error fetching events:", error);
+    } finally {
+      setLoading(false);
     }
   };
+  
 
-  // Fetch events by state
-  const fetchEventsByState = async (stateId) => {
+  const fetchEventsByState = async (stateid) => {
+    setLoading(true);
+    setError(null);
+    setEvents([]);
+
     try {
-      const response = await axios.get(
-        `https://localhost:9145/PublishEvents/getAllPublishedEventsByStateId?stateid=${stateId}`
+      const response = await fetch(
+        `https://localhost:9145/PublishEvents/getAllPublishedEventsByStateId?stateid=${stateid}`
       );
-      setEvents(response.data);
+      const eventData = await response.json();
+      setEvents(eventData);
     } catch (error) {
-      console.error("Error fetching events by state:", error);
+      setError("Error fetching events. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Fetch events by city or state
-  const fetchEventsByCityOrState = async (cityId, stateId) => {
-    try {
-      const response = await axios.get(
-        `https://localhost:9145/PublishEvents/getPublishedEventsByCityIdOrStateId?cityid=${cityId}&stateid=${stateId}`
-      );
-      setEvents(response.data);
-    } catch (error) {
-      console.error("Error fetching events by city or state:", error);
-    }
-  };
+  const handleExploreClick = () => {
+    console.log("called button");
+    console.log(user);
 
-  // Handle state card click
-  const handleStateClick = async (stateId) => {
-    setSelectedState(stateId);
-    if (viewBy === "state") {
-      await fetchEventsByState(stateId);
+    if (user.loggedIn && user.user?.user?.roleid?.roleid === 1){
+      fetchEventsForLoggedInUser();
     } else {
-      // For city, you can prompt the user to select a city or pass a default cityId
-      const cityId = 1; // Replace with dynamic cityId logic
-      await fetchEventsByCityOrState(cityId, stateId);
+      fetchStatesWithEvents();
     }
   };
 
-  // Render state cards
-  const renderStateCards = () => {
-    return states.map(async (state) => {
-      const activeEventsCount = await fetchActiveEventsCount(state.id);
-      return (
-        <Col key={state.id} md={4} className="mb-4">
-          <Card onClick={() => handleStateClick(state.id)}>
-            <Card.Body>
-              <Card.Title>{state.name}</Card.Title>
-              <Card.Text>Active Events: {activeEventsCount}</Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-      );
-    });
-  };
-
-  // Render event cards
-  const renderEventCards = () => {
-    return events.map((event) => (
-      <Col key={event.id} md={4} className="mb-4">
-        <Card>
-          <Card.Body>
-            <Card.Title>{event.name}</Card.Title>
-            <Card.Text>
-              <strong>Date:</strong> {event.date}
-              <br />
-              <strong>Location:</strong> {event.location}
-            </Card.Text>
-          </Card.Body>
-        </Card>
-      </Col>
-    ));
+  const handleRegistration = (publishId) => {
+    if (!user.loggedIn) {
+      navigate("/login");
+    }
+    // Leave this part for you to implement
   };
 
   return (
-    <Container>
-      <h1>Adventure Hub</h1>
-      <Button onClick={fetchStates} className="mb-3">
+    <div className="container">
+      <button onClick={handleExploreClick} className="explore-btn">
         Explore Now
-      </Button>
+      </button>
 
-      <Dropdown className="mb-3">
-        <Dropdown.Toggle variant="secondary">
-          View By: {viewBy === "state" ? "State" : "City"}
-        </Dropdown.Toggle>
-        <Dropdown.Menu>
-          <Dropdown.Item onClick={() => setViewBy("state")}>State</Dropdown.Item>
-          <Dropdown.Item onClick={() => setViewBy("city")}>City</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
+      {loading && <p>Loading...</p>}
+      {error && <p className="error">{error}</p>}
 
-      <Row>
-        {selectedState ? renderEventCards() : renderStateCards()}
-      </Row>
-    </Container>
+      {!user.loggedIn && (
+        <div className="states-scroll-container">
+          {states.map((state) => (
+            <div
+              key={state.stateid}
+              className="state-card"
+              onClick={() => fetchEventsByState(state.stateid)}
+            >
+              <h3>{state.statename}</h3>
+              <p>Ongoing Events: {state.activeEvents}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div className="events-container">
+        {events.map((event) => (
+          <div key={event.publishid} className="event-card">
+            <h3>{event.eventname}</h3>
+            <p>
+              Rating:{" "}
+              {Array.from({ length: Math.round(event.rating) }, (_, i) => (
+                <Star key={i} size={16} fill="gold" stroke="gold" />
+              ))}
+            </p>
+            <p>Price: ₹{event.price}</p>
+            <p>Location: {event.street}, {event.cityname}</p>
+            <p>Pincode: {event.pincode}</p>
+            <p>Total Registrations: {event.totalRegistrations}</p>
+            <button onClick={() => handleRegistration(event.publishid)}>REGISTER FOR THIS EVENT</button>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 
-export default AdventureHubComponent;
+export default ExploreEvents;
