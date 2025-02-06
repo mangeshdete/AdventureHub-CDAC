@@ -43,7 +43,7 @@ const LoginPage = () => {
         throw new Error("Response couldn't be resolved!");
       })
       .then((data) => {
-        console.log(data);
+        //console.log(data);
 
         if (data) {
           dispatch(setUser(data));
