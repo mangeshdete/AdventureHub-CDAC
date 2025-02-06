@@ -12,6 +12,7 @@ import CustomerRegistrationPage from './components/CustomerComponents/CustomerRe
 import ForgotPassword from './components/ForgotPassword.js';
 import OrganizerDashboard from './components/OrganiserComponents/OrganizerDashboard';
 import CustomerDashboard from './components/CustomerComponents/CustomerDashboard';
+import AdminDashboard from './components/AdminComponents/AdminDashboard.js';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
           <Route path='/forgotPassword' element={<ForgotPassword/>}/>
           <Route path='/organizerdashboard' element={<OrganizerDashboard/>} />
           <Route path='/customerdashboard' element={<CustomerDashboard/>} />
+          <Route path='/admindashboard' element={<AdminDashboard/>} />
           {/* <Route path="/profile" element={<Profile />} />  */}
         </Routes>
       </div>
