@@ -1,14 +1,35 @@
 [
   {
     "ContainingType": "AdventureHub_DotNet_Customer.Controllers.EventRegistrationController",
-    "Method": "getCustomerById",
-    "RelativePath": "EventRegistration/getCustomerById",
+    "Method": "CancelEventRegistrationByRegistrationId",
+    "RelativePath": "EventRegistration/CancelEventRegistrationByRegistrationId",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "rid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "message",
+        "Type": "AdventureHub.Models.CancelRequestMessageHelper",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub_DotNet_Customer.Controllers.EventRegistrationController",
+    "Method": "GetAllRefundRequestsByCustomerId",
+    "RelativePath": "EventRegistration/GetAllRefundRequestsByCustomerId",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
+        "Name": "cid",
         "Type": "System.Int32",
         "IsRequired": false
       }
@@ -48,17 +69,86 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "AdventureHub_DotNet_Customer.Controllers.EventRegistrationController",
-    "Method": "updateCustomerDetails",
-    "RelativePath": "EventRegistration/updateCustomerDetails",
-    "HttpMethod": "PUT",
+    "ContainingType": "AdventureHub_DotNet_Customer.Controllers.PaymentController",
+    "Method": "getPaymentHistoryByCustId",
+    "RelativePath": "Payment/getPaymentHistoryByCustId",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "updated",
-        "Type": "AdventureHub_DotNet_Customer.Models.Customer",
+        "Name": "cid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub_DotNet_Customer.Controllers.PublishEventsController",
+    "Method": "CustomerRegistrationForAnEvent",
+    "RelativePath": "PublishEvents/CustomerRegistrationForAnEvent",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "eventReg",
+        "Type": "AdventureHub_DotNet_Customer.Models.Eventregistration",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub_DotNet_Customer.Controllers.PublishEventsController",
+    "Method": "getAllPublishedEventsByStateId",
+    "RelativePath": "PublishEvents/getAllPublishedEventsByStateId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stateid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub_DotNet_Customer.Controllers.PublishEventsController",
+    "Method": "GetNumberOfActiveEventsByStateId",
+    "RelativePath": "PublishEvents/GetNumberOfActiveEventsByStateId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stateid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub_DotNet_Customer.Controllers.PublishEventsController",
+    "Method": "getPublishedEventsByCityIdOrStateId",
+    "RelativePath": "PublishEvents/getPublishedEventsByCityIdOrStateId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cityid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "stateid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

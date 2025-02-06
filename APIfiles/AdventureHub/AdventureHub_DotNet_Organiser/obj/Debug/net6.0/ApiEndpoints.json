@@ -95,6 +95,54 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "AdventureHub.Controllers.PaymentsController",
+    "Method": "ApproveRefundRequestByRegistrationId",
+    "RelativePath": "Payments/ApproveRefundRequestByRegistrationId",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "rid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub.Controllers.PaymentsController",
+    "Method": "GetAllRefundRequestsByPublishId",
+    "RelativePath": "Payments/GetAllRefundRequestsByPublishId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub.Controllers.PaymentsController",
+    "Method": "RejectRefundRequestByRegistrationId",
+    "RelativePath": "Payments/RejectRefundRequestByRegistrationId",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "rid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "AdventureHub.Controllers.PublishEventController",
     "Method": "GetPublishedEventById",
     "RelativePath": "PublishEvent/GetPublishedEventById",
