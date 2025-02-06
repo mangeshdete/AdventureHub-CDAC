@@ -20,7 +20,7 @@ function CreateEventComponent({ cityid: propCityid }) {
   const regexPatterns = {
     price: /^\d+(\.\d{1,2})?$/,
     capacity: /^\d+$/,
-    street: /^(?=.[A-Za-z])(?=.\d)[A-Za-z0-9\s,'-]{3,}$/,
+    street:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9\s,'-]{3,}$/,
     pincode: /^\d{6}$/,
   };
 
@@ -118,40 +118,81 @@ function CreateEventComponent({ cityid: propCityid }) {
       return;
     }
 
+    // const payload = {
+    //   eventid: parseInt(eventDetails.eventid),
+    //   organiserid: 1,
+    //   eventdate: eventDetails.eventdate,
+    //   eventtime: eventDetails.eventtime+":00" || "00:00:00",
+    //   price: parseFloat(eventDetails.price) || 0,
+    //   capacity: parseInt(eventDetails.capacity) || 0,
+    //   status: "PROCESSING",
+    //   street: eventDetails.street,
+    //   cityid: parseInt(eventDetails.cityid),
+    //   pincode: eventDetails.pincode,
+    //   stateid: parseInt(eventDetails.stateid),
+    //   categoryid: parseInt(eventDetails.categoryId)
+    // };
+
     const payload = {
-      eventid: parseInt(eventDetails.eventid),
+      eventid: parseInt(eventDetails.eventid) || 0,
       organiserid: 1,
-      eventdate: eventDetails.eventdate,
-      eventtime: eventDetails.eventtime || "00:00:00",
+      eventdate: eventDetails.eventdate || "1970-01-01",  // Fallback to a default date
+      eventtime: eventDetails.eventtime ? eventDetails.eventtime + ":00" : "00:00:00",
       price: parseFloat(eventDetails.price) || 0,
       capacity: parseInt(eventDetails.capacity) || 0,
       status: "PROCESSING",
-      street: eventDetails.street,
-      cityid: parseInt(eventDetails.cityid),
-      pincode: eventDetails.pincode,
-      stateid: parseInt(eventDetails.stateid),
-      categoryId: parseInt(eventDetails.categoryId),
+      street: eventDetails.street || "",
+      cityid: parseInt(eventDetails.cityid) || 0,
+      pincode: eventDetails.pincode || "",
+      stateid: parseInt(eventDetails.stateid) || 0,
+      categoryid: parseInt(eventDetails.categoryId) || 0
     };
+    
 
-    fetch("https://localhost:9144/PublishEvent/PublishNewEvent", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    })
-      .then((response) => {
-        if (response.ok) return response.json();
-      })
-      .then((data) => {
-        console.log("Event Created:", data);
-        alert("Event created successfully!");
-      })
-      .catch((error) => {
+    console.log(payload);
+
+    // fetch("https://localhost:9144/PublishEvent/PublishNewEvent", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(payload),
+    // })
+    //   .then((response) => {
+    //     if (response.ok) return response.json();
+    //   })
+    //   .then((data) => {
+    //     console.log("Event Created:", data);
+    //     alert("Event created successfully!");
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error creating event:", error);
+    //     alert("There was an error creating the event.");
+    //   });
+  
+
+  fetch("https://localhost:9144/PublishEvent/PublishNewEvent", {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return response.text();
+  })
+  .then((data) => {
+         console.log("Event Created:", data);
+         alert("Event created successfully!");
+       })
+  .catch((error) => {
         console.error("Error creating event:", error);
         alert("There was an error creating the event.");
       });
-  };
+};
 
   return (
     <div className="event-form-container">
@@ -310,3 +351,19 @@ function CreateEventComponent({ cityid: propCityid }) {
 }
 
 export default CreateEventComponent;
+
+
+// {
+//   "capacity":20,
+//   "categoryid":1,
+//   "cityid":67,
+//   "eventdate":"2025-02-27",
+//   "eventid":7,
+//   "eventtime":"17:30:00",
+//   "organiserid":1,
+//   "pincode":"432345",
+//   "price":100,
+//   "stateid":14,
+//   "status":"PROCESSING",
+//   "street":"2,Hera Chowak"
+//   }
