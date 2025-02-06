@@ -2,12 +2,15 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Star } from "lucide-react";
+import EventRegistrationForm from "./EventRegistrationForm"; // Import the form component
 
 const ExploreEvents = () => {
   const [states, setStates] = useState([]);
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [showForm, setShowForm] = useState(false); // Track whether to show the registration form
+  const [selectedEvent, setSelectedEvent] = useState(null); // Store the selected event for registration
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
 
@@ -44,7 +47,6 @@ const ExploreEvents = () => {
       setLoading(false);
     }
   };
-  
 
   const fetchEventsForLoggedInUser = async () => {
     setLoading(true);
@@ -74,7 +76,6 @@ const ExploreEvents = () => {
       setLoading(false);
     }
   };
-  
 
   const fetchEventsByState = async (stateid) => {
     setLoading(true);
@@ -92,6 +93,7 @@ const ExploreEvents = () => {
     } finally {
       setLoading(false);
     }
+
   };
 
   const handleExploreClick = () => {
@@ -105,11 +107,18 @@ const ExploreEvents = () => {
     }
   };
 
-  const handleRegistration = (publishId) => {
+  const handleRegistration = (event) => {
     if (!user.loggedIn) {
       navigate("/login");
+    } else {
+      setSelectedEvent(event); // Set the selected event for registration
+      setShowForm(true); // Show the registration form
     }
-    // Leave this part for you to implement
+  };
+
+  const handleCloseForm = () => {
+    setShowForm(false); // Close the registration form
+    setSelectedEvent(null); // Reset selected event
   };
 
   return (
@@ -149,11 +158,18 @@ const ExploreEvents = () => {
             <p>Price: ₹{event.price}</p>
             <p>Location: {event.street}, {event.cityname}</p>
             <p>Pincode: {event.pincode}</p>
-            <p>Total Registrations: {event.totalRegistrations}</p>
-            <button onClick={() => handleRegistration(event.publishid)}>REGISTER FOR THIS EVENT</button>
+            <p>Remaining Slots: {event.capacity-event.totalRegistrations}</p>
+            <button onClick={() => handleRegistration(event)}>REGISTER FOR THIS EVENT</button>
           </div>
         ))}
       </div>
+
+      {showForm && (
+        <EventRegistrationForm
+          publishId={selectedEvent.publishid}
+          onClose={handleCloseForm}
+        />
+      )}
     </div>
   );
 };

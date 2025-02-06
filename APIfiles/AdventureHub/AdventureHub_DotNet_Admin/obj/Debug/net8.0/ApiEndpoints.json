@@ -1,6 +1,16 @@
 [
   {
     "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
+    "Method": "GetEventsRegisteredLastMonth",
+    "RelativePath": "Admin/GetEventsRegisteredLastMonth",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
     "Method": "GetPublishedEventsByStatus",
     "RelativePath": "Admin/GetPublishedEventsByStatus",
     "HttpMethod": "GET",
@@ -50,6 +60,16 @@
         "IsRequired": false
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
+    "Method": "GetTop10HighestRatedOrganizer",
+    "RelativePath": "Admin/GetTop10HighestRatedOrganizer",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   }
 ]
