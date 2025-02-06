@@ -1,0 +1,26 @@
+# Ignore build and output files
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+
+# Ignore user-specific configuration files
+*.user
+*.suo
+*.vs/
+*.vscode/
+*.swp
+*.cache
+*.log
+
+# Ignore environment & dependency files
+.vs/
+.idea/
+node_modules/
+packages/
+migrations/
+
+# Ignore system files
+Thumbs.db
+Desktop.ini
