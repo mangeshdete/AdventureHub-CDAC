@@ -117,6 +117,32 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "AdventureHub_DotNet_Customer.Controllers.PaymentController",
+    "Method": "GetPaymentModes",
+    "RelativePath": "Payment/GetPaymentModes",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub_DotNet_Customer.Controllers.PaymentController",
+    "Method": "Payment",
+    "RelativePath": "Payment/Payment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "payment",
+        "Type": "AdventureHub_DotNet_Customer.Models.Payment",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "AdventureHub_DotNet_Customer.Controllers.PublishEventsController",
     "Method": "CustomerRegistrationForAnEvent",
     "RelativePath": "PublishEvents/CustomerRegistrationForAnEvent",
