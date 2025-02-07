@@ -22,6 +22,8 @@ const UpdateProfileComponent = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [validationErrors, setValidationErrors] = useState({});
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [failureMessage, setFailureMessage] = useState(null);
 
   useEffect(() => {
     async function fetchStates() {
@@ -66,12 +68,12 @@ const UpdateProfileComponent = () => {
   }, [editableFields.stateid]);
 
   useEffect(() => {
-    if (user) {
+    if (user && user.user) {
       setCustomerData(user);
       setEditableFields({
-        email: user.user?.user.email || "",
+        email: user.user?.user?.email || "",
         password: "",
-        contact: user.user?.user.contact || "",
+        contact: user.user?.user?.contact || "",
         firstName: user.user?.fname || "",
         lastName: user.user?.lname || "",
         dob: user.user?.dob || "",
@@ -94,6 +96,16 @@ const UpdateProfileComponent = () => {
       [name]: "",
     }));
   };
+  useEffect(() => {
+    if (successMessage || failureMessage) {
+      const timer = setTimeout(() => {
+        setSuccessMessage(null);
+        setFailureMessage(null);
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage, failureMessage]);
 
   const validateFields = () => {
     const errors = {};
@@ -138,24 +150,25 @@ const UpdateProfileComponent = () => {
     }
 
     const updatedData = {
-      custid: customerData.user.custid,
-      userid: customerData.user?.user.userid,
+      custid: customerData?.user?.custid,
+      userid: customerData?.user?.userid,
       fname: editableFields.firstName,
       lname: editableFields.lastName,
-      street: customerData.user.street,
+      street: customerData?.user?.street,
       cityid: editableFields.cityid,
-      pincode: customerData.user.pincode,
-      aadhaar: customerData.user?.aadhaar,
-      dob: customerData.user.dob,
+      pincode: customerData?.user?.pincode,
+      aadhaar: customerData?.user?.aadhaar,
+      dob: customerData?.user?.dob,
       user: {
-        userid: customerData.user?.user.userid,
+        userid: customerData?.user?.userid,
         password: editableFields.password,
-        contact: editableFields.contact,
+        contact: editableFields?.contact,
         email: editableFields.email,
-        qid: customerData.user?.user.questions.qid,
-        securityqans: customerData.user?.user.securityqans,
+        qid: customerData?.user?.questions?.qid,
+        securityqans: customerData?.user?.user?.securityqans,
       },
     };
+    console.log(updatedData);
 
     try {
       const response = await fetch(
@@ -172,15 +185,16 @@ const UpdateProfileComponent = () => {
       if (!response.ok) {
         const errorResponse = await response.json();
         console.error("Server error response:", errorResponse);
+        setFailureMessage("Failed to update profile.");
         throw new Error(`Error: ${response.statusText}`);
       }
 
       const result = await response.json();
-      alert("Profile updated successfully!");
+      setSuccessMessage("Profile updated successfully!");
       console.log(result);
     } catch (err) {
       console.error("Error during PUT request:", err);
-      alert("Failed to update profile.");
+      setFailureMessage("Failed to update profile.");
     }
   };
 
@@ -202,7 +216,7 @@ const UpdateProfileComponent = () => {
                   <input
                     type="email"
                     className="form-control"
-                    value={customerData.user?.user.email || ""}
+                    value={customerData?.user?.user?.email || ""}
                     disabled
                   />
                 </div>
@@ -211,7 +225,7 @@ const UpdateProfileComponent = () => {
                   <input
                     type="text"
                     className="form-control"
-                    value={customerData.user?.user.contact || ""}
+                    value={customerData?.user?.user?.contact || ""}
                     disabled
                   />
                 </div>
@@ -220,7 +234,7 @@ const UpdateProfileComponent = () => {
                   <input
                     type="text"
                     className="form-control"
-                    value={customerData.user?.fname || ""}
+                    value={customerData?.user?.fname || ""}
                     disabled
                   />
                 </div>
@@ -229,7 +243,7 @@ const UpdateProfileComponent = () => {
                   <input
                     type="text"
                     className="form-control"
-                    value={customerData.user?.lname || ""}
+                    value={customerData?.user?.lname || ""}
                     disabled
                   />
                 </div>
@@ -238,7 +252,7 @@ const UpdateProfileComponent = () => {
                   <input
                     type="date"
                     className="form-control"
-                    value={customerData.user?.dob || ""}
+                    value={customerData?.user?.dob || ""}
                     disabled
                   />
                 </div>
@@ -247,7 +261,7 @@ const UpdateProfileComponent = () => {
                   <input
                     type="text"
                     className="form-control"
-                    value={customerData.user?.aadhaar || ""}
+                    value={customerData?.user?.aadhaar || ""}
                     disabled
                   />
                 </div>
@@ -256,7 +270,7 @@ const UpdateProfileComponent = () => {
                   <input
                     type="text"
                     className="form-control"
-                    value={customerData.user?.cities?.states?.statename || ""}
+                    value={customerData?.user?.cities?.states?.statename || ""}
                     disabled
                   />
                 </div>
@@ -265,7 +279,7 @@ const UpdateProfileComponent = () => {
                   <input
                     type="text"
                     className="form-control"
-                    value={customerData.user?.cities?.cityname || ""}
+                    value={customerData?.user?.cities?.cityname || ""}
                     disabled
                   />
                 </div>
@@ -378,6 +392,23 @@ const UpdateProfileComponent = () => {
           </form>
         </div>
       </div>
+
+      {successMessage && (
+        <div
+          className="alert alert-success"
+          style={{ position: "fixed", top: "500px", right: "500px", zIndex: 9999 }}
+        >
+          {successMessage}
+        </div>
+      )}
+      {failureMessage && (
+        <div
+          className="alert alert-danger"
+          style={{ position: "fixed", top: "500px", right: "500px", zIndex: 9999 }}
+        >
+          {failureMessage}
+        </div>
+      )}
     </div>
   );
 };
