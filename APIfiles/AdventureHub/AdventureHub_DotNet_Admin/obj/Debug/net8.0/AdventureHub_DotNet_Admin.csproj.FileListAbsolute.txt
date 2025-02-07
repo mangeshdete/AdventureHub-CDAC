@@ -124,3 +124,4 @@ C:\Users\tejas\OneDrive\Desktop\Github\AdventureHub-CDAC\APIfiles\AdventureHub\A
 C:\Users\tejas\OneDrive\Desktop\Github\AdventureHub-CDAC\APIfiles\AdventureHub\AdventureHub_DotNet_Admin\obj\Debug\net8.0\AdventureHub_DotNet_Admin.pdb
 C:\Users\tejas\OneDrive\Desktop\Github\AdventureHub-CDAC\APIfiles\AdventureHub\AdventureHub_DotNet_Admin\obj\Debug\net8.0\AdventureHub_DotNet_Admin.genruntimeconfig.cache
 C:\Users\tejas\OneDrive\Desktop\Github\AdventureHub-CDAC\APIfiles\AdventureHub\AdventureHub_DotNet_Admin\obj\Debug\net8.0\ref\AdventureHub_DotNet_Admin.dll
+C:\Users\Mangesh\OneDrive\Desktop\CDAC Project\APIfiles\AdventureHub\AdventureHub_DotNet_Admin\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

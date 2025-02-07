@@ -34,7 +34,7 @@ const EventRegistrationForm = ({ publishId, onClose, eventDetails }) => {
     const fetchEventPrice = async () => {
       try {
         const response = await fetch(
-          `https://localhost:9145/PublishEvents/getAllPublishedEventsByStateId?stateid=1`
+          `https://localhost:9145/PublishEvents/getAllPublishedEventsByStateId?stateid=${eventDetails.stateid}`
         );
         const data = await response.json();
         const event = data.find((event) => event.publishid === publishId);
@@ -78,10 +78,10 @@ const EventRegistrationForm = ({ publishId, onClose, eventDetails }) => {
       cancellationreason: null, 
       payments: [
         {
-                paymentmodeid: selectedPaymentMode, 
-                date: new Date().toISOString(), 
-                amount: totalAmount, 
-                paymentstatus: "SUCCESSFULL"
+          paymentmodeid: selectedPaymentMode, 
+          date: new Date().toISOString(), 
+          amount: totalAmount, 
+          paymentstatus: "SUCCESSFULL"
         } 
       ] 
     };
@@ -132,8 +132,8 @@ const EventRegistrationForm = ({ publishId, onClose, eventDetails }) => {
         </Modal.Header>
         <Modal.Body>
           <div className="event-details mb-3">
-            <h4>{eventDetails?.name}</h4>
-            <p>{eventDetails?.description}</p>
+            <h4>{eventDetails?.eventname}</h4>
+            <p><span style={{color : "gray"}}>{eventDetails?.cityname}, {eventDetails?.statename}</span></p>
           </div>
           <Form>
             <Form.Group controlId="firstName">

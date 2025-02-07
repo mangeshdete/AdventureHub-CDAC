@@ -1,8 +1,40 @@
 [
   {
     "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
-    "Method": "GetEventsRegisteredLastMonth",
-    "RelativePath": "Admin/GetEventsRegisteredLastMonth",
+    "Method": "ApproveCancelRequestByRegId",
+    "RelativePath": "Admin/ApproveCancelRequestByRegId",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "regId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
+    "Method": "ApproveUpdateRequestByPublishId",
+    "RelativePath": "Admin/ApproveUpdateRequestByPublishId",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pid",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
+    "Method": "GetAllEventsPublishedInLastMonth",
+    "RelativePath": "Admin/GetAllEventsPublishedInLastMonth",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -11,39 +43,22 @@
   },
   {
     "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
-    "Method": "GetPublishedEventsByStatus",
-    "RelativePath": "Admin/GetPublishedEventsByStatus",
+    "Method": "GetAllPaymentsForAdmin",
+    "RelativePath": "Admin/GetAllPaymentsForAdmin",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "status",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
     "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
-    "Method": "GetPublishedEventsThatToBeCancel",
-    "RelativePath": "Admin/GetPublishedEventsThatToBeCancel",
+    "Method": "GetAllUpdateRequestsForAdmin",
+    "RelativePath": "Admin/GetAllUpdateRequestsForAdmin",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "status",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -64,12 +79,38 @@
   },
   {
     "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
+    "Method": "GetToBeCancelledRequestsForAdmin",
+    "RelativePath": "Admin/GetToBeCancelledRequestsForAdmin",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
     "Method": "GetTop10HighestRatedOrganizer",
     "RelativePath": "Admin/GetTop10HighestRatedOrganizer",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
+    "Method": "RejectCancelRequestByRegId",
+    "RelativePath": "Admin/RejectCancelRequestByRegId",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "regId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   }
 ]

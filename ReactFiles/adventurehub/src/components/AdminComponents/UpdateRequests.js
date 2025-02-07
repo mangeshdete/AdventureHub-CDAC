@@ -1,50 +1,54 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button, Container } from "react-bootstrap";
+import { Table, Button, Container, Alert } from "react-bootstrap";
 
 function UpdateRequests() {
-  const [events, setEvents] = useState([]); // State to store events
+  const [events, setEvents] = useState([]);
+  const [message, setMessage] = useState(null);
 
   // Fetch "In Process" Events from API
   const fetchEvents = async () => {
     try {
-      const response = await fetch("https://localhost:7099/Admin/GetPublishedEventsByStatus?status=PROCESSING"); // Replace with actual API
+      const response = await fetch("https://localhost:9146/Admin/GetAllUpdateRequestsForAdmin");
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      const data = await response.json(); // Parse JSON response
-    
+      const data = await response.json();
       setEvents(data);
     } catch (error) {
       console.error("Error fetching events:", error);
     }
   };
 
+  // Show message for 2 seconds
+  const showMessage = (msg, type = "success") => {
+    setMessage({ text: msg, type });
+    setTimeout(() => setMessage(null), 2000);
+  };
+
   // Update Event Status (Allow or Reject)
-  const updateEventStatus = async (eventId, newStatus) => {
+  const updateEventStatus = async (publishId) => {
     try {
-      const response = await fetch(`YOUR_UPDATE_API_URL/${eventId}`, {
-        method: "PUT", // Use PUT method to update event status
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-        },
-        body: JSON.stringify({ status: newStatus }), // Send updated status
+      const response = await fetch(`https://localhost:9146/Admin/ApproveUpdateRequestByPublishId?pid=${publishId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+      const responseText = await response.text(); // Get response message
+
+      if (response.ok) {
+        // Only remove from UI if update was successful
+        setEvents((prevEvents) => prevEvents.filter((event) => event.publishid !== publishId));
+        showMessage(`✅ Event ID ${publishId} updated successfully!`, "success");
+      } else {
+        // Show actual error message from API
+        throw new Error(responseText || "Failed to update event.");
       }
-
-      // Update state after successful API call
-      setEvents(prevEvents => prevEvents.filter(event => event.id !== eventId));
-
-      console.log(`Event ID ${eventId} updated to ${newStatus}`);
     } catch (error) {
-      console.error("Error updating event status:", error);
+      console.error("❌ Error updating event status:", error.message);
+      showMessage(`❌ ${error.message}`, "danger");
     }
   };
 
-  // Fetch events on component mount
   useEffect(() => {
     fetchEvents();
   }, []);
@@ -52,6 +56,14 @@ function UpdateRequests() {
   return (
     <Container className="mt-4">
       <h2 className="mb-3 text-center">Update Requests</h2>
+
+      {/* Popup Message */}
+      {message && (
+        <Alert variant={message.type} className="text-center">
+          {message.text}
+        </Alert>
+      )}
+
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -69,20 +81,28 @@ function UpdateRequests() {
                 <td>{index + 1}</td>
                 <td>{event.eventname}</td>
                 <td>{event.cityname}</td>
-                <td>{event.status}</td>
+                <td><span
+                      className={`badge ${
+                        event.status === "ACTIVE"
+                          ? "bg-success"
+                          : event.status === "CANCELLED"
+                          ? "bg-danger"
+                          : event.status === "TO_BE_CANCELLED"
+                          ? "bg-warning text-dark"
+                          : event.status === "PROCESSING"
+                          ? "bg-warning"
+                          : "bg-secondary"
+                      }`}
+                    >
+                      {event.status}
+                    </span></td>
                 <td>
                   <Button
                     variant="success"
                     className="me-2"
-                    onClick={() => updateEventStatus(event.publishid, "Approved")}
+                    onClick={() => updateEventStatus(event.publishid)}
                   >
-                    Allow
-                  </Button>
-                  <Button
-                    variant="danger"
-                    onClick={() => updateEventStatus(event.publishid, "Rejected")}
-                  >
-                    Reject
+                    Allow Update
                   </Button>
                 </td>
               </tr>

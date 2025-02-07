@@ -69,22 +69,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "AdventureHub_DotNet_Customer.Controllers.EventRegistrationController",
-    "Method": "updateCustomerDetails",
-    "RelativePath": "EventRegistration/updateCustomerDetails",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "updated",
-        "Type": "AdventureHub_DotNet_Customer.Models.Customer",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "AdventureHub_DotNet_Customer.Controllers.PaymentController",
     "Method": "getPaymentHistoryByCustId",
     "RelativePath": "Payment/getPaymentHistoryByCustId",
