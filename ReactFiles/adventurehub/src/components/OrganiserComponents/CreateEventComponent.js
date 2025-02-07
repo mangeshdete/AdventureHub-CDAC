@@ -359,7 +359,7 @@ function CreateEventComponent({ cityid: propCityid }) {
     eventtime: "",
     price: "",
     capacity: "",
-    status: "PROCESSING",
+    status: "ACTIVE",
     street: "",
     cityid: propCityid || "",
     pincode: "",
