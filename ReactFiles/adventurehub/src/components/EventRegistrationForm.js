@@ -34,7 +34,7 @@ const EventRegistrationForm = ({ publishId, onClose, eventDetails }) => {
     const fetchEventPrice = async () => {
       try {
         const response = await fetch(
-          `https://localhost:9145/PublishEvents/getAllPublishedEventsByStateId?stateid=1`
+          `https://localhost:9145/PublishEvents/getAllPublishedEventsByStateId?stateid=${eventDetails.stateid}`
         );
         const data = await response.json();
         const event = data.find((event) => event.publishid === publishId);
@@ -74,15 +74,36 @@ const EventRegistrationForm = ({ publishId, onClose, eventDetails }) => {
       custid: customer.custid,
       publishid: publishId,
       participants: participants,
-      eventPrice: eventPrice,
-      priceToPay: priceToPay,
-      gstAmount: gstAmount,
-      totalAmount: totalAmount,
-      paymentModeId: selectedPaymentMode,
+      status: "ACTIVE",
+      cancellationreason: null, 
+      payments: [
+        {
+          paymentmodeid: selectedPaymentMode, 
+          date: new Date().toISOString(), 
+          amount: totalAmount, 
+          paymentstatus: "SUCCESSFULL"
+        } 
+      ] 
     };
+    // {
+    //   "custid": 1, 
+    //   "publishid": 2, 
+    //   "participants": 5, 
+    //   "status": "ACTIVE", 
+    //   "cancellationreason": null, 
+    //   "payments": [
+    //     {
+    //       "paymentmodeid": 1, 
+    //       "date": "2025-02-06T15:25:49.183Z", 
+    //       "amount": 1000, 
+    //       "paymentstatus": "SUCCESSFULL" 
+    //     }
+    //   ]
+    // }
+    
 
     try {
-      const response = await fetch("https://localhost:9145/SubmitPayment", {
+      const response = await fetch("https://localhost:9145/PublishEvents/CustomerRegistrationForAnEvent", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -111,8 +132,8 @@ const EventRegistrationForm = ({ publishId, onClose, eventDetails }) => {
         </Modal.Header>
         <Modal.Body>
           <div className="event-details mb-3">
-            <h4>{eventDetails?.name}</h4>
-            <p>{eventDetails?.description}</p>
+            <h4>{eventDetails?.eventname}</h4>
+            <p><span style={{color : "gray"}}>{eventDetails?.cityname}, {eventDetails?.statename}</span></p>
           </div>
           <Form>
             <Form.Group controlId="firstName">
@@ -129,7 +150,7 @@ const EventRegistrationForm = ({ publishId, onClose, eventDetails }) => {
               <Form.Label>Address</Form.Label>
               <Form.Control
                 type="text"
-                value={`${customer.street}, ${customer.cityname}, ${customer.statename}`}
+                value={`${customer.street}, ${customer.cities.cityname}, ${customer.cities.states.statename}`}
                 readOnly
               />
             </Form.Group>

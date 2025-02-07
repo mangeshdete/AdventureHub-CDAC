@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AdventureHub")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3511771b3b5dde6ae15e4d71d11dbe17b95f23bd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0f15fe09d9ce256b24072f3dea5b6b6334b9cbc1")]
 [assembly: System.Reflection.AssemblyProductAttribute("AdventureHub")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AdventureHub")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

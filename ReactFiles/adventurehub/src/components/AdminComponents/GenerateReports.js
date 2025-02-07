@@ -16,7 +16,7 @@ const GenerateReports = () => {
 
   // Fetch top 10 highest rated organizers
   const fetchOrganizersData = () => {
-    fetch("http://localhost:5000/api/organizers/top10") // Update with your API URL
+    fetch("https://localhost:9146/Admin/GetTop10HighestRatedOrganizer") // Update with your API URL
       .then((response) => response.json())
       .then((data) => setOrganizers(data))
       .catch((error) => console.error("Error fetching organizers:", error));
@@ -24,12 +24,12 @@ const GenerateReports = () => {
 
   // Fetch events registered in the last month
   const fetchEventsData = () => {
-    fetch("http://localhost:5000/api/eventsLastMonth") // Update with your API URL
+    fetch("https://localhost:9146/Admin/GetAllEventsPublishedInLastMonth") // Update with your API URL
       .then((response) => response.json())
       .then((data) => setEvents(data))
       .catch((error) => console.error("Error fetching events:", error));
   };
-
+  console.log(events)
   // Handle View button for Organizers
   const handleViewOrganizers = () => {
     setViewOrganizers(true);
