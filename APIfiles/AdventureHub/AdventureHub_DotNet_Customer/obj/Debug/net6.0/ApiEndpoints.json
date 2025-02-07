@@ -38,22 +38,6 @@
   },
   {
     "ContainingType": "AdventureHub_DotNet_Customer.Controllers.EventRegistrationController",
-    "Method": "getCustomerById",
-    "RelativePath": "EventRegistration/getCustomerById",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "AdventureHub_DotNet_Customer.Controllers.EventRegistrationController",
     "Method": "GetEventRegistrationDetailsByEventId",
     "RelativePath": "EventRegistration/GetEventRegistrationDetailsByEventId",
     "HttpMethod": "GET",
@@ -80,22 +64,6 @@
         "Name": "cid",
         "Type": "System.Int32",
         "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "AdventureHub_DotNet_Customer.Controllers.EventRegistrationController",
-    "Method": "updateCustomerDetails",
-    "RelativePath": "EventRegistration/updateCustomerDetails",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "updated",
-        "Type": "AdventureHub_DotNet_Customer.Models.Customer",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": []
