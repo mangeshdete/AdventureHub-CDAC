@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Button, Form, Modal, Alert } from "react-bootstrap";
+import { Button, Form, Modal } from "react-bootstrap"; // Importing React-Bootstrap components
 
 const EventRegistrationForm = ({ publishId, onClose, eventDetails }) => {
   const [participants, setParticipants] = useState(1);
@@ -10,22 +10,26 @@ const EventRegistrationForm = ({ publishId, onClose, eventDetails }) => {
   const [selectedPaymentMode, setSelectedPaymentMode] = useState("");
   const [eventPrice, setEventPrice] = useState(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
   const customer = useSelector((state) => state.user.user);
 
+  // Fetch available payment modes
   useEffect(() => {
     const fetchPaymentModes = async () => {
       try {
         const response = await fetch("https://localhost:9145/Payment/GetPaymentModes");
         const data = await response.json();
+        console.log("Payment Modes API Response:", data); // Debugging
         setPaymentModes(data);
       } catch (error) {
+        console.error("Error fetching payment modes:", error);
         setError("Failed to fetch payment modes.");
       }
     };
+
     fetchPaymentModes();
   }, []);
 
+  // Fetch Event Price by publishId
   useEffect(() => {
     const fetchEventPrice = async () => {
       try {
@@ -34,12 +38,17 @@ const EventRegistrationForm = ({ publishId, onClose, eventDetails }) => {
         );
         const data = await response.json();
         const event = data.find((event) => event.publishid === publishId);
-        if (event) setEventPrice(event.price);
-        else setError("Event price not found.");
+        if (event) {
+          setEventPrice(event.price);
+        } else {
+          setError("Event price not found.");
+        }
       } catch (error) {
+        console.error("Error fetching event price:", error);
         setError("Failed to fetch event price.");
       }
     };
+
     fetchEventPrice();
   }, [publishId]);
 
@@ -56,9 +65,6 @@ const EventRegistrationForm = ({ publishId, onClose, eventDetails }) => {
       setError("Please select a payment mode.");
       return;
     }
-    setLoading(true);
-    setError(null);
-    setSuccessMessage("");
 
     const priceToPay = eventPrice * participants;
     const gstAmount = priceToPay * 0.18;
@@ -69,19 +75,35 @@ const EventRegistrationForm = ({ publishId, onClose, eventDetails }) => {
       publishid: publishId,
       participants: participants,
       status: "ACTIVE",
-      cancellationreason: null,
+      cancellationreason: null, 
       payments: [
         {
-          paymentmodeid: selectedPaymentMode,
-          date: new Date().toISOString(),
-          amount: totalAmount,
-          paymentstatus: "SUCCESSFULL",
-        },
-      ],
+                paymentmodeid: selectedPaymentMode, 
+                date: new Date().toISOString(), 
+                amount: totalAmount, 
+                paymentstatus: "SUCCESSFULL"
+        } 
+      ] 
     };
+    // {
+    //   "custid": 1, 
+    //   "publishid": 2, 
+    //   "participants": 5, 
+    //   "status": "ACTIVE", 
+    //   "cancellationreason": null, 
+    //   "payments": [
+    //     {
+    //       "paymentmodeid": 1, 
+    //       "date": "2025-02-06T15:25:49.183Z", 
+    //       "amount": 1000, 
+    //       "paymentstatus": "SUCCESSFULL" 
+    //     }
+    //   ]
+    // }
+    
 
     try {
-      const response = await fetch("https://localhost:9145/EventRegistration/CustomerRegistrationForAnEvent", {
+      const response = await fetch("https://localhost:9145/PublishEvents/CustomerRegistrationForAnEvent", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -89,34 +111,55 @@ const EventRegistrationForm = ({ publishId, onClose, eventDetails }) => {
         body: JSON.stringify(paymentData),
       });
 
-      if (response.ok) {
-        setSuccessMessage("Payment successful! You are registered for the event.");
-        setShowPaymentModal(false);
-        setTimeout(onClose, 2000);
-      } else if (response.status === 400) {
-        setError("Invalid data provided. Please check your inputs.");
-      } else {
-        setError("An internal server error occurred. Please try again later.");
+      if (!response.ok) {
+        throw new Error("Payment failed!");
       }
+
+      alert("Payment successful!");
+      setShowPaymentModal(false);
+      onClose();
     } catch (error) {
-      setError("Payment submission failed. Please check your connection.");
-    } finally {
-      setLoading(false);
+      console.error("Error submitting payment:", error);
+      setError("Payment submission failed.");
     }
   };
 
   return (
     <>
-      <Modal show onHide={onClose} centered>
+      <Modal show onHide={onClose} animation={true} centered>
         <Modal.Header closeButton>
           <Modal.Title>Register for Event</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {error && <Alert variant="danger">{error}</Alert>}
-          {successMessage && <Alert variant="success">{successMessage}</Alert>}
-          <h4>{eventDetails?.name}</h4>
-          <p>{eventDetails?.description}</p>
+          <div className="event-details mb-3">
+            <h4>{eventDetails?.name}</h4>
+            <p>{eventDetails?.description}</p>
+          </div>
           <Form>
+            <Form.Group controlId="firstName">
+              <Form.Label>First Name</Form.Label>
+              <Form.Control type="text" value={customer.fname} readOnly />
+            </Form.Group>
+
+            <Form.Group controlId="lastName">
+              <Form.Label>Last Name</Form.Label>
+              <Form.Control type="text" value={customer.lname} readOnly />
+            </Form.Group>
+
+            <Form.Group controlId="address">
+              <Form.Label>Address</Form.Label>
+              <Form.Control
+                type="text"
+                value={`${customer.street}, ${customer.cities.cityname}, ${customer.cities.states.statename}`}
+                readOnly
+              />
+            </Form.Group>
+
+            <Form.Group controlId="contactNo">
+              <Form.Label>Contact No</Form.Label>
+              <Form.Control type="text" value={customer.user.contact} readOnly />
+            </Form.Group>
+
             <Form.Group controlId="participants">
               <Form.Label>Number of Participants</Form.Label>
               <Form.Control
@@ -126,24 +169,46 @@ const EventRegistrationForm = ({ publishId, onClose, eventDetails }) => {
                 min="1"
               />
             </Form.Group>
+
+            {error && <div className="alert alert-danger">{error}</div>}
+
             <div className="d-flex justify-content-between mt-4">
-              <Button variant="secondary" onClick={onClose}>Cancel</Button>
-              <Button variant="primary" onClick={handlePayNowClick} disabled={!eventPrice}>
-                {eventPrice ? "Pay Now" : "Loading Price..."}
+              <Button variant="secondary" onClick={onClose}>
+                Cancel
+              </Button>
+              <Button variant="primary" onClick={handlePayNowClick} disabled={eventPrice === null}>
+                {eventPrice === null ? "Loading Price..." : "Pay Now"}
               </Button>
             </div>
           </Form>
         </Modal.Body>
       </Modal>
 
+      {/* Payment Modal */}
       <Modal show={showPaymentModal} onHide={() => setShowPaymentModal(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>Complete Payment</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p><strong>Price to Pay:</strong> ₹{(eventPrice * participants).toFixed(2)}</p>
-          <p><strong>GST (18%):</strong> ₹{(eventPrice * participants * 0.18).toFixed(2)}</p>
-          <p><strong>Total Price:</strong> ₹{(eventPrice * participants * 1.18).toFixed(2)}</p>
+          <p>
+            <strong>Username:</strong> {customer.fname} {customer.lname}
+          </p>
+          <p>
+            <strong>No. of Participants:</strong> {participants}
+          </p>
+          <p>
+            <strong>Price per Participant:</strong> ₹{eventPrice}
+          </p>
+          <p>
+            <strong>Price to Pay:</strong> ₹{eventPrice * participants}
+          </p>
+          <p>
+            <strong>GST (18%):</strong> ₹{(eventPrice * participants * 0.18).toFixed(2)}
+          </p>
+          <p>
+            <strong>Total Price:</strong> ₹{(eventPrice * participants * 1.18).toFixed(2)}
+          </p>
+
           <Form.Group>
             <Form.Label>Select Payment Mode</Form.Label>
             <Form.Control
@@ -152,15 +217,24 @@ const EventRegistrationForm = ({ publishId, onClose, eventDetails }) => {
               onChange={(e) => setSelectedPaymentMode(e.target.value)}
             >
               <option value="">Select</option>
-              {paymentModes.length > 0 ? paymentModes.map((mode) => (
-                <option key={mode.paymentmodeid} value={mode.paymentmodeid}>{mode.paymentmodename}</option>
-              )) : <option disabled>No payment modes available</option>}
+              {paymentModes && paymentModes.length > 0 ? (
+                paymentModes.map((mode) => (
+                  <option key={mode.paymentmodeid} value={mode.paymentmodeid}>
+                    {mode.paymentmodename}
+                  </option>
+                ))
+              ) : (
+                <option disabled>No payment modes available</option>
+              )}
             </Form.Control>
           </Form.Group>
+
           <div className="d-flex justify-content-between mt-4">
-            <Button variant="secondary" onClick={() => setShowPaymentModal(false)}>Cancel</Button>
-            <Button variant="success" onClick={handlePaymentSubmit} disabled={!selectedPaymentMode || loading}>
-              {loading ? "Processing..." : "Pay Now"}
+            <Button variant="secondary" onClick={() => setShowPaymentModal(false)}>
+              Cancel
+            </Button>
+            <Button variant="success" onClick={handlePaymentSubmit} disabled={!selectedPaymentMode}>
+              Pay Now
             </Button>
           </div>
         </Modal.Body>

@@ -16,9 +16,10 @@ namespace AdventureHub_DotNet_Customer.Controllers
         [HttpGet]
         public IActionResult getPaymentHistoryByCustId([FromQuery] int cid)
         {
-            var payments = Db.Payments.Where(p => p.Registrationid ==
-                (Db.Eventregistrations.Where(r => r.Custid == cid).
-                    Select(r => r.Registrationid).FirstOrDefault())).Select(r => new { r.Registration.Publish.Event.Eventname, r.Amount, r.Date, r.Paymentstatus });
+            //var payments = Db.Payments.Where(p => p.Registrationid ==
+            //    (Db.Eventregistrations.Where(r => r.Custid == cid).
+            //        Select(r => r.Registrationid).FirstOrDefault())).Select(r => new { r.Registration.Publish.Event.Eventname, r.Amount, r.Date, r.Paymentstatus });
+            var payments = Db.Payments.Where(p => p.Registration.Custid == cid).Select(r => new { r.Registration.Publish.Event.Eventname, r.Amount, r.Date, r.Paymentstatus });
 
             return Ok(payments);
         }
@@ -31,21 +32,9 @@ namespace AdventureHub_DotNet_Customer.Controllers
 
         }
 
-        [HttpPost]
-  
-        public IActionResult PayForAnEvent([FromBody] Payment payment)
-        {
-            try
-            {
 
-            }
-            catch (System.Exception)
-            {
-                throw;
-
-            }
-          
 
     }
+ }
 
-}
+
