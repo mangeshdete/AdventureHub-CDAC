@@ -1,0 +1,39 @@
+.terms-container {
+  padding: 70px 50px;
+  /* Adjusted padding for a more balanced look */
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #1abc9c;
+  /* Background color */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow for depth */
+}
+
+.terms-container h1 {
+  color: #090808;
+  /* Darker text for headers */
+  margin-bottom: 10px;
+  /* Space below headers */
+}
+
+.terms-container p {
+  color: #040303;
+  /* Text color */
+  font-size: 20px;
+  /* Default font size */
+  text-align: justify;
+  /* Justify text */
+}
+
+/* Change link color to black within the terms container */
+.terms-container a {
+  color: black;
+  /* Set link color to black */
+  text-decoration: none;
+  /* Remove underline */
+}
+
+.terms-container a:hover {
+  text-decoration: underline;
+  /* Underline on hover */
+}

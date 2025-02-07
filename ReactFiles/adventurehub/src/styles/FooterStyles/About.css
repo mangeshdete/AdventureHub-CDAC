@@ -1,0 +1,58 @@
+.about-container {
+    padding: 70px 50px;
+    /* Adjusted padding for a more balanced look */
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #1abc9c;
+    /* Rounded corners */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow for depth */
+    
+}
+
+.about-container h1,
+.about-container h2,
+.about-container h3 {   
+    color: #090808;
+    /* Darker text for headers */
+    margin-top: 0.1px;
+    margin-bottom: 30px;
+    /* Space below headers */
+}
+
+.about-container p {
+    color: #040303;
+    /* Text color */
+    font-size: 20px;
+    /* Default font size */
+    margin-bottom: 25px;
+    /* Space below paragraphs */
+}
+
+@media (max-width: 768px) {
+    .about-container p {
+        font-size: 16px;
+        /* Smaller font size for tablets and mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    .about-container p {
+        font-size: 14px;
+        /* Even smaller font size for mobile */
+    }
+}
+
+.about-container a {
+    color: #007BFF;
+    /* Professional link color */
+    text-decoration: none;
+    /* Remove underline */
+}
+
+.about-container a:hover {
+    text-decoration: underline;
+    /* Underline on hover for links */
+    color: #0056b3;
+    /* Darker shade on hover */
+}

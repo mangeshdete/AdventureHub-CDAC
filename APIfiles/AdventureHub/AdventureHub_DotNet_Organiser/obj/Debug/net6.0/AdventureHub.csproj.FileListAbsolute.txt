@@ -155,3 +155,6 @@ C:\Users\Gaurav\Desktop\Adv\AdventureHub-CDAC\APIfiles\AdventureHub\AdventureHub
 C:\Users\Gaurav\Desktop\Adv\AdventureHub-CDAC\APIfiles\AdventureHub\AdventureHub_DotNet_Organiser\obj\Debug\net6.0\AdventureHub.genruntimeconfig.cache
 C:\Users\Gaurav\Desktop\Adv\AdventureHub-CDAC\APIfiles\AdventureHub\AdventureHub_DotNet_Organiser\obj\Debug\net6.0\ref\AdventureHub.dll
 C:\Users\Mangesh\OneDrive\Desktop\CDAC Project\APIfiles\AdventureHub\AdventureHub_DotNet_Organiser\obj\Debug\net6.0\staticwebassets.upToDateCheck.txt
+C:\Users\DELL\Downloads\AdventureHubProject-React\AdventureHub\AdventureHub-CDAC\APIfiles\AdventureHub\AdventureHub_DotNet_Organiser\obj\Debug\net6.0\AdventureHub.dll
+C:\Users\DELL\Downloads\AdventureHubProject-React\AdventureHub\AdventureHub-CDAC\APIfiles\AdventureHub\AdventureHub_DotNet_Organiser\obj\Debug\net6.0\refint\AdventureHub.dll
+C:\Users\DELL\Downloads\AdventureHubProject-React\AdventureHub\AdventureHub-CDAC\APIfiles\AdventureHub\AdventureHub_DotNet_Organiser\obj\Debug\net6.0\AdventureHub.pdb
