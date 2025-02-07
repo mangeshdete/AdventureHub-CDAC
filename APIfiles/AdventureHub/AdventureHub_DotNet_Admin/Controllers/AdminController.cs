@@ -49,7 +49,8 @@ namespace AdventureHub_DotNet_Admin.Controllers
                 });
                 return Ok(cancelRequests);
             }
-            catch(Exception e){
+            catch (Exception e)
+            {
                 return StatusCode(500, "Internal Server Error");
             }
         }
@@ -89,7 +90,7 @@ namespace AdventureHub_DotNet_Admin.Controllers
                 var events = Db.Publishevents
                     .Where(e => e.Eventdate >= oneMonthAgo) // Filter the events by the date in memory
                     .OrderByDescending(e => e.Eventdate)
-                    .Select(p => new { eventId=p.Publishid, p.Organiser.Orgname, p.Event.Eventname, p.eventdate, p.Eventtime, p.Capacity, p.Status, totalRegistrations=(Db.Eventregistrations.Where(e => e.Publishid==p.Publishid).Select(e => e.Participants).Sum())})
+                    .Select(p => new { eventId = p.Publishid, p.Organiser.Orgname, p.Event.Eventname, p.eventdate, p.Eventtime, p.Capacity, p.Status, totalRegistrations = (Db.Eventregistrations.Where(e => e.Publishid == p.Publishid).Select(e => e.Participants).Sum()) })
                     .ToList();
 
                 if (events.Any())
@@ -107,7 +108,7 @@ namespace AdventureHub_DotNet_Admin.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        
+
         [HttpPut]
         public IActionResult ApproveCancelRequestByRegId([FromQuery] int? regId)
         {
@@ -117,7 +118,7 @@ namespace AdventureHub_DotNet_Admin.Controllers
             if (eventToCancel == null) return NotFound("Event Not Found");
 
             eventToCancel.ToStatus = "CANCELLED"; // Update status
-            
+
             var publishedEvent = Db.Publishevents.Where(p => p.Publishid == eventToCancel.Publishid).FirstOrDefault();
             if (publishedEvent == null) return BadRequest("Published Event Not Found");
 
@@ -182,7 +183,7 @@ namespace AdventureHub_DotNet_Admin.Controllers
         [HttpGet]
         public IActionResult GetAllPaymentsForAdmin()
         {
-            return Ok(Db.Payments.Select(p => new { transactionId=p.Paymentid, p.Registration.Cust.Fname, p.Registration.Cust.Lname, p.Paymentmode.Paymentmodename, p.Date, p.Amount, p.Paymentstatus}).ToList());
+            return Ok(Db.Payments.Select(p => new { transactionId = p.Paymentid, p.Registration.Cust.Fname, p.Registration.Cust.Lname, p.Paymentmode.Paymentmodename, p.Date, p.Amount, p.Paymentstatus }).ToList());
         }
 
     }
