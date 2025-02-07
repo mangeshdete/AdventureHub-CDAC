@@ -26,10 +26,11 @@ const GenerateReports = () => {
   const fetchEventsData = () => {
     fetch("https://localhost:9146/Admin/GetAllEventsPublishedInLastMonth") // Update with your API URL
       .then((response) => response.json())
-      .then((data) => setEvents(data))
+      .then((data) => {
+        console.log(data)
+        setEvents(data)})
       .catch((error) => console.error("Error fetching events:", error));
   };
-  console.log(events)
   // Handle View button for Organizers
   const handleViewOrganizers = () => {
     setViewOrganizers(true);
@@ -73,12 +74,12 @@ const GenerateReports = () => {
     doc.text("Events Registered in Last Month", 20, 10); // Title
 
     // Table Data Formatting
-    const tableColumn = ["Event ID", "Event Name", "Location", "Registration Date"];
+    const tableColumn = ["Event ID", "Event Name", "Organiser", "Registration Date"];
     const tableRows = events.map((event) => [
       event.eventId,
-      event.eventName,
-      event.location,
-      event.registrationDate,
+      event.eventname,
+      event.orgname,
+      event.eventdate,
     ]);
 
     // AutoTable for Table
@@ -128,7 +129,7 @@ const GenerateReports = () => {
               <ul className="list-group">
                 {events.map((event) => (
                   <li className="list-group-item" key={event.eventId}>
-                    <strong>{event.eventName}</strong> ({event.registrationDate}) - {event.location}
+                    <strong>{event.eventname}</strong> {event.eventdate} - {event.eventtime}, TotalRegistrations :{event.totalRegistrations}
                   </li>
                 ))}
               </ul>

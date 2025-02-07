@@ -89,7 +89,7 @@ namespace AdventureHub_DotNet_Admin.Controllers
                 var events = Db.Publishevents
                     .Where(e => e.Eventdate >= oneMonthAgo) // Filter the events by the date in memory
                     .OrderByDescending(e => e.Eventdate)
-                    .Select(p => new { p.Organiser.Orgname, p.Event.Eventname, p.eventdate, p.Eventtime, p.Capacity, p.Status, totalRegistrations=(Db.Eventregistrations.Where(e => e.Publishid==p.Publishid).Select(e => e.Participants).Sum())})
+                    .Select(p => new { eventId=p.Publishid, p.Organiser.Orgname, p.Event.Eventname, p.eventdate, p.Eventtime, p.Capacity, p.Status, totalRegistrations=(Db.Eventregistrations.Where(e => e.Publishid==p.Publishid).Select(e => e.Participants).Sum())})
                     .ToList();
 
                 if (events.Any())
