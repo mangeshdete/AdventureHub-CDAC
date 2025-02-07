@@ -50,8 +50,8 @@ function ViewRegisteredEvents() {
             <tr>
               <th className="p-3 fs-5">Event Name</th>
               <th className="p-3 fs-5">Date & Time</th>
-              <th className="p-3 fs-5">Location</th>
               <th className="p-3 fs-5">Status</th>
+              <th className="p-3 fs-5">Location</th>
               <th className="p-3 fs-5">Action</th>
             </tr>
           </thead>
