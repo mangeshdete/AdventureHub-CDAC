@@ -123,13 +123,13 @@
   padding: 15px;
 }
 
-.update-event-container .original-event-details {
+/* .update-event-container .original-event-details { */
   /* Original event details container styling */
-}
+/* } */
 
-.update-event-container .update-event-details {
+/* .update-event-container .update-event-details { */
   /* Updated event details container styling */
-}
+/* } */
 
 /* Responsive Design */
 @media (max-width: 768px) {
