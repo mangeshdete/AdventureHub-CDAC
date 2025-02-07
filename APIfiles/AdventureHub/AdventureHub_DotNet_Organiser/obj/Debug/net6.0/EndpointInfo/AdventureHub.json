@@ -731,11 +731,13 @@
           },
           "eventdate": {
             "type": "string",
-            "format": "date"
+            "format": "date",
+            "nullable": true
           },
           "eventtime": {
             "type": "string",
-            "format": "time"
+            "format": "time",
+            "nullable": true
           },
           "price": {
             "type": "number",

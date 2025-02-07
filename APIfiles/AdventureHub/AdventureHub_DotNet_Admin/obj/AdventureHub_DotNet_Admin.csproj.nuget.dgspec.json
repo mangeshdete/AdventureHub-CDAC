@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Gaurav\\Desktop\\Adv\\AdventureHub-CDAC\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Admin\\AdventureHub_DotNet_Admin.csproj": {}
+    "C:\\Users\\Mangesh\\OneDrive\\Desktop\\CDAC Project\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Admin\\AdventureHub_DotNet_Admin.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Gaurav\\Desktop\\Adv\\AdventureHub-CDAC\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Admin\\AdventureHub_DotNet_Admin.csproj": {
+    "C:\\Users\\Mangesh\\OneDrive\\Desktop\\CDAC Project\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Admin\\AdventureHub_DotNet_Admin.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Gaurav\\Desktop\\Adv\\AdventureHub-CDAC\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Admin\\AdventureHub_DotNet_Admin.csproj",
+        "projectUniqueName": "C:\\Users\\Mangesh\\OneDrive\\Desktop\\CDAC Project\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Admin\\AdventureHub_DotNet_Admin.csproj",
         "projectName": "AdventureHub_DotNet_Admin",
-        "projectPath": "C:\\Users\\Gaurav\\Desktop\\Adv\\AdventureHub-CDAC\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Admin\\AdventureHub_DotNet_Admin.csproj",
-        "packagesPath": "C:\\Users\\Gaurav\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Gaurav\\Desktop\\Adv\\AdventureHub-CDAC\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Admin\\obj\\",
+        "projectPath": "C:\\Users\\Mangesh\\OneDrive\\Desktop\\CDAC Project\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Admin\\AdventureHub_DotNet_Admin.csproj",
+        "packagesPath": "C:\\Users\\Mangesh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Mangesh\\OneDrive\\Desktop\\CDAC Project\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Admin\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Gaurav\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Mangesh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,7 +26,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -40,7 +43,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -90,7 +94,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -29,7 +29,7 @@ function ViewCurrentEvents() {
     const fetchEvents = async () => {
       try {
         const response = await fetch(
-          `https://localhost:7099/Admin/GetPublishedEventsThatToBeViewByCityId?id=${selectedCityId}`
+          `https://localhost:9146/Admin/GetPublishedEventsThatToBeViewByCityId?id=${selectedCityId}`
         );
         const data = await response.json();
         console.log("Events API Response:", data);
@@ -84,7 +84,7 @@ function ViewCurrentEvents() {
       {selectedCityId && (
         <Container className="mt-4">
           <h2 className="text-center mb-3">
-            Active Events in{" "}
+            Active Events
             {cities.find((city) => city.cityid === selectedCityId)?.cityname}
           </h2>
           <Table striped bordered hover>
@@ -102,10 +102,24 @@ function ViewCurrentEvents() {
                   <tr key={event.publishid}>
                     <td>{index + 1}</td>
                     <td>{event.eventname}</td>
-                    <td>
-                      {cities.find((city) => city.cityid === event.city)?.cityname || "Unknown"}
-                    </td>
-                    <td>{event.status}</td>
+                    <td>{event.cityname}</td>
+                    <td><span
+                    className={`badge ${
+                      event.status === "ACTIVE"
+                        ? "bg-success"
+                        : event.status === "CANCELLED"
+                        ? "bg-danger"
+                        : event.status === "TO_BE_CANCELLED"
+                        ? "bg-warning text-dark"
+                        : event.status === "PROCESSING"
+                        ? "bg-warning"
+                        : event.status === "COMPLETED"
+                        ? "bg-primary"
+                        : "bg-secondary"
+                    }`}
+                  >
+                    {event.status}
+                  </span></td>
                   </tr>
                 ))
               ) : (

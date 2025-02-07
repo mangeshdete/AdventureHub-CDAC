@@ -10,7 +10,7 @@ const ExploreEvents = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showForm, setShowForm] = useState(false); // Track whether to show the registration form
-  const [selectedEvent, setSelectedEvent] = useState(null); // Store the selected event for registration
+  const [selectedEvent, setSelectedEvent] = useState({}); // Store the selected event for registration
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
 
@@ -111,8 +111,10 @@ const ExploreEvents = () => {
     if (!user.loggedIn) {
       navigate("/login");
     } else {
+      console.log(event)
       setSelectedEvent(event); // Set the selected event for registration
       setShowForm(true); // Show the registration form
+      console.log(selectedEvent)
     }
   };
 
@@ -168,6 +170,7 @@ const ExploreEvents = () => {
         <EventRegistrationForm
           publishId={selectedEvent.publishid}
           onClose={handleCloseForm}
+          eventDetails={selectedEvent}
         />
       )}
     </div>

@@ -30,22 +30,5 @@ namespace AdventureHub_DotNet_Customer.Controllers
             return Ok(PaymentModes);
 
         }
-
-        [HttpPost]
-  
-        public IActionResult PayForAnEvent([FromBody] Payment payment)
-        {
-            try
-            {
-
-            }
-            catch (System.Exception)
-            {
-                throw;
-
-            }
-          
-
     }
-
 }
