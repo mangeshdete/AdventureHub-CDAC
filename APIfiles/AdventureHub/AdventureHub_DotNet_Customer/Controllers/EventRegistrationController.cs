@@ -1,6 +1,7 @@
 ﻿using AdventureHub.Models;
 using AdventureHub_DotNet_Customer.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AdventureHub_DotNet_Customer.Controllers
 {
@@ -17,14 +18,14 @@ namespace AdventureHub_DotNet_Customer.Controllers
         [HttpGet]
         public IActionResult GetEventRegistrationsByCustId([FromQuery] int cid)
         {
-            var events = Db.Eventregistrations.Where(e => e.Custid == cid).Where(e => e.Cancellationreason==null).Select(e => new { 
-                e.Registrationid, 
-                e.Publish.Eventid, 
-                e.Publish.Event.Eventname, 
-                e.Publish.Eventdate, 
-                e.Publish.Eventtime, 
-                e.Publish.City.Cityname, 
-                e.Publish.Status 
+            var events = Db.Eventregistrations.Where(e => e.Custid == cid).Where(e => e.Cancellationreason == null).Select(e => new {
+                e.Registrationid,
+                e.Publish.Eventid,
+                e.Publish.Event.Eventname,
+                e.Publish.Eventdate,
+                e.Publish.Eventtime,
+                e.Publish.City.Cityname,
+                e.Publish.Status
             }).ToList();
             return Ok(events);
         }
@@ -32,14 +33,14 @@ namespace AdventureHub_DotNet_Customer.Controllers
         [HttpGet]
         public IActionResult GetEventRegistrationDetailsByEventId([FromQuery] int eid)
         {
-            var eventDetails = Db.Eventregistrations.Where(e => e.Publishid == eid).Select(e => new { 
-                e.Publish.Organiser.Orgname, 
-                e.Publish.Event.Eventname, 
-                e.Publish.Organiser.Rating, 
-                e.Publish.Eventdate, 
-                e.Publish.Eventtime, 
-                e.Publish.Price, 
-                e.Publish.Organiser.User.Contact 
+            var eventDetails = Db.Eventregistrations.Where(e => e.Publishid == eid).Select(e => new {
+                e.Publish.Organiser.Orgname,
+                e.Publish.Event.Eventname,
+                e.Publish.Organiser.Rating,
+                e.Publish.Eventdate,
+                e.Publish.Eventtime,
+                e.Publish.Price,
+                e.Publish.Organiser.User.Contact
             }).ToList();
             return Ok(eventDetails);
         }
@@ -86,11 +87,11 @@ namespace AdventureHub_DotNet_Customer.Controllers
 
                 // Get all refund records for the customer
                 var records = Db.Eventregistrations
-                    .Where(r => r.Custid == cid && r.Cancellationreason!=null )
+                    .Where(r => r.Custid == cid && r.Cancellationreason != null)
                     .Select(r => new
                     {
                         eventName = r.Publish != null ? r.Publish.Event.Eventname : "Unknown Event",
-                        refundStatus = r.Status == "ACTIVE" && r.Cancellationreason != null && r.Cancellationreason!="" ? "APPROVED"
+                        refundStatus = r.Status == "ACTIVE" && r.Cancellationreason != null && r.Cancellationreason != "" ? "APPROVED"
                                        : r.Status == "CANCELLED" && r.Cancellationreason == "" ? "REJECTED"
                                        : r.Status == "CANCELLED" && r.Cancellationreason != null ? "PENDING"
                                        : "TO_BE_REVIEWED",
@@ -108,6 +109,82 @@ namespace AdventureHub_DotNet_Customer.Controllers
                 return StatusCode(500, "Internal Server Error");
             }
         }
+        [HttpGet]
+        public IActionResult getCustomerById([FromQuery] int id)
+        {
+            return Ok(Db.Customers.Include(org => org.User).Where(o => o.Custid == id));
+        }
+
+        [HttpPut]
+        public IActionResult updateCustomerDetails([FromBody] Customer updated)
+        {
+            Console.WriteLine("hello");
+            if (updated == null)
+                return BadRequest("Null Updates not allowed");
+
+            var original = Db.Customers.Include(og => og.User).FirstOrDefault(o => o.Custid == updated.Custid);
+            if (original == null)
+                return BadRequest("Organiser not found");
+
+            original.Fname = updated.Fname ?? original.Fname;
+            original.Lname = updated.Lname ?? original.Lname;
+            original.Street = updated.Street ?? original.Street;
+            original.Cityid = updated.Cityid != 0 ? updated.Cityid : original.Cityid;
+            original.Pincode = updated.Pincode ?? original.Pincode;
+
+            if (updated.User != null)
+            {
+                if (original.User == null)
+                    return StatusCode(500, "Error Updating User specific detaills, check for the User specific details");
+
+                original.User.Contact = updated.User.Contact ?? original.User.Contact;
+                original.User.Email = updated.User.Email ?? original.User.Email;
+            }
+
+            Console.WriteLine(original);
+            try
+            {
+                Db.SaveChanges();
+                return Ok(original);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error Updating Organiser");
+            }
+        }
+
+        //[HttpPut]
+        //public IActionResult updateCustomerDetails([FromBody] Customer? updated)
+        //{
+        //    if(updated == null)
+        //        return BadRequest("Invalid Customer Details");  
+            
+        //    var original = Db.Customers.Include(c => c.User).FirstOrDefault(c => c.Custid==updated.Custid);
+            
+        //    if (original == null)
+        //        return BadRequest("Customer not found");
+        //    original.Fname=updated.Fname ?? original.Fname;
+        //    original.Lname=updated.Lname ?? original.Lname;
+        //    original.Cityid=updated.Cityid !=0 ? updated.Cityid : original.Cityid;
+
+        //    if (updated.User != null)
+        //    {
+        //        if (original.User == null)
+        //            return BadRequest("Error Updating User specific details");
+
+        //        original.User.Contact = updated.User.Contact;
+        //        original.User.Email = updated.User.Email;
+        //    }
+        //    try
+        //    {
+        //        Db.SaveChanges();
+        //        return Ok(original);
+        //    }
+        //    catch (Exception ex) 
+        //    {
+        //        return StatusCode(500, "Internal Server Error");
+        //    };
+        //}
 
     }
 }

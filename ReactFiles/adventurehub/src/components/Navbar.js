@@ -26,11 +26,13 @@ function Navbar() {
   };
 
   const handleProfileClick = () => {
-    if (user.user.roleid.roleid === 1) {
+    if (user?.user?.roleid?.roleid === 1) {
       navigate('/customerdashboard');
-    } else if (user.user.roleid.roleid === 2) {
+    } else if (user?.user?.roleid?.roleid === 2) {
       navigate('/organizerdashboard');
     }
+    else if(user?.roleid?.roleid === 3)
+      navigate('/admindashboard');
   };
 
   useEffect(() => {

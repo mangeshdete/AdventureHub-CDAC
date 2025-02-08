@@ -14,7 +14,7 @@ namespace AdventureHub_DotNet_Customer.Models
         public int Custid { get; set; }
         public int Publishid { get; set; }
         public int Participants { get; set; }
-        public string Status { get; set; } = null!;
+        public string? Status { get; set; } 
         public string? Cancellationreason { get; set; }
 
         public virtual Customer? Cust { get; set; }

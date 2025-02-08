@@ -43,6 +43,22 @@
     }
 }
 
+.success-message {
+    color: green;
+  }
+  
+  .error-messages {
+    color: red;
+  }
+  
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  
+
 .event-form {
         background-color: #f8f9fa;
         width: 100%;

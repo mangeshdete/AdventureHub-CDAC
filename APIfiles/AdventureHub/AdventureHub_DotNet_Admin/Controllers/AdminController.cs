@@ -1,4 +1,5 @@
-﻿using AdventureHub_DotNet_Admin.Models;
+﻿using System.Linq.Expressions;
+using AdventureHub_DotNet_Admin.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,43 +19,46 @@ namespace AdventureHub_DotNet_Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetPublishedEventsByStatus([FromQuery] string status, int id)
+        public IActionResult GetAllUpdateRequestsForAdmin()
         {
-            if (status == "PROCESSING")
+            try
             {
+                return Ok(Db.Publishevents.Select(e => new { e.Publishid, e.Eventid, e.Event.Eventname, e.City.Cityname, e.Status }).Where(e => e.Status == "PROCESSING"));
 
-                return Ok(Db.Publishevents.Select(e => new { e.Publishid, e.Eventid, e.Event.Eventname, e.City.Cityname, e.Status }).Where(e => e.Status == status));
             }
-            return StatusCode(500, "Invalid status");
+            catch (Exception e)
+            {
+                return StatusCode(500, "Invalid status");
+            }
         }
 
 
         [HttpGet]
-        public IActionResult GetPublishedEventsThatToBeCancel([FromQuery] string status)
+        public IActionResult GetToBeCancelledRequestsForAdmin()
         {
-            if (status == "TO_BE_CANCELLED")
+            try
             {
-
-                return Ok(from e in Db.Publishevents
-                          join o in Db.Cancelrequests on e.Publishid equals o.Publishid
-                          select new
-                          {
-                              e.Publishid,
-                              e.Eventid,
-                              e.Event.Eventname,
-                              e.City.Cityname,
-                              e.Status,
-                              o.CancellationReason
-                          });
+                var cancelRequests = Db.Cancelrequests.Where(c => c.FromStatus == "TO_BE_CANCELLED" && c.ToStatus == null).Select(c => new
+                {
+                    c.Id,
+                    c.Publish.Event.Eventname,
+                    c.Publish.City.Cityname,
+                    c.Publish.City.State.Statename,
+                    c.Publish.Status,
+                    c.CancellationReason
+                });
+                return Ok(cancelRequests);
             }
-            return StatusCode(500, "Invalid status");
+            catch (Exception e)
+            {
+                return StatusCode(500, "Internal Server Error");
+            }
         }
 
         [HttpGet]
         public IActionResult GetPublishedEventsThatToBeViewByCityId([FromQuery] int id)
         {
-            var status = "ACTIVE";
-            return Ok(Db.Publishevents.Select(e => new { e.Publishid, e.Eventid, e.Event.Eventname, e.City.Cityname, e.Status, e.Cityid }).Where(e => e.Cityid == id).Where(e => e.Status == status));
+            return Ok(Db.Publishevents.Select(e => new { e.Publishid, e.Eventid, e.Event.Eventname, e.City.Cityname, e.Status, e.Cityid }).Where(e => e.Cityid == id));
 
         }
 
@@ -75,17 +79,18 @@ namespace AdventureHub_DotNet_Admin.Controllers
 
         //Get Events Registered Last Month
         [HttpGet]
-        public IActionResult GetEventsRegisteredLastMonth()
+        public IActionResult GetAllEventsPublishedInLastMonth()
         {
             try
             {
                 // Get the date of one month ago (without the time part)
-                var oneMonthAgo = DateTime.Now.AddMonths(-1).Date; // This ensures we compare only the date
+                var oneMonthAgo = DateOnly.FromDateTime(DateTime.Now.AddMonths(-1));
 
                 // Fetch events that were registered in the last month and bring them to memory
                 var events = Db.Publishevents
-                    .Where(e => e.eventdate >= oneMonthAgo) // Filter the events by the date in memory
-                    .OrderByDescending(e => e.Eventdate) // Order by Eventdate
+                    .Where(e => e.Eventdate >= oneMonthAgo) // Filter the events by the date in memory
+                    .OrderByDescending(e => e.Eventdate)
+                    .Select(p => new { eventId = p.Publishid, p.Organiser.Orgname, p.Event.Eventname, p.eventdate, p.Eventtime, p.Capacity, p.Status, totalRegistrations = (Db.Eventregistrations.Where(e => e.Publishid == p.Publishid).Select(e => e.Participants).Sum()) })
                     .ToList();
 
                 if (events.Any())
@@ -104,8 +109,82 @@ namespace AdventureHub_DotNet_Admin.Controllers
             }
         }
 
+        [HttpPut]
+        public IActionResult ApproveCancelRequestByRegId([FromQuery] int? regId)
+        {
+            if (regId == 0 || regId == null) return BadRequest("Invalid Event ID");
 
+            var eventToCancel = Db.Cancelrequests.FirstOrDefault(e => e.Id == regId);
+            if (eventToCancel == null) return NotFound("Event Not Found");
 
+            eventToCancel.ToStatus = "CANCELLED"; // Update status
+
+            var publishedEvent = Db.Publishevents.Where(p => p.Publishid == eventToCancel.Publishid).FirstOrDefault();
+            if (publishedEvent == null) return BadRequest("Published Event Not Found");
+
+            publishedEvent.Status = "CANCELLED";
+            try
+            {
+                Db.SaveChanges();
+                return Ok("success");
+            }
+            catch
+            {
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
+
+        [HttpPut]
+        public IActionResult RejectCancelRequestByRegId([FromQuery] int? regId)
+        {
+            if (regId == 0 || regId == null) return BadRequest("Invalid Event ID");
+
+            var eventToCancel = Db.Cancelrequests.FirstOrDefault(e => e.Id == regId);
+            if (eventToCancel == null) return NotFound("Event Not Found");
+
+            eventToCancel.ToStatus = "ACTIVE"; // Update status
+
+            var publishedEvent = Db.Publishevents.Where(p => p.Publishid == eventToCancel.Publishid).FirstOrDefault();
+            if (publishedEvent == null) return BadRequest("Published Event Not Found");
+
+            publishedEvent.Status = "ACTIVE";
+            try
+            {
+                Db.SaveChanges();
+                return Ok("success");
+            }
+            catch
+            {
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
+        [HttpPut]
+        public IActionResult ApproveUpdateRequestByPublishId([FromQuery] int? pid)
+        {
+            if (pid == 0 || pid == null)
+                return BadRequest("Invalid Input");
+
+            var publishedEvent = Db.Publishevents.Where(p => p.Publishid == pid).FirstOrDefault();
+            if (publishedEvent == null) return BadRequest("Event Not Found");
+
+            publishedEvent.Status = "ACTIVE";
+
+            try
+            {
+                Db.SaveChanges();
+                return Ok("success");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
+
+        [HttpGet]
+        public IActionResult GetAllPaymentsForAdmin()
+        {
+            return Ok(Db.Payments.Select(p => new { transactionId = p.Paymentid, p.Registration.Cust.Fname, p.Registration.Cust.Lname, p.Paymentmode.Paymentmodename, p.Date, p.Amount, p.Paymentstatus }).ToList());
+        }
 
     }
 }

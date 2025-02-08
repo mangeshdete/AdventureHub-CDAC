@@ -35,6 +35,7 @@ namespace AdventureHub_DotNet_Customer.Controllers
                 p.Price, 
                 p.City.State.Statename, 
                 p.City.Cityname, 
+                p.City.Stateid,
                 p.Street, 
                 p.Pincode,
                 p.Capacity,
@@ -53,6 +54,7 @@ namespace AdventureHub_DotNet_Customer.Controllers
                 p.Price,
                 p.City.State.Statename,
                 p.City.Cityname,
+                p.City.Stateid,
                 p.Street,
                 p.Pincode,
                 p.Capacity,
@@ -71,7 +73,8 @@ namespace AdventureHub_DotNet_Customer.Controllers
                 p.Price, 
                 p.City.State.Statename, 
                 p.City.Cityname, 
-                p.Street, 
+                p.Street,
+                p.City.Stateid,
                 p.Pincode,
                 p.Capacity,
                 totalRegistrations = Db.Eventregistrations
@@ -90,6 +93,7 @@ namespace AdventureHub_DotNet_Customer.Controllers
 
                 return Ok(Db.Publishevents.Where(p => p.City.Stateid == stateid && p.Status == "ACTIVE").Select(p => new { 
                     p.Publishid, 
+                    p.City.Stateid,
                     p.Event.Eventname, 
                     p.Organiser.Rating, 
                     p.Price, 

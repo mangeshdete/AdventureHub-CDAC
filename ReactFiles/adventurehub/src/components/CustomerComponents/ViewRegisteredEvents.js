@@ -13,7 +13,9 @@ function ViewRegisteredEvents() {
     console.log(user.custid);
     fetch(`https://localhost:9145/EventRegistration/GetEventRegistrationsByCustId?cid=${user.custid}`) // Replace with actual API endpoint
       .then((response) => response.json())
-      .then((data) => setEvents(data))
+      .then((data) => {
+      console.log(data);
+      setEvents(data)})
       .catch((error) => console.error("Error fetching events:", error));
   }, [user.custid]);
 
@@ -50,8 +52,8 @@ function ViewRegisteredEvents() {
             <tr>
               <th className="p-3 fs-5">Event Name</th>
               <th className="p-3 fs-5">Date & Time</th>
-              <th className="p-3 fs-5">Location</th>
               <th className="p-3 fs-5">Status</th>
+              <th className="p-3 fs-5">Location</th>
               <th className="p-3 fs-5">Action</th>
             </tr>
           </thead>
