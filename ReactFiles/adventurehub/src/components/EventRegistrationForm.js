@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Button, Form, Modal } from "react-bootstrap"; // Importing React-Bootstrap components
+import { FaCheckCircle} from 'react-icons/fa'; 
 
 const EventRegistrationForm = ({ publishId, onClose, eventDetails }) => {
   const [participants, setParticipants] = useState(1);
@@ -10,6 +11,7 @@ const EventRegistrationForm = ({ publishId, onClose, eventDetails }) => {
   const [selectedPaymentMode, setSelectedPaymentMode] = useState("");
   const [eventPrice, setEventPrice] = useState(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const customer = useSelector((state) => state.user.user);
 
   // Fetch available payment modes
@@ -115,9 +117,12 @@ const EventRegistrationForm = ({ publishId, onClose, eventDetails }) => {
         throw new Error("Payment failed!");
       }
 
-      alert("Payment successful!");
+      setShowSuccessModal(true);
       setShowPaymentModal(false);
-      onClose();
+      setTimeout(()=> {
+        setShowSuccessModal(false);
+        onClose();
+      }, 3000);
     } catch (error) {
       console.error("Error submitting payment:", error);
       setError("Payment submission failed.");
@@ -237,6 +242,17 @@ const EventRegistrationForm = ({ publishId, onClose, eventDetails }) => {
               Pay Now
             </Button>
           </div>
+        </Modal.Body>
+      </Modal>
+
+      {/* Success Modal */}
+      <Modal show={showSuccessModal} onHide={() => setShowSuccessModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Payment Successful!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="text-center">
+          <FaCheckCircle size={50} color="green" />
+          <p className="mt-3">Your payment has been successfully processed.</p>
         </Modal.Body>
       </Modal>
     </>

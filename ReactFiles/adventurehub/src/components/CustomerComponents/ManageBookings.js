@@ -7,7 +7,7 @@ function CustomerBookingsComponent() {
   const [bookings, setBookings] = useState([]);
   const [selectedRegId, setSelectedRegId] = useState(0);
   const [cancellationReason, setCancellationReason] = useState("");
-  const [notification, setNotification] = useState({ message: "", type: "" }); // For popup notifications
+  const [notification, setNotification] = useState({ message: "", type: "" });
 
   const customer = useSelector((state) => state.user?.user);
 
@@ -89,55 +89,60 @@ function CustomerBookingsComponent() {
         </div>
       )}
 
-      <h3 className="mb-4">My Bookings</h3>
+      <h3 className="mb-4"></h3>
       <div className="w-75">
         {activeTab === "view" && (
-          <table className="table table-hover table-bordered text-center align-middle">
-            <thead className="table-primary">
-              <tr>
-                <th>Sr No</th>
-                <th>Event Name</th>
-                <th>Booking Date and Time</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {bookings.map((booking, index) => (
-                <tr key={booking.eventid} className="fw-bold">
-                  <td>{index + 1}</td>
-                  <td>{booking.eventname}</td>
-                  <td>{new Date(booking.eventdate).toLocaleDateString()}, {booking.eventtime}</td>
-                  <td>
-                    <span
-                      className={`badge ${
-                        booking.status === "ACTIVE"
-                          ? "bg-success"
-                          : booking.status === "CANCELLED"
-                          ? "bg-danger"
-                          : booking.status === "TO_BE_CANCELLED"
-                          ? "bg-warning text-dark"
-                          : booking.status === "PROCESSING"
-                          ? "bg-warning"
-                          : "bg-secondary"
-                      }`}
-                    >
-                      {booking.status}
-                    </span>
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-outline-danger btn-sm"
-                      onClick={() => handleCancleRedirect(booking.registrationid)}
-                      // disabled={booking.status === "CANCELLED"}
-                    >
-                      Cancel Registration
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <>
+            {bookings.length === 0 ? (
+              <div className="alert alert-info text-center">No Registered Events</div> // Display if no bookings
+            ) : (
+              <table className="table table-hover table-bordered text-center align-middle">
+                <thead className="table-primary">
+                  <tr>
+                    <th>Sr No</th>
+                    <th>Event Name</th>
+                    <th>Booking Date and Time</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {bookings.map((booking, index) => (
+                    <tr key={booking.eventid} className="fw-bold">
+                      <td>{index + 1}</td>
+                      <td>{booking.eventname}</td>
+                      <td>{new Date(booking.eventdate).toLocaleDateString()}, {booking.eventtime}</td>
+                      <td>
+                        <span
+                          className={`badge ${
+                            booking.status === "ACTIVE"
+                              ? "bg-success"
+                              : booking.status === "CANCELLED"
+                              ? "bg-danger"
+                              : booking.status === "TO_BE_CANCELLED"
+                              ? "bg-warning text-dark"
+                              : booking.status === "PROCESSING"
+                              ? "bg-warning"
+                              : "bg-secondary"
+                          }`}
+                        >
+                          {booking.status}
+                        </span>
+                      </td>
+                      <td>
+                        <button
+                          className="btn btn-outline-danger btn-sm"
+                          onClick={() => handleCancleRedirect(booking.registrationid)}
+                        >
+                          Cancel Registration
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </>
         )}
 
         {activeTab === "cancel" && (

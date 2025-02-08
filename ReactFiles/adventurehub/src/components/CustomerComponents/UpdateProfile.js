@@ -204,7 +204,8 @@ const UpdateProfileComponent = () => {
 
   return (
     <div className="container mt-4">
-      <h2 className="text-center mb-4">Update Profile</h2>
+      
+      <h2 className="text-center mb-4"></h2>
       <div className="row">
         <div className="col-md-6">
           <h3>Current Profile Details</h3>

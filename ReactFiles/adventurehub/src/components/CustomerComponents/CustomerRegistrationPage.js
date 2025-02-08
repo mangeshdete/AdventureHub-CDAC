@@ -55,6 +55,7 @@ export default function CustomerRegisterPage() {
   const [securityQuestions, setSecurityQuestions] = useState([]);
   const [cities, setCities] = useState([]);
   const [formErrors, setFormErrors] = useState({});
+  const [isRegistered, setIsRegistered] = useState(false); // State for successful registration
   const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -75,24 +76,37 @@ export default function CustomerRegisterPage() {
   const handleChange = (e) => {
     const { id, value, name } = e.target;
 
-    // Handle date of birth validation
     if (name === 'dob') {
       const today = new Date();
       today.setHours(0, 0, 0, 0); // Remove time part for accurate comparison
       const enteredDate = new Date(value);
-      if (enteredDate > today) {
+      
+      // Calculate the difference in years
+      let age = today.getFullYear() - enteredDate.getFullYear();
+      
+      // Check if the birthday has occurred this year, and adjust age if not
+      const monthDifference = today.getMonth() - enteredDate.getMonth();
+      const dayDifference = today.getDate() - enteredDate.getDate();
+    
+      if (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)) {
+        age--;
+      }
+    
+      // If entered date is in the future or user is not 18+
+      if (enteredDate > today || age < 18) {
         setFormErrors((prevErrors) => ({
           ...prevErrors,
-          dob: "Date of Birth cannot be ahead of today's date.",
+          dob: "Date of Birth cannot be ahead of today's date, and age should be greater than 18",
         }));
         return; // Stop further processing
       }
+    
       setFormErrors((prevErrors) => ({
         ...prevErrors,
         dob: "",
       }));
     }
-
+    
     // Update the main form data
     dispatch({ type: 'UPDATE_FORM_DATA', payload: { id, value } });
 
@@ -111,12 +125,11 @@ export default function CustomerRegisterPage() {
   const [userExists, setUserExists] = useState(false);
   const handleBlurOfEmail = (e) => {
     const { value } = e.target;
-    fetch("http://localhost:8142/getUser ByEmailId?email=" + value)
-      .then((response 
-) => response.json())
+    fetch("http://localhost:8142/getUserByEmailId?email=" + value)
+      .then((response) => response.json())
       .then((data) => {
         if (data === true) {
-          setError("User  with this email already exists");
+          setError("User with this email already exists");
           setUserExists(true);
         } else {
           setError("");
@@ -181,7 +194,10 @@ export default function CustomerRegisterPage() {
       .then((response) => response.json())
       .then((data) => {
         console.log('Customer registered successfully:', data);
-        navigate("/");
+        setIsRegistered(true); // Set registration success state to true
+        setTimeout(() => {
+          navigate("/"); // Redirect after 3 seconds
+        }, 3000);
       })
       .catch((error) => {
         console.error("Error registering customer:", error);
@@ -226,172 +242,179 @@ export default function CustomerRegisterPage() {
     <div className="container">
       <div className="card">
         <h1>Customer Registration</h1>
-        <form onSubmit={handleSubmit}>
-          {error && <p className="text-danger">{error}</p>}
-          <div className="mb-3">
-            <label>Email</label>
-            <input
-              type="email"
-              id="email"
-              className="form-control form-control-sm"
-              value={state.formData.email}
-              onChange={handleChange}
-              onBlur={handleBlurOfEmail}
-            />
-            {formErrors.email && <p className="text-danger">{formErrors.email}</p>}
+        {isRegistered ? (
+          <div className="success-message">
+            <h2>Registration Successful!</h2>
+            <p>You will be redirected shortly...</p>
           </div>
-          <div className="mb-3">
-            <label>Password</label>
-            <input
-              type="password"
-              id="password"
-              className="form-control form-control-sm"
-              value={state.formData.password}
-              onChange={handleChange}
-            />
-            {formErrors.password && <p className="text-danger">{formErrors.password}</p>}
-          </div>
-          <div className="mb-3">
-            <label>Contact Number</label>
-            <input
-              type="text"
-              id="contact"
-              className="form-control form-control-sm"
-              value={state.formData.contact}
-              onChange={handleChange}
-            />
-            {formErrors.contact && <p className="text-danger">{formErrors.contact}</p>}
-          </div>
-          <div className="mb-3">
-            <label>First Name</label>
-            <input
-              type="text"
-              id="fname"
-              className="form-control form-control-sm"
-              value={state.formData.fname}
-              onChange={handleChange}
-            />
-            {formErrors.fname && <p className="text-danger">{formErrors.fname}</p>}
-          </div>
-          <div className="mb-3">
-            <label>Last Name</label>
-            <input
-              type="text"
-              id="lname"
-              className="form-control form-control-sm"
-              value={state.formData.lname}
-              onChange={handleChange}
-            />
-            {formErrors.lname && <p className="text-danger">{formErrors.lname}</p>}
-          </div>
-          <div className="mb-3">
-            <label>Date Of Birth</label>
-            <input
-              type="date"
-              id="dob"
-              name="dob"
-              className="form-control form-control-sm"
-              value={state.formData.dob}
-              onChange={handleChange}
-            />
-            {formErrors.dob && <p className="text-danger">{formErrors.dob}</p>}
-          </div>
-          <div className="mb-3">
-            <label>Aadhaar</label>
-            <input
-              type="text"
-              id="aadhaar"
-              className="form-control form-control-sm"
-              value={state.formData.aadhaar}
-              onChange={handleChange}
-            />
-            {formErrors.aadhaar && <p className="text-danger">{formErrors.aadhaar}</p>}
-          </div>
-          <div className="mb-3">
-            <label>Street</label>
-            <input
-              type="text"
-              id="street"
-              className="form-control form-control-sm"
-              value={state.formData.street}
-              onChange={handleChange}
-            />
-            {formErrors.street && <p className="text-danger">{formErrors.street}</p>}
-          </div>
-          <div className="mb-3">
-            <label>State</label>
-            <select
-              id="stateid"
-              className="form-select form-select-sm"
-              value={state.formData.stateid}
-              onChange={handleChange}
-            >
-              <option value="">-- Select State --</option>
-              {statesfromdb.map((s) => (
-                <option key={s.stateid} value={s.stateid}>
-                  {s.statename}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="mb-3">
-            <label>City</label>
-            <select
-              id="cityid"
-              className="form-select form-select-sm"
-              value={state.formData.cityid}
-              onChange={handleChange}
-            >
-              <option value="">-- Select City --</option>
-              {cities.map((v) => (
-                <option key={v.cityid} value={v.cityid}>
-                  {v.cityname}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="mb-3">
-            <label>Pincode</label>
-            <input
-              type="text"
-              id="pincode"
-              className="form-control form-control-sm"
-              value={state.formData.pincode}
-              onChange={handleChange}
-            />
-            {formErrors.pincode && <p className="text-danger">{formErrors.pincode}</p>}
-          </div>
-          <div className="mb-3">
-            <label>Security Question</label>
-            <select
-              id="qid"
-              className="form-select form-select-sm"
-              value={state.formData.qid}
-              onChange={handleChange}
-            >
-              <option value="">-- Select Security Question --</option>
-              {securityQuestions.map((ques) => (
-                <option key={ques.qid} value={ques.qid}>
-                  {ques.question}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="mb-3">
-            <label>Security Answer</label>
-            <input
-              type="text"
-              id="securityqans"
-              className="form-control form-control-sm"
-              value={state.formData.securityqans}
-              onChange={handleChange}
-            />
-            {formErrors.securityqans && <p className="text-danger">{formErrors.securityqans}</p>}
-          </div>
-          <button type="submit" className="btn btn-primary" disabled={userExists ? true : false}>
-            Register
-          </button>
-        </form>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            {error && <p className="text-danger">{error}</p>}
+            <div className="mb-3">
+              <label>Email</label>
+              <input
+                type="email"
+                id="email"
+                className="form-control form-control-sm"
+                value={state.formData.email}
+                onChange={handleChange}
+                onBlur={handleBlurOfEmail}
+              />
+              {formErrors.email && <p className="text-danger">{formErrors.email}</p>}
+            </div>
+            <div className="mb-3">
+              <label>Password</label>
+              <input
+                type="password"
+                id="password"
+                className="form-control form-control-sm"
+                value={state.formData.password}
+                onChange={handleChange}
+              />
+              {formErrors.password && <p className="text-danger">{formErrors.password}</p>}
+            </div>
+            <div className="mb-3">
+              <label>Contact Number</label>
+              <input
+                type="text"
+                id="contact"
+                className="form-control form-control-sm"
+                value={state.formData.contact}
+                onChange={handleChange}
+              />
+              {formErrors.contact && <p className="text-danger">{formErrors.contact}</p>}
+            </div>
+            <div className="mb-3">
+              <label>First Name</label>
+              <input
+                type="text"
+                id="fname"
+                className="form-control form-control-sm"
+                value={state.formData.fname}
+                onChange={handleChange}
+              />
+              {formErrors.fname && <p className="text-danger">{formErrors.fname}</p>}
+            </div>
+            <div className="mb-3">
+              <label>Last Name</label>
+              <input
+                type="text"
+                id="lname"
+                className="form-control form-control-sm"
+                value={state.formData.lname}
+                onChange={handleChange}
+              />
+              {formErrors.lname && <p className="text-danger">{formErrors.lname}</p>}
+            </div>
+            <div className="mb-3">
+              <label>Date Of Birth</label>
+              <input
+                type="date"
+                id="dob"
+                name="dob"
+                className="form-control form-control-sm"
+                value={state.formData.dob}
+                onChange={handleChange}
+              />
+              {formErrors.dob && <p className="text-danger">{formErrors.dob}</p>}
+            </div>
+            <div className="mb-3">
+              <label>Aadhaar</label>
+              <input
+                type="text"
+                id="aadhaar"
+                className="form-control form-control-sm"
+                value={state.formData.aadhaar}
+                onChange={handleChange}
+              />
+              {formErrors.aadhaar && <p className="text-danger">{formErrors.aadhaar}</p>}
+            </div>
+            <div className="mb-3">
+              <label>Street</label>
+              <input
+                type="text"
+                id="street"
+                className="form-control form-control-sm"
+                value={state.formData.street}
+                onChange={handleChange}
+              />
+              {formErrors.street && <p className="text-danger">{formErrors.street}</p>}
+            </div>
+            <div className="mb-3">
+              <label>State</label>
+              <select
+                id="stateid"
+                className="form-select form-select-sm"
+                value={state.formData.stateid}
+                onChange={handleChange}
+              >
+                <option value="">-- Select State --</option>
+                {statesfromdb.map((s) => (
+                  <option key={s.stateid} value={s.stateid}>
+                    {s.statename}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-3">
+              <label>City</label>
+              <select
+                id="cityid"
+                className="form-select form-select-sm"
+                value={state.formData.cityid}
+                onChange={handleChange}
+              >
+                <option value="">-- Select City --</option>
+                {cities.map((v) => (
+                  <option key={v.cityid} value={v.cityid}>
+                    {v.cityname}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-3">
+              <label>Pincode</label>
+              <input
+                type="text"
+                id="pincode"
+                className="form-control form-control-sm"
+                value={state.formData.pincode}
+                onChange={handleChange}
+              />
+              {formErrors.pincode && <p className="text-danger">{formErrors.pincode}</p>}
+            </div>
+            <div className="mb-3">
+              <label>Security Question</label>
+              <select
+                id="qid"
+                className="form-select form-select-sm"
+                value={state.formData.qid}
+                onChange={handleChange}
+              >
+                <option value="">-- Select Security Question --</option>
+                {securityQuestions.map((ques) => (
+                  <option key={ques.qid} value={ques.qid}>
+                    {ques.question}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-3">
+              <label>Security Answer</label>
+              <input
+                type="text"
+                id="securityqans"
+                className="form-control form-control-sm"
+                value={state.formData.securityqans}
+                onChange={handleChange}
+              />
+              {formErrors.securityqans && <p className="text-danger">{formErrors.securityqans}</p>}
+            </div>
+            <button type="submit" className="btn btn-primary" disabled={userExists ? true : false}>
+              Register
+            </button>
+          </form>
+        )}
       </div>
     </div>
   );
