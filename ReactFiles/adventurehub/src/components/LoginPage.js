@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import "../styles/LoginForm.css"
+import "../styles/LoginForm.css";
 import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/userSlice';
+import { motion } from 'framer-motion';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -32,38 +33,42 @@ const LoginPage = () => {
     };
 
     fetch("http://localhost:8142/userLogin", reqInfo)
-    .then((response) => {
-      if (response.status === 204) {
-        setError("Invalid email or password");
-        return null;
-      } 
-      else if (response.ok) {
-        return response.json();
-      }
-      throw new Error("Response couldn't be resolved!");
-    })
-    .then((data) => {
-      
-      if (data) {
-        dispatch(setUser(data));
-        if(data.roleid){
-          if(data.roleid.roleid === 3)
-            navigate("/");
+      .then((response) => {
+        if (response.status === 204) {
+          setError("Invalid email or password");
+          return null;
+        } else if (response.ok) {
+          return response.json();
         }
-        else if (data.user.roleid.roleid === 1)
+        throw new Error("Response couldn't be resolved!");
+      })
+      .then((data) => {
+        //console.log(data);
+
+        if (data) {
+          dispatch(setUser(data));
+          if (data.roleid) {
+            if (data.roleid.roleid === 3) navigate("/admindashboard");
+          } else if (data.user.roleid.roleid === 1) {
             navigate("/customerdashboard");
-        else if (data.user.roleid.roleid === 2)
+          } else if (data.user.roleid.roleid === 2) {
             navigate("/organizerdashboard");
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      setError("An error occurred. Please try again.");
-    });
-  }
+          }
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        setError("An error occurred. Please try again.");
+      });
+  };
 
   return (
-    <div className="login-page">
+    <motion.div
+      className="login-page"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+    >
       <div className="card shadow login-card">
         <h1 className="text-center mb-4">Login</h1>
         {error && <div className="alert alert-danger">{error}</div>}
@@ -94,7 +99,7 @@ const LoginPage = () => {
           </div>
           <div className="mt-3">
             <p>
-              <Link to="/forgotPassword" className="btn btn-link" style={{alignItems:"right"}}>
+              <Link to="/forgotPassword" className="btn btn-link" style={{alignItems: "right"}}>
                 Forgot Password
               </Link>
             </p>
@@ -112,7 +117,7 @@ const LoginPage = () => {
           </p>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

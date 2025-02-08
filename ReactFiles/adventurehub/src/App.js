@@ -17,6 +17,7 @@ import Contact from './components/FooterComponents/Contact';
 import Feedback from './components/FooterComponents/Feedback';
 import Privacy from './components/FooterComponents/Privacy';
 import Terms from './components/FooterComponents/Terms';
+import AdminDashboard from './components/AdminComponents/AdminDashboard.js';
 
 function App() {
   return (
@@ -37,6 +38,15 @@ function App() {
           <Route path='/feedback' element={<Feedback />} />
           <Route path='/privacy' element={<Privacy />} />
           <Route path='/terms' element={<Terms />} />
+          <Route path='/' element={ <HomePage /> }/>
+          <Route path='/login' element={ <LoginPage/> }/>
+          <Route path='/chooserole' element={ <ChooseRole/> }/>
+          <Route path='/registerCustomer' element={<CustomerRegistrationPage/>} />
+          <Route path='/registerOrganiser' element={<OrganizerRegisterPage/>} />
+          <Route path='/forgotPassword' element={<ForgotPassword/>}/>
+          <Route path='/organizerdashboard' element={<OrganizerDashboard/>} />
+          <Route path='/customerdashboard' element={<CustomerDashboard/>} />
+          <Route path='/admindashboard' element={<AdminDashboard/>} />
           {/* <Route path="/profile" element={<Profile />} />  */}
         </Routes>
       </div>

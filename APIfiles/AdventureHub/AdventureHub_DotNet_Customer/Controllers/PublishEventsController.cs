@@ -11,7 +11,7 @@ namespace AdventureHub_DotNet_Customer.Controllers
 
         static PublishEventsController()
         {
-            Db=new p14_adventurehubContext();
+            Db = new p14_adventurehubContext();
         }
 
         [HttpGet]
@@ -73,6 +73,7 @@ namespace AdventureHub_DotNet_Customer.Controllers
                 p.City.Cityname, 
                 p.Street, 
                 p.Pincode,
+                p.Capacity,
                 totalRegistrations = Db.Eventregistrations
                                         .Where(e => e.Publishid == p.Publishid)
                                         .Sum(e => e.Participants)
@@ -96,6 +97,7 @@ namespace AdventureHub_DotNet_Customer.Controllers
                     p.City.Cityname, 
                     p.Street, 
                     p.Pincode,
+                    p.Capacity,
                     totalRegistrations = Db.Eventregistrations
                                         .Where(e => e.Publishid == p.Publishid)
                                         .Sum(e => e.Participants)

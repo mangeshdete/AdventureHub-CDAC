@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Mangesh\\OneDrive\\Desktop\\CDAC Project\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Customer\\AdventureHub_DotNet_Customer.csproj": {}
+    "C:\\Users\\DELL\\Downloads\\AdventureHubProject-React\\AdventureHub\\AdventureHub-CDAC\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Customer\\AdventureHub_DotNet_Customer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Mangesh\\OneDrive\\Desktop\\CDAC Project\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Customer\\AdventureHub_DotNet_Customer.csproj": {
+    "C:\\Users\\DELL\\Downloads\\AdventureHubProject-React\\AdventureHub\\AdventureHub-CDAC\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Customer\\AdventureHub_DotNet_Customer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mangesh\\OneDrive\\Desktop\\CDAC Project\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Customer\\AdventureHub_DotNet_Customer.csproj",
+        "projectUniqueName": "C:\\Users\\DELL\\Downloads\\AdventureHubProject-React\\AdventureHub\\AdventureHub-CDAC\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Customer\\AdventureHub_DotNet_Customer.csproj",
         "projectName": "AdventureHub_DotNet_Customer",
-        "projectPath": "C:\\Users\\Mangesh\\OneDrive\\Desktop\\CDAC Project\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Customer\\AdventureHub_DotNet_Customer.csproj",
-        "packagesPath": "C:\\Users\\Mangesh\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mangesh\\OneDrive\\Desktop\\CDAC Project\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Customer\\obj\\",
+        "projectPath": "C:\\Users\\DELL\\Downloads\\AdventureHubProject-React\\AdventureHub\\AdventureHub-CDAC\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Customer\\AdventureHub_DotNet_Customer.csproj",
+        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\DELL\\Downloads\\AdventureHubProject-React\\AdventureHub\\AdventureHub-CDAC\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Customer\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Mangesh\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -38,13 +34,7 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.100"
+        }
       },
       "frameworks": {
         "net6.0": {
@@ -81,8 +71,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -94,7 +83,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }

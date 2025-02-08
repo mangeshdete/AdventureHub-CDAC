@@ -17,14 +17,30 @@ namespace AdventureHub_DotNet_Customer.Controllers
         [HttpGet]
         public IActionResult GetEventRegistrationsByCustId([FromQuery] int cid)
         {
-            var events = Db.Eventregistrations.Where(e => e.Custid == cid).Where(e => e.Cancellationreason==null).Select(e => new { e.Registrationid, e.Publish.Eventid, e.Publish.Event.Eventname, e.Publish.Eventdate, e.Publish.Eventtime, e.Publish.City.Cityname, e.Publish.Status }).ToList();
+            var events = Db.Eventregistrations.Where(e => e.Custid == cid).Where(e => e.Cancellationreason==null).Select(e => new { 
+                e.Registrationid, 
+                e.Publish.Eventid, 
+                e.Publish.Event.Eventname, 
+                e.Publish.Eventdate, 
+                e.Publish.Eventtime, 
+                e.Publish.City.Cityname, 
+                e.Publish.Status 
+            }).ToList();
             return Ok(events);
         }
 
         [HttpGet]
         public IActionResult GetEventRegistrationDetailsByEventId([FromQuery] int eid)
         {
-            var eventDetails = Db.Eventregistrations.Where(e => e.Publishid == eid).Select(e => new { e.Publish.Organiser.Orgname, e.Publish.Event.Eventname, e.Publish.Organiser.Rating, e.Publish.Eventdate, e.Publish.Eventtime, e.Publish.Price, e.Publish.Organiser.User.Contact }).ToList();
+            var eventDetails = Db.Eventregistrations.Where(e => e.Publishid == eid).Select(e => new { 
+                e.Publish.Organiser.Orgname, 
+                e.Publish.Event.Eventname, 
+                e.Publish.Organiser.Rating, 
+                e.Publish.Eventdate, 
+                e.Publish.Eventtime, 
+                e.Publish.Price, 
+                e.Publish.Organiser.User.Contact 
+            }).ToList();
             return Ok(eventDetails);
         }
 
@@ -92,5 +108,6 @@ namespace AdventureHub_DotNet_Customer.Controllers
                 return StatusCode(500, "Internal Server Error");
             }
         }
+
     }
 }

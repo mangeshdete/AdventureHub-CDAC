@@ -5,6 +5,8 @@ namespace AdventureHub_DotNet_Admin.Models
 {
     public partial class Publishevent
     {
+        internal readonly DateTime eventdate;
+
         public Publishevent()
         {
             Cancelrequests = new HashSet<Cancelrequest>();
