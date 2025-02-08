@@ -56,6 +56,8 @@ function ManageEventComponent() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // console.log("here")
+    // return;
     const newErrors = {};
 
     if (new Date(updatedEventDetails.eventdate) < new Date(eventDetails.eventdate)) {
@@ -72,16 +74,16 @@ function ManageEventComponent() {
     }
 
     try {
-      const participantResponse = await fetch(
-        `https://localhost:9144/EventRegistration/GetParticipantNumbersByPublishId?id=${eventDetails.publishid}`
-      );
-      const participantData = await participantResponse.json();
-      const participantCount = Number(participantData);
+      // const participantResponse = await fetch(
+      //   `https://localhost:9144/EventRegistration/GetParticipantNumbersByPublishId?id=${eventDetails.publishid}`
+      // );
+      // const participantData = await participantResponse.json();
+      // const participantCount = Number(participantData);
 
-      if (participantCount !== participantCount/2) {
-        setErrors({ ...errors, general: "The event cannot be updated because the number of participants is not zero." });
-        return;
-      }
+      // if (participantCount !== participantCount/2) {
+      //   setErrors({ ...errors, general: "The event cannot be updated because the number of participants is not zero." });
+      //   return;
+      // }
 
       const response = await fetch(`https://localhost:9144/PublishEvent/UpdatePulishedEventDetails`, {
         method: "PUT",
@@ -106,10 +108,20 @@ function ManageEventComponent() {
         throw new Error("Failed to update event.");
       }
       setErrors({ general: "Event updated successfully!" });
-
-      setTimeout(() => {
+      
+      //fetch the latest events again
+      fetch(`https://localhost:9144/PublishEvent/GetPublishedEventsByOrganiserId?orgId=${organiser.organiserid}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setEvents(data);
+        })
+        .catch((error) => console.error("Error fetching events:", error));
+      
+        setTimeout(() => {
         setActiveTab("view");
+        setErrors({general : ""})
       }, 2000);
+
     } catch (err) {
       console.error("Failed to update event:", err);
       setErrors({ general: "Failed to update event: " + err.message });
@@ -204,7 +216,7 @@ function ManageEventComponent() {
             </table>
           </div>
         )}
-
+        <strong style={{zIndex : "9999", color : "green"}}>{errors?.general}</strong>
         {activeTab === "update" && eventDetails && (
           <div className="update-event-container expand row">
             <div className="original-event-details col-md-6">

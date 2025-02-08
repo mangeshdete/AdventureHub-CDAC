@@ -153,38 +153,38 @@ namespace AdventureHub_DotNet_Customer.Controllers
             }
         }
 
-        [HttpPut]
-        public IActionResult updateCustomerDetails([FromBody] Customer? updated)
-        {
-            if(updated == null)
-                return BadRequest("Invalid Customer Details");  
+        //[HttpPut]
+        //public IActionResult updateCustomerDetails([FromBody] Customer? updated)
+        //{
+        //    if(updated == null)
+        //        return BadRequest("Invalid Customer Details");  
             
-            var original = Db.Customers.Include(c => c.User).FirstOrDefault(c => c.Custid==updated.Custid);
+        //    var original = Db.Customers.Include(c => c.User).FirstOrDefault(c => c.Custid==updated.Custid);
             
-            if (original == null)
-                return BadRequest("Customer not found");
-            original.Fname=updated.Fname ?? original.Fname;
-            original.Lname=updated.Lname ?? original.Lname;
-            original.Cityid=updated.Cityid !=0 ? updated.Cityid : original.Cityid;
+        //    if (original == null)
+        //        return BadRequest("Customer not found");
+        //    original.Fname=updated.Fname ?? original.Fname;
+        //    original.Lname=updated.Lname ?? original.Lname;
+        //    original.Cityid=updated.Cityid !=0 ? updated.Cityid : original.Cityid;
 
-            if (updated.User != null)
-            {
-                if (original.User == null)
-                    return BadRequest("Error Updating User specific details");
+        //    if (updated.User != null)
+        //    {
+        //        if (original.User == null)
+        //            return BadRequest("Error Updating User specific details");
 
-                original.User.Contact = updated.User.Contact;
-                original.User.Email = updated.User.Email;
-            }
-            try
-            {
-                Db.SaveChanges();
-                return Ok(original);
-            }
-            catch (Exception ex) 
-            {
-                return StatusCode(500, "Internal Server Error");
-            };
-        }
+        //        original.User.Contact = updated.User.Contact;
+        //        original.User.Email = updated.User.Email;
+        //    }
+        //    try
+        //    {
+        //        Db.SaveChanges();
+        //        return Ok(original);
+        //    }
+        //    catch (Exception ex) 
+        //    {
+        //        return StatusCode(500, "Internal Server Error");
+        //    };
+        //}
 
     }
 }

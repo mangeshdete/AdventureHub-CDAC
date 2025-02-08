@@ -353,7 +353,7 @@ const ExploreEvents = () => {
       
 
       {showForm && (
-        <EventRegistrationForm publishId={selectedEvent.publishid} onClose={handleCloseForm} />
+        <EventRegistrationForm publishId={selectedEvent.publishid} onClose={handleCloseForm} eventDetails={selectedEvent} />
       )}
     </div>
   );
