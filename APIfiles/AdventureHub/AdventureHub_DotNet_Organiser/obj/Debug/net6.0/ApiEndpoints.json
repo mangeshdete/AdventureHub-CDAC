@@ -2,7 +2,7 @@
   {
     "ContainingType": "AdventureHub.Controllers.CategoryController",
     "Method": "GetAllCategories",
-    "RelativePath": "Category/GetAllCategories",
+    "RelativePath": "organiser/Category/GetAllCategories",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -12,7 +12,7 @@
   {
     "ContainingType": "AdventureHub.Controllers.EventController",
     "Method": "GetAllEventsFromCategoryId",
-    "RelativePath": "Event/GetAllEventsFromCategoryId",
+    "RelativePath": "organiser/Event/GetAllEventsFromCategoryId",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -28,7 +28,7 @@
   {
     "ContainingType": "AdventureHub.Controllers.EventRegistrationController",
     "Method": "GetEventRegistrationsByEventIdAndOrganiserById",
-    "RelativePath": "EventRegistration/GetEventRegistrationsByEventIdAndOrganiserById",
+    "RelativePath": "organiser/EventRegistration/GetEventRegistrationsByEventIdAndOrganiserById",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -49,7 +49,7 @@
   {
     "ContainingType": "AdventureHub.Controllers.EventRegistrationController",
     "Method": "GetParticipantNumbersByPublishId",
-    "RelativePath": "EventRegistration/GetParticipantNumbersByPublishId",
+    "RelativePath": "organiser/EventRegistration/GetParticipantNumbersByPublishId",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -65,7 +65,7 @@
   {
     "ContainingType": "AdventureHub.Controllers.OrganiserController",
     "Method": "getOrganiserById",
-    "RelativePath": "Organiser/getOrganiserById",
+    "RelativePath": "organiser/Organiser/getOrganiserById",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -81,7 +81,7 @@
   {
     "ContainingType": "AdventureHub.Controllers.OrganiserController",
     "Method": "updateOrganiserDetails",
-    "RelativePath": "Organiser/updateOrganiserDetails",
+    "RelativePath": "organiser/Organiser/updateOrganiserDetails",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -97,7 +97,7 @@
   {
     "ContainingType": "AdventureHub.Controllers.PaymentsController",
     "Method": "ApproveRefundRequestByRegistrationId",
-    "RelativePath": "Payments/ApproveRefundRequestByRegistrationId",
+    "RelativePath": "organiser/Payments/ApproveRefundRequestByRegistrationId",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -113,7 +113,7 @@
   {
     "ContainingType": "AdventureHub.Controllers.PaymentsController",
     "Method": "GetAllRefundRequestsByPublishId",
-    "RelativePath": "Payments/GetAllRefundRequestsByPublishId",
+    "RelativePath": "organiser/Payments/GetAllRefundRequestsByPublishId",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -129,7 +129,7 @@
   {
     "ContainingType": "AdventureHub.Controllers.PaymentsController",
     "Method": "RejectRefundRequestByRegistrationId",
-    "RelativePath": "Payments/RejectRefundRequestByRegistrationId",
+    "RelativePath": "organiser/Payments/RejectRefundRequestByRegistrationId",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -145,7 +145,7 @@
   {
     "ContainingType": "AdventureHub.Controllers.PublishEventController",
     "Method": "GetPublishedEventById",
-    "RelativePath": "PublishEvent/GetPublishedEventById",
+    "RelativePath": "organiser/PublishEvent/GetPublishedEventById",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -161,7 +161,7 @@
   {
     "ContainingType": "AdventureHub.Controllers.PublishEventController",
     "Method": "GetPublishedEventsByOrganiserId",
-    "RelativePath": "PublishEvent/GetPublishedEventsByOrganiserId",
+    "RelativePath": "organiser/PublishEvent/GetPublishedEventsByOrganiserId",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -177,7 +177,7 @@
   {
     "ContainingType": "AdventureHub.Controllers.PublishEventController",
     "Method": "PublishNewEvent",
-    "RelativePath": "PublishEvent/PublishNewEvent",
+    "RelativePath": "organiser/PublishEvent/PublishNewEvent",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -193,7 +193,7 @@
   {
     "ContainingType": "AdventureHub.Controllers.PublishEventController",
     "Method": "UpdatePulishedEventDetails",
-    "RelativePath": "PublishEvent/UpdatePulishedEventDetails",
+    "RelativePath": "organiser/PublishEvent/UpdatePulishedEventDetails",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -209,7 +209,7 @@
   {
     "ContainingType": "AdventureHub.Controllers.PublishEventController",
     "Method": "UpdateStatusToBeCancelledByPublishId",
-    "RelativePath": "PublishEvent/UpdateStatusToBeCancelledByPublishId",
+    "RelativePath": "organiser/PublishEvent/UpdateStatusToBeCancelledByPublishId",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,

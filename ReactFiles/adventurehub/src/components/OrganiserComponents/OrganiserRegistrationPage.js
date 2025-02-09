@@ -599,12 +599,12 @@ function OrganizerRegisterPage() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    fetch("http://localhost:8142/getAllStates")
+    fetch("http://localhost:8140/auth/getAllStates")
       .then((resp) => resp.json())
       .then((data) => setStatesFromDb(data))
       .catch((e) => console.log(e));
 
-    fetch("http://localhost:8142/getAllSecurityQuestions")
+    fetch("http://localhost:8140/auth/getAllSecurityQuestions")
       .then((resp) => resp.json())
       .then((data) => setSecurityQuestions(data))
       .catch((err) => console.log(err));
@@ -615,7 +615,7 @@ function OrganizerRegisterPage() {
     dispatch({ type: 'UPDATE_FORM_DATA', payload: { id, value } });
 
     if (id === 'stateid') {
-      fetch(`http://localhost:8142/getCitiesByStateId?stateId=${value}`)
+      fetch(`http://localhost:8140/auth/getCitiesByStateId?stateId=${value}`)
         .then((resp) => resp.json())
         .then((data) => setCities(data))
         .catch((err) => console.log(err));
@@ -624,7 +624,7 @@ function OrganizerRegisterPage() {
 
   const handleBlurOfEmail = (e) => {
     const { value } = e.target;
-    fetch(`http://localhost:8142/getUserByEmailId?email=${value}`)
+    fetch(`http://localhost:8140/auth/getUserByEmailId?email=${value}`)
       .then((response) => response.json())
       .then((data) => {
         setError(data ? "User with this email already exists" : "");
@@ -667,7 +667,7 @@ function OrganizerRegisterPage() {
 
     console.log(newOrgDetails);
 
-    fetch("http://localhost:8142/saveNewOrganiser", {
+    fetch("http://localhost:8140/auth/saveNewOrganiser", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newOrgDetails)

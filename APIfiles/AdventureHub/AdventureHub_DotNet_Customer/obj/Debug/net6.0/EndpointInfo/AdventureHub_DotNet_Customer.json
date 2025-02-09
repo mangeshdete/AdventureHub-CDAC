@@ -5,7 +5,7 @@
     "version": "1.0"
   },
   "paths": {
-    "/EventRegistration/GetEventRegistrationsByCustId": {
+    "/customer/EventRegistration/GetEventRegistrationsByCustId": {
       "get": {
         "tags": [
           "EventRegistration"
@@ -27,7 +27,7 @@
         }
       }
     },
-    "/EventRegistration/GetEventRegistrationDetailsByEventId": {
+    "/customer/EventRegistration/GetEventRegistrationDetailsByEventId": {
       "get": {
         "tags": [
           "EventRegistration"
@@ -49,7 +49,7 @@
         }
       }
     },
-    "/EventRegistration/CancelEventRegistrationByRegistrationId": {
+    "/customer/EventRegistration/CancelEventRegistrationByRegistrationId": {
       "put": {
         "tags": [
           "EventRegistration"
@@ -90,7 +90,7 @@
         }
       }
     },
-    "/EventRegistration/GetAllRefundRequestsByCustomerId": {
+    "/customer/EventRegistration/GetAllRefundRequestsByCustomerId": {
       "get": {
         "tags": [
           "EventRegistration"
@@ -112,7 +112,7 @@
         }
       }
     },
-    "/EventRegistration/getCustomerById": {
+    "/customer/EventRegistration/getCustomerById": {
       "get": {
         "tags": [
           "EventRegistration"
@@ -134,7 +134,7 @@
         }
       }
     },
-    "/EventRegistration/updateCustomerDetails": {
+    "/customer/EventRegistration/updateCustomerDetails": {
       "put": {
         "tags": [
           "EventRegistration"
@@ -165,7 +165,7 @@
         }
       }
     },
-    "/Payment/getPaymentHistoryByCustId": {
+    "/customer/Payment/GetPaymentHistoryByCustId": {
       "get": {
         "tags": [
           "Payment"
@@ -187,7 +187,7 @@
         }
       }
     },
-    "/Payment/GetPaymentModes": {
+    "/customer/Payment/GetPaymentModes": {
       "get": {
         "tags": [
           "Payment"
@@ -199,7 +199,7 @@
         }
       }
     },
-    "/PublishEvents/GetNumberOfActiveEventsByStateId": {
+    "/customer/PublishEvents/GetNumberOfActiveEventsByStateId": {
       "get": {
         "tags": [
           "PublishEvents"
@@ -221,7 +221,7 @@
         }
       }
     },
-    "/PublishEvents/getPublishedEventsByCityIdOrStateId": {
+    "/customer/PublishEvents/getPublishedEventsByCityIdOrStateId": {
       "get": {
         "tags": [
           "PublishEvents"
@@ -251,7 +251,7 @@
         }
       }
     },
-    "/PublishEvents/getAllPublishedEventsByStateId": {
+    "/customer/PublishEvents/getAllPublishedEventsByStateId": {
       "get": {
         "tags": [
           "PublishEvents"
@@ -273,7 +273,7 @@
         }
       }
     },
-    "/PublishEvents/CustomerRegistrationForAnEvent": {
+    "/customer/PublishEvents/CustomerRegistrationForAnEvent": {
       "post": {
         "tags": [
           "PublishEvents"

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AdventureHub_DotNet_Customer.Controllers
 {
     [Controller]
-    [Route("/[controller]/[action]")]
+    [Route("customer/[controller]/[action]")]
     public class PublishEventsController : Controller
     {
         public static readonly p14_adventurehubContext Db;

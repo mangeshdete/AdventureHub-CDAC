@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace AdventureHub_DotNet_Customer.Controllers
 {
     [ApiController]
-    [Route("/[Controller]/[Action]")]
+    [Route("customer/[Controller]/[Action]")]
     public class EventRegistrationController : Controller
     {
         public static p14_adventurehubContext Db { get; }
@@ -25,7 +25,7 @@ namespace AdventureHub_DotNet_Customer.Controllers
                 e.Publish.Eventdate,
                 e.Publish.Eventtime,
                 e.Publish.City.Cityname,
-                e.Publish.Status
+                e.Publish.Status,
             }).ToList();
             return Ok(events);
         }
@@ -33,14 +33,16 @@ namespace AdventureHub_DotNet_Customer.Controllers
         [HttpGet]
         public IActionResult GetEventRegistrationDetailsByEventId([FromQuery] int eid)
         {
+            var price = Db.Publishevents.Where(p => p.Publishid == eid).Select(p => p.Price).FirstOrDefault();
+            Console.WriteLine(price);
             var eventDetails = Db.Eventregistrations.Where(e => e.Publishid == eid).Select(e => new {
                 e.Publish.Organiser.Orgname,
                 e.Publish.Event.Eventname,
                 e.Publish.Organiser.Rating,
                 e.Publish.Eventdate,
                 e.Publish.Eventtime,
-                e.Publish.Price,
-                e.Publish.Organiser.User.Contact
+                e.Publish.Organiser.User.Contact,
+                amount = e.Participants*price
             }).ToList();
             return Ok(eventDetails);
         }

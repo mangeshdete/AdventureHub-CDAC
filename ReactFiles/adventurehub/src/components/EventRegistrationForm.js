@@ -16,7 +16,7 @@ const EventRegistrationForm = ({ publishId, onClose, eventDetails }) => {
   useEffect(() => {
     const fetchPaymentModes = async () => {
       try {
-        const response = await fetch("https://localhost:9145/Payment/GetPaymentModes");
+        const response = await fetch("http://localhost:8140/customer/Payment/GetPaymentModes");
         const data = await response.json();
         console.log("Payment Modes API Response:", data); // Debugging
         setPaymentModes(data);
@@ -34,7 +34,7 @@ const EventRegistrationForm = ({ publishId, onClose, eventDetails }) => {
     const fetchEventPrice = async () => {
       try {
         const response = await fetch(
-          `https://localhost:9145/PublishEvents/getAllPublishedEventsByStateId?stateid=${eventDetails.stateid}`
+          `http://localhost:8140/customer/PublishEvents/getAllPublishedEventsByStateId?stateid=${eventDetails.stateid}`
         );
         const data = await response.json();
         const event = data.find((event) => event.publishid === publishId);
@@ -103,7 +103,7 @@ const EventRegistrationForm = ({ publishId, onClose, eventDetails }) => {
     
 
     try {
-      const response = await fetch("https://localhost:9145/PublishEvents/CustomerRegistrationForAnEvent", {
+      const response = await fetch("http://localhost:8140/customer/PublishEvents/CustomerRegistrationForAnEvent", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

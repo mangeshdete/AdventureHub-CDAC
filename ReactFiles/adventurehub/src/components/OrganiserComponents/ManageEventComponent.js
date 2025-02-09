@@ -18,7 +18,7 @@ function ManageEventComponent() {
 
   useEffect(() => {
     if (organiser?.organiserid) {
-      fetch(`https://localhost:9144/PublishEvent/GetPublishedEventsByOrganiserId?orgId=${organiser.organiserid}`)
+      fetch(`http://localhost:8140/organiser/PublishEvent/GetPublishedEventsByOrganiserId?orgId=${organiser.organiserid}`)
         .then((response) => response.json())
         .then((data) => {
           setEvents(data);
@@ -31,7 +31,7 @@ function ManageEventComponent() {
     setSelectedEventId(eventId);
 
     try {
-      const response = await fetch(`https://localhost:9144/PublishEvent/GetPublishedEventById?id=${eventId}`);
+      const response = await fetch(`http://localhost:8140/organiser/PublishEvent/GetPublishedEventById?id=${eventId}`);
       const data = await response.json();
       setEventDetails(data[0]);
       setUpdatedEventDetails(data[0]);
@@ -85,7 +85,7 @@ function ManageEventComponent() {
       //   return;
       // }
 
-      const response = await fetch(`https://localhost:9144/PublishEvent/UpdatePulishedEventDetails`, {
+      const response = await fetch(`http://localhost:8140/organiser/PublishEvent/UpdatePulishedEventDetails`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -110,7 +110,7 @@ function ManageEventComponent() {
       setErrors({ general: "Event updated successfully!" });
       
       //fetch the latest events again
-      fetch(`https://localhost:9144/PublishEvent/GetPublishedEventsByOrganiserId?orgId=${organiser.organiserid}`)
+      fetch(`http://localhost:8140/organiser/PublishEvent/GetPublishedEventsByOrganiserId?orgId=${organiser.organiserid}`)
         .then((response) => response.json())
         .then((data) => {
           setEvents(data);
@@ -137,7 +137,7 @@ function ManageEventComponent() {
     if (isCanceling) return;
 
     setIsCanceling(true);
-    fetch(`https://localhost:9144/PublishEvent/UpdateStatusToBeCancelledByPublishId?eid=${selectedEventId}`, {
+    fetch(`http://localhost:8140/organiser/PublishEvent/UpdateStatusToBeCancelledByPublishId?eid=${selectedEventId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

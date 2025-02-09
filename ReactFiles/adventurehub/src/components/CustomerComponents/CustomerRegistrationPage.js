@@ -60,12 +60,12 @@ export default function CustomerRegisterPage() {
 
   // Fetch states and security questions on component mount
   useEffect(() => {
-    fetch("http://localhost:8142/getAllStates")
+    fetch("http://localhost:8140/auth/getAllStates")
       .then((resp) => resp.json())
       .then((data) => setStatesFromDb(data))
       .catch((e) => console.log(e));
 
-    fetch("http://localhost:8142/getAllSecurityQuestions")
+    fetch("http://localhost:8140/auth/getAllSecurityQuestions")
       .then((resp) => resp.json())
       .then((data) => setSecurityQuestions(data))
       .catch((err) => console.log(err));
@@ -98,7 +98,7 @@ export default function CustomerRegisterPage() {
 
     // Fetch cities if the state is changed
     if (id === 'stateid') {
-      fetch("http://localhost:8142/getCitiesByStateId?stateId=" + value)
+      fetch("http://localhost:8140/auth/getCitiesByStateId?stateId=" + value)
         .then((resp) => resp.json())
         .then((data) => setCities(data))
         .catch((err) => {
@@ -111,7 +111,7 @@ export default function CustomerRegisterPage() {
   const [userExists, setUserExists] = useState(false);
   const handleBlurOfEmail = (e) => {
     const { value } = e.target;
-    fetch("http://localhost:8142/getUser ByEmailId?email=" + value)
+    fetch("http://localhost:8140/auth/getUserByEmailId?email=" + value)
       .then((response 
 ) => response.json())
       .then((data) => {
@@ -171,7 +171,7 @@ export default function CustomerRegisterPage() {
     };
     
     console.log(newCustDetails);
-    fetch("http://localhost:8142/registerNewCustomer", {
+    fetch("http://localhost:8140/auth/registerNewCustomer", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

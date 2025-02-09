@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace AdventureHub.Controllers
 {
     [ApiController]
-    [Route("[controller]/[action]")]
+    [Route("/organiser/[controller]/[action]")]
     public class PublishEventController : Controller
     {
         public static readonly p14_adventurehubContext Db;

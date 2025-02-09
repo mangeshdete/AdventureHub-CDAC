@@ -11,7 +11,7 @@ function ViewRegisteredEvents() {
   // Fetch registered events when the component loads
   useEffect(() => {
     console.log(user.custid);
-    fetch(`https://localhost:9145/EventRegistration/GetEventRegistrationsByCustId?cid=${user.custid}`) // Replace with actual API endpoint
+    fetch(`http://localhost:8140/customer/EventRegistration/GetEventRegistrationsByCustId?cid=${user.custid}`)
       .then((response) => response.json())
       .then((data) => {
       console.log(data);
@@ -28,7 +28,7 @@ function ViewRegisteredEvents() {
     } else {
       setSelectedEventId(eventid); // Show the details for the selected event
       // Fetch event details for the selected event
-      fetch(`https://localhost:9145/EventRegistration/GetEventRegistrationDetailsByEventId?eid=${eventid}`) // Replace with actual API endpoint
+      fetch(`http://localhost:8140/customer/EventRegistration/GetEventRegistrationDetailsByEventId?eid=${eventid}`)
         .then((response) => response.json())
         .then((data) => {
           setSelectedEvent(data[0]); // Set the event details
@@ -103,7 +103,7 @@ function ViewRegisteredEvents() {
                           <strong>Date & Time:</strong> {selectedEvent.eventdate}, {selectedEvent.eventtime}  
                         </p>
                         <p className="mb-1">
-                          <strong>Amount Paid:</strong> {selectedEvent.price}.00 Rs
+                          <strong>Amount Paid:</strong> {selectedEvent.amount}.00 Rs
                         </p>
                         <p className="mb-1">
                           <strong>Contact:</strong> +91 {selectedEvent.contact}

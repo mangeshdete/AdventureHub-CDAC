@@ -8,7 +8,7 @@ function UpdateRequests() {
   // Fetch "In Process" Events from API
   const fetchEvents = async () => {
     try {
-      const response = await fetch("https://localhost:9146/Admin/GetAllUpdateRequestsForAdmin");
+      const response = await fetch("http://localhost:8140/admin/Admin/GetAllUpdateRequestsForAdmin");
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -28,7 +28,7 @@ function UpdateRequests() {
   // Update Event Status (Allow or Reject)
   const updateEventStatus = async (publishId) => {
     try {
-      const response = await fetch(`https://localhost:9146/Admin/ApproveUpdateRequestByPublishId?pid=${publishId}`, {
+      const response = await fetch(`http://localhost:8140/admin/Admin/ApproveUpdateRequestByPublishId?pid=${publishId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
       });

@@ -11,7 +11,7 @@ function ViewCurrentEvents() {
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        const response = await fetch("http://localhost:8142/getAllCities");
+        const response = await fetch("http://localhost:8140/auth/getAllCities");
         const data = await response.json();
         console.log("Cities API Response:", data);
         setCities(data);
@@ -29,7 +29,7 @@ function ViewCurrentEvents() {
     const fetchEvents = async () => {
       try {
         const response = await fetch(
-          `https://localhost:9146/Admin/GetPublishedEventsThatToBeViewByCityId?id=${selectedCityId}`
+          `http://localhost:8140/admin/Admin/GetPublishedEventsThatToBeViewByCityId?id=${selectedCityId}`
         );
         const data = await response.json();
         console.log("Events API Response:", data);

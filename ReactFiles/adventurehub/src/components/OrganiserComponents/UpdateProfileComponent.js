@@ -40,7 +40,7 @@ const UpdateProfileComponent = () => {
   useEffect(() => {
     async function fetchStates() {
       try {
-        const response = await fetch("http://localhost:8142/getAllStates");
+        const response = await fetch("http://localhost:8140/auth/getAllStates");
         const data = await response.json();
         setStates(data);
       } catch (err) {
@@ -57,7 +57,7 @@ const UpdateProfileComponent = () => {
       async function fetchCities() {
         try {
           const response = await fetch(
-            `http://localhost:8142/getCitiesByStateId?stateId=${organiserData.stateid}`
+            `http://localhost:8140/auth/getCitiesByStateId?stateId=${organiserData.stateid}`
           );
           const data = await response.json();
           setCities(data);
@@ -147,7 +147,7 @@ const UpdateProfileComponent = () => {
 
     try {
       const response = await fetch(
-        "https://localhost:9144/Organiser/updateOrganiserDetails",
+        "http://localhost:8140/organiser/Organiser/updateOrganiserDetails",
         {
           method: "PUT",
           headers: {

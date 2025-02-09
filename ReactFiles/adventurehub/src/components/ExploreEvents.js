@@ -216,14 +216,14 @@ const ExploreEvents = () => {
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:8142/getAllStates");
+      const response = await fetch("http://localhost:8140/auth/getAllStates");
       const statesData = await response.json();
 
       const statesWithEvents = [];
       for (const state of statesData) {
         try {
           const eventsResponse = await fetch(
-            `https://localhost:9145/PublishEvents/GetNumberOfActiveEventsByStateId?stateid=${state.stateid}`
+            `http://localhost:8140/customer/PublishEvents/GetNumberOfActiveEventsByStateId?stateid=${state.stateid}`
           );
           const eventCount = await eventsResponse.json();
           statesWithEvents.push({ ...state, activeEvents: eventCount });
@@ -250,7 +250,7 @@ const ExploreEvents = () => {
       const stateid = states.stateid;
 
       const response = await fetch(
-        `https://localhost:9145/PublishEvents/getPublishedEventsByCityIdOrStateId?cityid=${cityid}&stateid=${stateid}`
+        `http://localhost:8140/customer/PublishEvents/getPublishedEventsByCityIdOrStateId?cityid=${cityid}&stateid=${stateid}`
       );
 
       if (!response.ok) {
@@ -273,7 +273,7 @@ const ExploreEvents = () => {
 
     try {
       const response = await fetch(
-        `https://localhost:9145/PublishEvents/getAllPublishedEventsByStateId?stateid=${stateid}`
+        `http://localhost:8140/customer/PublishEvents/getAllPublishedEventsByStateId?stateid=${stateid}`
       );
       const eventData = await response.json();
       setEvents(eventData);

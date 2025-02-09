@@ -15,7 +15,7 @@ function ViewEventRegistrationsComponent() {
   // Fetch events by organiser ID
   useEffect(() => {
     if (organiser?.organiserid) {
-      fetch(`https://localhost:9144/PublishEvent/GetPublishedEventsByOrganiserId?orgId=${organiser.organiserid}`)
+      fetch(`http://localhost:8140/organiser/PublishEvent/GetPublishedEventsByOrganiserId?orgId=${organiser.organiserid}`)
         .then((response) => response.json())
         .then((data) => {
           console.log("Fetched Events:", data);
@@ -35,7 +35,7 @@ function ViewEventRegistrationsComponent() {
       console.log("Selected Event ID:", eventId);
       console.log("Organiser ID:", organiser.organiserid);
 
-      fetch(`https://localhost:9144/EventRegistration/GetEventRegistrationsByEventIdAndOrganiserById?eventId=${eventId}&orgId=${organiser.organiserid}`)
+      fetch(`http://localhost:8140/organiser/EventRegistration/GetEventRegistrationsByEventIdAndOrganiserById?eventId=${eventId}&orgId=${organiser.organiserid}`)
         .then((response) => response.json())
         .then((data) => {
           console.log("Fetched Participants:", data);

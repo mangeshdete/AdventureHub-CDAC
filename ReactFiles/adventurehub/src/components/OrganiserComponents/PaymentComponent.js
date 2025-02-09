@@ -19,7 +19,7 @@ function PaymentComponent() {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `https://localhost:9144/PublishEvent/GetPublishedEventsByOrganiserId?orgId=${orgId}`
+          `http://localhost:8140/organiser/PublishEvent/GetPublishedEventsByOrganiserId?orgId=${orgId}`
         );
         const data = await response.json();
         setPublishedEvents(data);
@@ -38,7 +38,7 @@ function PaymentComponent() {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:9144/Payments/GetAllRefundRequestsByPublishId?pid=${publishId}`
+        `http://localhost:8140/organiser/Payments/GetAllRefundRequestsByPublishId?pid=${publishId}`
       );
       const data = await response.json();
       setRefundRequests(data);
@@ -59,7 +59,7 @@ function PaymentComponent() {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:9144/Payments/ApproveRefundRequestByRegistrationId?rid=${registrationId}`,
+        `http://localhost:8140/organiser/Payments/ApproveRefundRequestByRegistrationId?rid=${registrationId}`,
         { method: "PUT" }
       );
       const result = await response.text();
@@ -94,7 +94,7 @@ function PaymentComponent() {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:9144/Payments/RejectRefundRequestByRegistrationId?rid=${registrationId}`,
+        `http://localhost:8140/organiser/Payments/RejectRefundRequestByRegistrationId?rid=${registrationId}`,
         { method: "PUT" }
       );
       const result = await response.text();
