@@ -5,7 +5,7 @@
     "version": "1.0"
   },
   "paths": {
-    "/Category/GetAllCategories": {
+    "/organiser/Category/GetAllCategories": {
       "get": {
         "tags": [
           "Category"
@@ -17,7 +17,7 @@
         }
       }
     },
-    "/Event/GetAllEventsFromCategoryId": {
+    "/organiser/Event/GetAllEventsFromCategoryId": {
       "get": {
         "tags": [
           "Event"
@@ -39,7 +39,7 @@
         }
       }
     },
-    "/EventRegistration/GetEventRegistrationsByEventIdAndOrganiserById": {
+    "/organiser/EventRegistration/GetEventRegistrationsByEventIdAndOrganiserById": {
       "get": {
         "tags": [
           "EventRegistration"
@@ -69,7 +69,7 @@
         }
       }
     },
-    "/EventRegistration/GetParticipantNumbersByPublishId": {
+    "/organiser/EventRegistration/GetParticipantNumbersByPublishId": {
       "get": {
         "tags": [
           "EventRegistration"
@@ -91,7 +91,7 @@
         }
       }
     },
-    "/Organiser/getOrganiserById": {
+    "/organiser/Organiser/getOrganiserById": {
       "get": {
         "tags": [
           "Organiser"
@@ -113,7 +113,7 @@
         }
       }
     },
-    "/Organiser/updateOrganiserDetails": {
+    "/organiser/Organiser/updateOrganiserDetails": {
       "put": {
         "tags": [
           "Organiser"
@@ -144,7 +144,7 @@
         }
       }
     },
-    "/Payments/GetAllRefundRequestsByPublishId": {
+    "/organiser/Payments/GetAllRefundRequestsByPublishId": {
       "get": {
         "tags": [
           "Payments"
@@ -166,7 +166,7 @@
         }
       }
     },
-    "/Payments/ApproveRefundRequestByRegistrationId": {
+    "/organiser/Payments/ApproveRefundRequestByRegistrationId": {
       "put": {
         "tags": [
           "Payments"
@@ -188,7 +188,7 @@
         }
       }
     },
-    "/Payments/RejectRefundRequestByRegistrationId": {
+    "/organiser/Payments/RejectRefundRequestByRegistrationId": {
       "put": {
         "tags": [
           "Payments"
@@ -210,7 +210,7 @@
         }
       }
     },
-    "/PublishEvent/GetPublishedEventsByOrganiserId": {
+    "/organiser/PublishEvent/GetPublishedEventsByOrganiserId": {
       "get": {
         "tags": [
           "PublishEvent"
@@ -232,7 +232,7 @@
         }
       }
     },
-    "/PublishEvent/PublishNewEvent": {
+    "/organiser/PublishEvent/PublishNewEvent": {
       "post": {
         "tags": [
           "PublishEvent"
@@ -263,7 +263,7 @@
         }
       }
     },
-    "/PublishEvent/GetPublishedEventById": {
+    "/organiser/PublishEvent/GetPublishedEventById": {
       "get": {
         "tags": [
           "PublishEvent"
@@ -285,7 +285,7 @@
         }
       }
     },
-    "/PublishEvent/UpdatePulishedEventDetails": {
+    "/organiser/PublishEvent/UpdatePulishedEventDetails": {
       "put": {
         "tags": [
           "PublishEvent"
@@ -316,7 +316,7 @@
         }
       }
     },
-    "/PublishEvent/UpdateStatusToBeCancelledByPublishId": {
+    "/organiser/PublishEvent/UpdateStatusToBeCancelledByPublishId": {
       "put": {
         "tags": [
           "PublishEvent"

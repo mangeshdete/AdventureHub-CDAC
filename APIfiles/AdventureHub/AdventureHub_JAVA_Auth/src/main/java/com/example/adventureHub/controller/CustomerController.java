@@ -7,20 +7,20 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.adventureHub.entity.Customer;
 import com.example.adventureHub.service.CustomerService;
 
-@CrossOrigin
 @RestController
+@RequestMapping("/auth/")
 public class CustomerController {
 
 	@Autowired
 	CustomerService cservice;
 	
-	@PostMapping("/registerNewCustomer")
+	@PostMapping("registerNewCustomer")
 	public Customer registerNewCustomer(@RequestBody Customer c) {
 		Customer cust = cservice.registerNewCustomer(c);
 		if(cust!=null)
@@ -28,7 +28,7 @@ public class CustomerController {
 		return null;
 	}
 	
-	@GetMapping("/getAllCustomers")
+	@GetMapping("getAllCustomers")
 	public List<Customer>getAll(){
 		return cservice.getAll();
 	}

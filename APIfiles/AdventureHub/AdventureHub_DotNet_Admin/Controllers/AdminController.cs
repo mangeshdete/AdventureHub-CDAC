@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace AdventureHub_DotNet_Admin.Controllers
 {
     [ApiController]
-    [Route("/[controller]/[action]")]
+    [Route("admin/[controller]/[action]")]
     public class AdminController : Controller
     {
 

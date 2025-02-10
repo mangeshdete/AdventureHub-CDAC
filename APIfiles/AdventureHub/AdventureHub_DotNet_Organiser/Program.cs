@@ -1,4 +1,5 @@
 using AdventureHub.Models;
+using Steeltoe.Discovery.Client;
 
 namespace AdventureHub
 {
@@ -21,13 +22,17 @@ namespace AdventureHub
                     op.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
                     op.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
                 });
+            builder.Services.AddDiscoveryClient(builder.Configuration);
+
 
             var app = builder.Build();
 
-            app.UseCors(builder =>
-                builder.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
+            // Use Steeltoe Discovery Client
+            app.UseDiscoveryClient();
+            //app.UseCors(builder =>
+            //    builder.AllowAnyOrigin()
+            //    .AllowAnyMethod()
+            //    .AllowAnyHeader());
 
 
             // Configure the HTTP request pipeline.
@@ -37,7 +42,7 @@ namespace AdventureHub
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseAuthorization();
 

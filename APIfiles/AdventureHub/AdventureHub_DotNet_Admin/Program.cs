@@ -1,5 +1,6 @@
 
 using AdventureHub_DotNet_Admin.Models;
+using Steeltoe.Discovery.Client;
 
 namespace AdventureHub_DotNet_Admin
 {
@@ -18,12 +19,18 @@ namespace AdventureHub_DotNet_Admin
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddDiscoveryClient(builder.Configuration);
+
+
             var app = builder.Build();
 
-            app.UseCors(builder =>
-                builder.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
+            // Use Steeltoe Discovery Client
+            app.UseDiscoveryClient();
+
+            //app.UseCors(builder =>
+            //    builder.AllowAnyOrigin()
+            //    .AllowAnyMethod()
+            //    .AllowAnyHeader());
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -32,7 +39,7 @@ namespace AdventureHub_DotNet_Admin
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseAuthorization();
 

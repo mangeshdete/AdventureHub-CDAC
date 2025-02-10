@@ -14,7 +14,7 @@ function CustomerBookingsComponent() {
   // Fetch bookings
   useEffect(() => {
     if (customer?.custid) {
-      fetch(`https://localhost:9145/EventRegistration/GetEventRegistrationsByCustId?cid=${customer.custid}`)
+      fetch(`http://localhost:8140/customer/EventRegistration/GetEventRegistrationsByCustId?cid=${customer.custid}`)
         .then((response) => {
           if (!response.ok) throw new Error("Failed to fetch bookings");
           return response.json();
@@ -40,7 +40,7 @@ function CustomerBookingsComponent() {
     }
 
     if (customer?.custid) {
-      fetch(`https://localhost:9145/EventRegistration/CancelEventRegistrationByRegistrationId?rid=${selectedRegId}`, {
+      fetch(`http://localhost:8140/customer/EventRegistration/CancelEventRegistrationByRegistrationId?rid=${selectedRegId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -56,7 +56,7 @@ function CustomerBookingsComponent() {
             showNotification("Cancellation successful!", "success");
             setActiveTab("view");
             // Refresh bookings after cancellation
-            fetch(`https://localhost:9145/EventRegistration/GetEventRegistrationsByCustId?cid=${customer.custid}`)
+            fetch(`http://localhost:8140/customer/EventRegistration/GetEventRegistrationsByCustId?cid=${customer.custid}`)
               .then((response) => response.json())
               .then((data) => setBookings(data))
               .catch((error) => console.error("Error refreshing bookings:", error));

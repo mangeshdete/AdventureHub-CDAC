@@ -8,7 +8,7 @@ function CancelRequests() {
   // Fetch "To Be Cancelled" Events from API
   const fetchEvents = async () => {
     try {
-      const response = await fetch("https://localhost:9146/Admin/GetToBeCancelledRequestsForAdmin");
+      const response = await fetch("http://localhost:8140/admin/Admin/GetToBeCancelledRequestsForAdmin");
       if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
       
       const data = await response.json();
@@ -22,7 +22,7 @@ function CancelRequests() {
   // Approve or Reject Event
   const handleAction = async (publishid, actionType) => {
     try {
-      const response = await fetch(`https://localhost:9146/Admin/${actionType}CancelRequestByRegId?regId=${publishid}`, {
+      const response = await fetch(`http://localhost:8140/admin/Admin/${actionType}CancelRequestByRegId?regId=${publishid}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"

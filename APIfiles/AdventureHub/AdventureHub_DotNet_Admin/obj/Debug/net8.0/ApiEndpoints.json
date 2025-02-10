@@ -2,7 +2,7 @@
   {
     "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
     "Method": "ApproveCancelRequestByRegId",
-    "RelativePath": "Admin/ApproveCancelRequestByRegId",
+    "RelativePath": "admin/Admin/ApproveCancelRequestByRegId",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -18,7 +18,7 @@
   {
     "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
     "Method": "ApproveUpdateRequestByPublishId",
-    "RelativePath": "Admin/ApproveUpdateRequestByPublishId",
+    "RelativePath": "admin/Admin/ApproveUpdateRequestByPublishId",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -34,7 +34,7 @@
   {
     "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
     "Method": "GetAllEventsPublishedInLastMonth",
-    "RelativePath": "Admin/GetAllEventsPublishedInLastMonth",
+    "RelativePath": "admin/Admin/GetAllEventsPublishedInLastMonth",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -44,7 +44,7 @@
   {
     "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
     "Method": "GetAllPaymentsForAdmin",
-    "RelativePath": "Admin/GetAllPaymentsForAdmin",
+    "RelativePath": "admin/Admin/GetAllPaymentsForAdmin",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -54,7 +54,7 @@
   {
     "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
     "Method": "GetAllUpdateRequestsForAdmin",
-    "RelativePath": "Admin/GetAllUpdateRequestsForAdmin",
+    "RelativePath": "admin/Admin/GetAllUpdateRequestsForAdmin",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -64,7 +64,7 @@
   {
     "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
     "Method": "GetPublishedEventsThatToBeViewByCityId",
-    "RelativePath": "Admin/GetPublishedEventsThatToBeViewByCityId",
+    "RelativePath": "admin/Admin/GetPublishedEventsThatToBeViewByCityId",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -80,7 +80,7 @@
   {
     "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
     "Method": "GetToBeCancelledRequestsForAdmin",
-    "RelativePath": "Admin/GetToBeCancelledRequestsForAdmin",
+    "RelativePath": "admin/Admin/GetToBeCancelledRequestsForAdmin",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -90,7 +90,7 @@
   {
     "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
     "Method": "GetTop10HighestRatedOrganizer",
-    "RelativePath": "Admin/GetTop10HighestRatedOrganizer",
+    "RelativePath": "admin/Admin/GetTop10HighestRatedOrganizer",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -100,7 +100,7 @@
   {
     "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
     "Method": "RejectCancelRequestByRegId",
-    "RelativePath": "Admin/RejectCancelRequestByRegId",
+    "RelativePath": "admin/Admin/RejectCancelRequestByRegId",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,

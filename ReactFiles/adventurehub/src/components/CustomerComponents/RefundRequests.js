@@ -9,7 +9,7 @@ const RefundRequests = () => {
     useEffect(() => {
         const fetchRefundRequests = async () => {
             try {
-                const response = await fetch(`https://localhost:9145/EventRegistration/GetAllRefundRequestsByCustomerId?cid=${cid}`);
+                const response = await fetch(`http://localhost:8140/customer/EventRegistration/GetAllRefundRequestsByCustomerId?cid=${cid}`);
                 const data = await response.json();
 
                 if (response.ok) {

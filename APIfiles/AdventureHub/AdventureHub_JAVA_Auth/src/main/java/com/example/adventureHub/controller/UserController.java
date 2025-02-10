@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,14 +17,14 @@ import com.example.adventureHub.entity.User;
 import com.example.adventureHub.entity.UserLoginByEmailAndPassword;
 import com.example.adventureHub.service.UserService;
 
-@CrossOrigin
 @RestController
+@RequestMapping("/auth/")
 public class UserController {
 
 	@Autowired
 	UserService uservice;
 	
-	@GetMapping("/getAllUsers")
+	@GetMapping("getAllUsers")
 	public List<User> getAllUsers(){
 		return uservice.getAll();
 	}

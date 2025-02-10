@@ -391,12 +391,12 @@ function CreateEventComponent({ cityid: propCityid }) {
   const [cities, setCities] = useState([]);
 
   useEffect(() => {
-    fetch("https://localhost:9144/Category/GetAllCategories")
+    fetch("http://localhost:8140/organiser/Category/GetAllCategories")
       .then((response) => response.json())
       .then((data) => setCategories(data))
       .catch((error) => console.error("Error fetching categories:", error));
 
-    fetch("http://localhost:8142/getAllStates")
+    fetch("http://localhost:8140/auth/getAllStates")
       .then((resp) => resp.json())
       .then((data) => setStates(data))
       .catch((e) => console.log(e));
@@ -411,7 +411,7 @@ function CreateEventComponent({ cityid: propCityid }) {
     }));
 
     if (selectedCategoryId) {
-      fetch(`https://localhost:9144/Event/GetAllEventsFromCategoryId?catId=${selectedCategoryId}`)
+      fetch(`http://localhost:8140/organiser/Event/GetAllEventsFromCategoryId?catId=${selectedCategoryId}`)
         .then((response) => response.json())
         .then((data) => setEvents(data))
         .catch((error) => console.error("Error fetching events:", error));
@@ -429,7 +429,7 @@ function CreateEventComponent({ cityid: propCityid }) {
     }));
 
     if (selectedStateId) {
-      fetch(`http://localhost:8142/getCitiesByStateId?stateId=${selectedStateId}`)
+      fetch(`http://localhost:8140/auth/getCitiesByStateId?stateId=${selectedStateId}`)
         .then((resp) => resp.json())
         .then((data) => setCities(data))
         .catch((e) => console.log(e));
@@ -497,7 +497,7 @@ function CreateEventComponent({ cityid: propCityid }) {
       categoryid: parseInt(eventDetails.categoryId) || 0,
     };
 
-    fetch("https://localhost:9144/PublishEvent/PublishNewEvent", {
+    fetch("http://localhost:8140/organiser/PublishEvent/PublishNewEvent", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

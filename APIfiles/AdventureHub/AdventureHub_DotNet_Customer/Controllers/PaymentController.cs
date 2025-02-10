@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AdventureHub_DotNet_Customer.Controllers
 {
     [ApiController]
-    [Route("/[controller]/[action]")]
+    [Route("customer/[controller]/[action]")]
     public class PaymentController : Controller
     {
         public static readonly p14_adventurehubContext Db;
@@ -14,14 +14,26 @@ namespace AdventureHub_DotNet_Customer.Controllers
             Db = new p14_adventurehubContext();
         }
         [HttpGet]
-        public IActionResult getPaymentHistoryByCustId([FromQuery] int cid)
+        public IActionResult GetPaymentHistoryByCustId([FromQuery] int cid)
         {
-            var payments = Db.Payments.Where(p => p.Registrationid ==
-                (Db.Eventregistrations.Where(r => r.Custid == cid).
-                    Select(r => r.Registrationid).FirstOrDefault())).Select(r => new { r.Registration.Publish.Event.Eventname, r.Amount, r.Date, r.Paymentstatus });
+            var registrationIds = Db.Eventregistrations
+                .Where(r => r.Custid == cid)
+                .Select(r => r.Registrationid)
+                .ToList(); // Get all Registration IDs
+
+            var payments = Db.Payments
+                .Where(p => registrationIds.Contains(p.Registrationid)) // Match all registrations
+                .Select(r => new {
+                    r.Registration.Publish.Event.Eventname,
+                    r.Amount,
+                    r.Date,
+                    r.Paymentstatus
+                })
+                .ToList(); // Fetch results
 
             return Ok(payments);
         }
+
 
         [HttpGet]
         public IActionResult GetPaymentModes()

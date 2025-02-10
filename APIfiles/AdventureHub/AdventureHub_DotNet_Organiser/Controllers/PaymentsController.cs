@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AdventureHub.Controllers
 {
     [ApiController]
-    [Route("/[Controller]/[Action]")]
+    [Route("/organiser/[controller]/[action]")]
     public class PaymentsController : Controller
     {
         public static readonly p14_adventurehubContext Db;
