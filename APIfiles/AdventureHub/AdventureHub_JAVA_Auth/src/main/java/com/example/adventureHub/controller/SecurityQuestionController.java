@@ -17,7 +17,7 @@ import com.example.adventureHub.service.SecurityQuestionService;
 public class SecurityQuestionController {
 	
 	@Autowired
-	SecurityQuestionService sqservice;
+	private SecurityQuestionService sqservice;
 	
 	@GetMapping("getAllSecurityQuestions")
 	public List<SecurityQuestion> getAllSecurityQuestions(){

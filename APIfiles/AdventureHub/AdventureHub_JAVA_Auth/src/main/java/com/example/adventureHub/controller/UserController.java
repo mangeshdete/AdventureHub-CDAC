@@ -22,7 +22,7 @@ import com.example.adventureHub.service.UserService;
 public class UserController {
 
 	@Autowired
-	UserService uservice;
+	private UserService uservice;
 	
 	@GetMapping("getAllUsers")
 	public List<User> getAllUsers(){

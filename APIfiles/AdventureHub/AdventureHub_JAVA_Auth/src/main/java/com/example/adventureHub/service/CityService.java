@@ -13,7 +13,7 @@ import com.example.adventureHub.repository.CityRepository;
 public class CityService {
 
 	@Autowired
-	CityRepository cityrepo;
+	private CityRepository cityrepo;
 	
 	public List<City> getAllCities(){
 		return cityrepo.findAll();

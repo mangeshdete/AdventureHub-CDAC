@@ -16,7 +16,7 @@ import com.example.adventureHub.service.CategoryService;
 public class CategoryController {
 	
 	@Autowired
-	CategoryService cservice;
+	private CategoryService cservice;
 	
 	@GetMapping("getAllCategories")
 	public List<Category> getAllCategories(){
