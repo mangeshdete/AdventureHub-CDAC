@@ -85,8 +85,6 @@ namespace AdventureHub_DotNet_Customer.Controllers
                 if (registration == null)
                     return Ok(null);
 
-                var price = Db.Publishevents.Where(r => r.Publishid.Equals(Db.Eventregistrations.Where(e => e.Custid == cid).Select(e => e.Publishid).FirstOrDefault())).Select(e => e.Price).FirstOrDefault();
-
                 // Get all refund records for the customer
                 var records = Db.Eventregistrations
                     .Where(r => r.Custid == cid && r.Cancellationreason != null)
@@ -98,8 +96,8 @@ namespace AdventureHub_DotNet_Customer.Controllers
                                        : r.Status == "CANCELLED" && r.Cancellationreason != null ? "PENDING"
                                        : "TO_BE_REVIEWED",
                         participants = r.Participants,
-                        pricePerPerson = price.ToString(),
-                        refundAmount = r.Participants * price // Use price from above
+                        pricePerPerson = r.Publish.Price,
+                        refundAmount = r.Participants * r.Publish.Price // Use price from above
                     })
                     .ToList();
 

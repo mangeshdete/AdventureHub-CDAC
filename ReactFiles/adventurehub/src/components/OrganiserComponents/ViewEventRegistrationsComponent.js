@@ -85,7 +85,7 @@ function ViewEventRegistrationsComponent() {
                     <td>
                       <button
                         className="btn btn-outline-primary btn-sm"
-                        onClick={() => toggleParticipants(event.eventid)}
+                        onClick={() => toggleParticipants(event.publishid)}
                       >
                         {expandedEvent === event.eventid ? "Hide Participants" : "View Participants"}
                       </button>

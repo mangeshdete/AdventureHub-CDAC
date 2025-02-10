@@ -17,8 +17,8 @@
   },
   {
     "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
-    "Method": "ApproveUpdateRequestByPublishId",
-    "RelativePath": "admin/Admin/ApproveUpdateRequestByPublishId",
+    "Method": "ApproveNewEventRequestByPublishId",
+    "RelativePath": "admin/Admin/ApproveNewEventRequestByPublishId",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -43,8 +43,8 @@
   },
   {
     "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
-    "Method": "GetAllPaymentsForAdmin",
-    "RelativePath": "admin/Admin/GetAllPaymentsForAdmin",
+    "Method": "GetAllNewEventRequestsForAdmin",
+    "RelativePath": "admin/Admin/GetAllNewEventRequestsForAdmin",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -53,8 +53,8 @@
   },
   {
     "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
-    "Method": "GetAllUpdateRequestsForAdmin",
-    "RelativePath": "admin/Admin/GetAllUpdateRequestsForAdmin",
+    "Method": "GetAllPaymentsForAdmin",
+    "RelativePath": "admin/Admin/GetAllPaymentsForAdmin",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -107,6 +107,22 @@
     "Parameters": [
       {
         "Name": "regId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
+    "Method": "RejectNewEventRequestByPublishId",
+    "RelativePath": "admin/Admin/RejectNewEventRequestByPublishId",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pid",
         "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       }

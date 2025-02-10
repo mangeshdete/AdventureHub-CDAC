@@ -350,16 +350,20 @@
 
 import React, { useState, useEffect } from "react";
 import "../../styles/OrganiserStyles/CreateEventComponent.css";
+import { useSelector } from "react-redux";
 
 function CreateEventComponent({ cityid: propCityid }) {
+
+  const user = useSelector(state => state.user);
+    // console.log(user)
   const [eventDetails, setEventDetails] = useState({
     eventid: "",
-    organiserid: 1,
+    organiserid: user?.user?.organiserid || null,
     eventdate: "",
     eventtime: "",
     price: "",
     capacity: "",
-    status: "ACTIVE",
+    status: "PROCESSING",
     street: "",
     cityid: propCityid || "",
     pincode: "",
@@ -381,7 +385,7 @@ function CreateEventComponent({ cityid: propCityid }) {
   const regexPatterns = {
     price: /^(?!0+(?:\.0+)?$)\d+(\.\d{1,2})?$/,
     capacity: /^(?!0+(?:\.0+)?$)\d+(\.\d{1,2})?$/,
-    street: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9\s,'-]{3,}$/,
+    street: /^(?=.*[A-Za-z])[A-Za-z0-9\s,'-]{3,}$/,
     pincode: /^\d{6}$/,
   };
 
@@ -484,7 +488,7 @@ function CreateEventComponent({ cityid: propCityid }) {
 
     const payload = {
       eventid: parseInt(eventDetails.eventid) || 0,
-      organiserid: 1,
+      organiserid: user?.user?.organiserid || null,
       eventdate: eventDetails.eventdate || "1970-01-01",
       eventtime: eventDetails.eventtime ? eventDetails.eventtime + ":00" : "00:00:00",
       price: parseFloat(eventDetails.price) || 0,
@@ -658,6 +662,7 @@ function CreateEventComponent({ cityid: propCityid }) {
             name="street"
             value={eventDetails.street}
             onChange={handleChange}
+            required
           />
           {errors.street && <div className="error-message">{errors.street}</div>}
         </div>
@@ -670,6 +675,7 @@ function CreateEventComponent({ cityid: propCityid }) {
             name="pincode"
             value={eventDetails.pincode}
             onChange={handleChange}
+            required
           />
           {errors.pincode && <div className="error-message">{errors.pincode}</div>}
         </div>

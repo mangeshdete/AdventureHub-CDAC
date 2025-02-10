@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Table, Button, Container, Alert } from "react-bootstrap";
 
-function UpdateRequests() {
+function CreateEventRequests() {
   const [events, setEvents] = useState([]);
   const [message, setMessage] = useState(null);
 
   // Fetch "In Process" Events from API
   const fetchEvents = async () => {
     try {
-      const response = await fetch("http://localhost:8140/admin/Admin/GetAllUpdateRequestsForAdmin");
+      const response = await fetch("http://localhost:8140/admin/Admin/GetAllNewEventRequestsForAdmin");
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -26,9 +26,9 @@ function UpdateRequests() {
   };
 
   // Update Event Status (Allow or Reject)
-  const updateEventStatus = async (publishId) => {
+  const updateEventStatus = async (publishId, action) => {
     try {
-      const response = await fetch(`http://localhost:8140/admin/Admin/ApproveUpdateRequestByPublishId?pid=${publishId}`, {
+      const response = await fetch(`http://localhost:8140/admin/Admin/${action}NewEventRequestByPublishId?pid=${publishId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
       });
@@ -38,13 +38,16 @@ function UpdateRequests() {
       if (response.ok) {
         // Only remove from UI if update was successful
         setEvents((prevEvents) => prevEvents.filter((event) => event.publishid !== publishId));
-        showMessage(`✅ Event ID ${publishId} updated successfully!`, "success");
+        if(action==='Approve')
+          showMessage(`✅ Event: ${publishId} Creation Request Approved successfully!`, "success");
+        else 
+        showMessage(`❌ Event: ${publishId} Creation Request Rejected successfully!`, "danger")
       } else {
         // Show actual error message from API
-        throw new Error(responseText || "Failed to update event.");
+        throw new Error(responseText || "Failed to Create/Cancel event.");
       }
     } catch (error) {
-      console.error("❌ Error updating event status:", error.message);
+      console.error("❌ Error creating event status:", error.message);
       showMessage(`❌ ${error.message}`, "danger");
     }
   };
@@ -55,7 +58,7 @@ function UpdateRequests() {
 
   return (
     <Container className="mt-4">
-      <h2 className="mb-3 text-center">Update Requests</h2>
+      <h2 className="mb-3 text-center">Create Event Requests</h2>
 
       {/* Popup Message */}
       {message && (
@@ -71,6 +74,7 @@ function UpdateRequests() {
             <th>Event Name</th>
             <th>City</th>
             <th>Status</th>
+            <th>Organiser Name and Ratings</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -96,20 +100,28 @@ function UpdateRequests() {
                     >
                       {event.status}
                     </span></td>
+                <td>{event.orgname}<br/><span style={{color: "green"}}>Ratings: {event.rating}/5</span></td>
                 <td>
                   <Button
                     variant="success"
                     className="me-2"
-                    onClick={() => updateEventStatus(event.publishid)}
+                    onClick={() => updateEventStatus(event.publishid, 'Approve')}
                   >
-                    Allow Update
+                    Approve
+                  </Button>
+                  <Button
+                    variant="danger"
+                    className="me-2"
+                    onClick={() => updateEventStatus(event.publishid, 'Reject')}
+                  >
+                    Reject
                   </Button>
                 </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="5" className="text-center">No events to update</td>
+              <td colSpan="5" className="text-center">No new requests</td>
             </tr>
           )}
         </tbody>
@@ -118,4 +130,4 @@ function UpdateRequests() {
   );
 }
 
-export default UpdateRequests;
+export default CreateEventRequests;
