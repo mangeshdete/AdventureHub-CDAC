@@ -12,7 +12,7 @@ import com.example.adventureHub.repository.StatesRepository;
 public class StatesService {
 
 	@Autowired
-	StatesRepository srepo;
+	private StatesRepository srepo;
 	
 	public List<States> getAllStates(){
 		return srepo.findAll();

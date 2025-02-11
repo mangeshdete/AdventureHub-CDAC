@@ -12,7 +12,7 @@ import com.example.adventureHub.repository.SecurityQuestionRepository;
 public class SecurityQuestionService {
 	
 	@Autowired
-	SecurityQuestionRepository sqrepo;
+	private SecurityQuestionRepository sqrepo;
 	
 	public List<SecurityQuestion> getAllSecurityQuestions(){
 		return sqrepo.findAll();

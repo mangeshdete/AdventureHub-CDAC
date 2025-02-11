@@ -2,7 +2,7 @@
   {
     "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
     "Method": "ApproveCancelRequestByRegId",
-    "RelativePath": "Admin/ApproveCancelRequestByRegId",
+    "RelativePath": "admin/Admin/ApproveCancelRequestByRegId",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -17,8 +17,8 @@
   },
   {
     "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
-    "Method": "ApproveUpdateRequestByPublishId",
-    "RelativePath": "Admin/ApproveUpdateRequestByPublishId",
+    "Method": "ApproveNewEventRequestByPublishId",
+    "RelativePath": "admin/Admin/ApproveNewEventRequestByPublishId",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -34,7 +34,17 @@
   {
     "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
     "Method": "GetAllEventsPublishedInLastMonth",
-    "RelativePath": "Admin/GetAllEventsPublishedInLastMonth",
+    "RelativePath": "admin/Admin/GetAllEventsPublishedInLastMonth",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
+    "Method": "GetAllNewEventRequestsForAdmin",
+    "RelativePath": "admin/Admin/GetAllNewEventRequestsForAdmin",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -44,17 +54,7 @@
   {
     "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
     "Method": "GetAllPaymentsForAdmin",
-    "RelativePath": "Admin/GetAllPaymentsForAdmin",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
-    "Method": "GetAllUpdateRequestsForAdmin",
-    "RelativePath": "Admin/GetAllUpdateRequestsForAdmin",
+    "RelativePath": "admin/Admin/GetAllPaymentsForAdmin",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -64,7 +64,7 @@
   {
     "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
     "Method": "GetPublishedEventsThatToBeViewByCityId",
-    "RelativePath": "Admin/GetPublishedEventsThatToBeViewByCityId",
+    "RelativePath": "admin/Admin/GetPublishedEventsThatToBeViewByCityId",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -80,7 +80,7 @@
   {
     "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
     "Method": "GetToBeCancelledRequestsForAdmin",
-    "RelativePath": "Admin/GetToBeCancelledRequestsForAdmin",
+    "RelativePath": "admin/Admin/GetToBeCancelledRequestsForAdmin",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -90,7 +90,7 @@
   {
     "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
     "Method": "GetTop10HighestRatedOrganizer",
-    "RelativePath": "Admin/GetTop10HighestRatedOrganizer",
+    "RelativePath": "admin/Admin/GetTop10HighestRatedOrganizer",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -100,13 +100,29 @@
   {
     "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
     "Method": "RejectCancelRequestByRegId",
-    "RelativePath": "Admin/RejectCancelRequestByRegId",
+    "RelativePath": "admin/Admin/RejectCancelRequestByRegId",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "regId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AdventureHub_DotNet_Admin.Controllers.AdminController",
+    "Method": "RejectNewEventRequestByPublishId",
+    "RelativePath": "admin/Admin/RejectNewEventRequestByPublishId",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pid",
         "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       }

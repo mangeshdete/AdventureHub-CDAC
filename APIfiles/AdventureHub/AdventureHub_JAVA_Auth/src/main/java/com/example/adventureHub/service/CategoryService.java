@@ -13,7 +13,7 @@ import com.example.adventureHub.repository.CategoryRepository;
 public class CategoryService {
 	
 	@Autowired
-	CategoryRepository crepo;
+	private CategoryRepository crepo;
 	
 	public List<Category> getAllCategories(){
 		return crepo.findAll();

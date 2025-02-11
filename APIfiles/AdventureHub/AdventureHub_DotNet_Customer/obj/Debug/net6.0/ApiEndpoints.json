@@ -2,7 +2,7 @@
   {
     "ContainingType": "AdventureHub_DotNet_Customer.Controllers.EventRegistrationController",
     "Method": "CancelEventRegistrationByRegistrationId",
-    "RelativePath": "EventRegistration/CancelEventRegistrationByRegistrationId",
+    "RelativePath": "customer/EventRegistration/CancelEventRegistrationByRegistrationId",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -23,7 +23,7 @@
   {
     "ContainingType": "AdventureHub_DotNet_Customer.Controllers.EventRegistrationController",
     "Method": "GetAllRefundRequestsByCustomerId",
-    "RelativePath": "EventRegistration/GetAllRefundRequestsByCustomerId",
+    "RelativePath": "customer/EventRegistration/GetAllRefundRequestsByCustomerId",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -39,7 +39,7 @@
   {
     "ContainingType": "AdventureHub_DotNet_Customer.Controllers.EventRegistrationController",
     "Method": "getCustomerById",
-    "RelativePath": "EventRegistration/getCustomerById",
+    "RelativePath": "customer/EventRegistration/getCustomerById",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -55,7 +55,7 @@
   {
     "ContainingType": "AdventureHub_DotNet_Customer.Controllers.EventRegistrationController",
     "Method": "GetEventRegistrationDetailsByEventId",
-    "RelativePath": "EventRegistration/GetEventRegistrationDetailsByEventId",
+    "RelativePath": "customer/EventRegistration/GetEventRegistrationDetailsByEventId",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -71,7 +71,7 @@
   {
     "ContainingType": "AdventureHub_DotNet_Customer.Controllers.EventRegistrationController",
     "Method": "GetEventRegistrationsByCustId",
-    "RelativePath": "EventRegistration/GetEventRegistrationsByCustId",
+    "RelativePath": "customer/EventRegistration/GetEventRegistrationsByCustId",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -87,7 +87,7 @@
   {
     "ContainingType": "AdventureHub_DotNet_Customer.Controllers.EventRegistrationController",
     "Method": "updateCustomerDetails",
-    "RelativePath": "EventRegistration/updateCustomerDetails",
+    "RelativePath": "customer/EventRegistration/updateCustomerDetails",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -102,8 +102,8 @@
   },
   {
     "ContainingType": "AdventureHub_DotNet_Customer.Controllers.PaymentController",
-    "Method": "getPaymentHistoryByCustId",
-    "RelativePath": "Payment/getPaymentHistoryByCustId",
+    "Method": "GetPaymentHistoryByCustId",
+    "RelativePath": "customer/Payment/GetPaymentHistoryByCustId",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -119,7 +119,7 @@
   {
     "ContainingType": "AdventureHub_DotNet_Customer.Controllers.PaymentController",
     "Method": "GetPaymentModes",
-    "RelativePath": "Payment/GetPaymentModes",
+    "RelativePath": "customer/Payment/GetPaymentModes",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -129,7 +129,7 @@
   {
     "ContainingType": "AdventureHub_DotNet_Customer.Controllers.PublishEventsController",
     "Method": "CustomerRegistrationForAnEvent",
-    "RelativePath": "PublishEvents/CustomerRegistrationForAnEvent",
+    "RelativePath": "customer/PublishEvents/CustomerRegistrationForAnEvent",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -145,7 +145,7 @@
   {
     "ContainingType": "AdventureHub_DotNet_Customer.Controllers.PublishEventsController",
     "Method": "getAllPublishedEventsByStateId",
-    "RelativePath": "PublishEvents/getAllPublishedEventsByStateId",
+    "RelativePath": "customer/PublishEvents/getAllPublishedEventsByStateId",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -161,7 +161,7 @@
   {
     "ContainingType": "AdventureHub_DotNet_Customer.Controllers.PublishEventsController",
     "Method": "GetNumberOfActiveEventsByStateId",
-    "RelativePath": "PublishEvents/GetNumberOfActiveEventsByStateId",
+    "RelativePath": "customer/PublishEvents/GetNumberOfActiveEventsByStateId",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -177,7 +177,7 @@
   {
     "ContainingType": "AdventureHub_DotNet_Customer.Controllers.PublishEventsController",
     "Method": "getPublishedEventsByCityIdOrStateId",
-    "RelativePath": "PublishEvents/getPublishedEventsByCityIdOrStateId",
+    "RelativePath": "customer/PublishEvents/getPublishedEventsByCityIdOrStateId",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

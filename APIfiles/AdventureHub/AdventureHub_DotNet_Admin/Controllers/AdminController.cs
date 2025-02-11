@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace AdventureHub_DotNet_Admin.Controllers
 {
     [ApiController]
-    [Route("/[controller]/[action]")]
+    [Route("admin/[controller]/[action]")]
     public class AdminController : Controller
     {
 
@@ -19,11 +19,11 @@ namespace AdventureHub_DotNet_Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllUpdateRequestsForAdmin()
+        public IActionResult GetAllNewEventRequestsForAdmin()
         {
             try
             {
-                return Ok(Db.Publishevents.Select(e => new { e.Publishid, e.Eventid, e.Event.Eventname, e.City.Cityname, e.Status }).Where(e => e.Status == "PROCESSING"));
+                return Ok(Db.Publishevents.Select(e => new { e.Publishid, e.Eventid, e.Event.Eventname, e.City.Cityname, e.Status, e.Organiser.Orgname, e.Organiser.Rating }).Where(e => e.Status == "PROCESSING"));
 
             }
             catch (Exception e)
@@ -159,7 +159,7 @@ namespace AdventureHub_DotNet_Admin.Controllers
             }
         }
         [HttpPut]
-        public IActionResult ApproveUpdateRequestByPublishId([FromQuery] int? pid)
+        public IActionResult ApproveNewEventRequestByPublishId([FromQuery] int? pid)
         {
             if (pid == 0 || pid == null)
                 return BadRequest("Invalid Input");
@@ -179,11 +179,33 @@ namespace AdventureHub_DotNet_Admin.Controllers
                 return StatusCode(500, "Internal Server Error");
             }
         }
+        [HttpPut]
+        public IActionResult RejectNewEventRequestByPublishId([FromQuery]int? pid)
+        {
+            if (pid == 0 || pid == null)
+                return BadRequest("Invalid Input");
+
+            var publishedEvent = Db.Publishevents.Where(p => p.Publishid == pid).FirstOrDefault();
+            if (publishedEvent == null) return BadRequest("Event Not Found");
+
+            publishedEvent.Status = "CANCELLED";
+
+            try
+            {
+                Db.SaveChanges();
+                return Ok("success");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error");
+            }
+        }
 
         [HttpGet]
         public IActionResult GetAllPaymentsForAdmin()
         {
-            return Ok(Db.Payments.Select(p => new { transactionId = p.Paymentid, p.Registration.Cust.Fname, p.Registration.Cust.Lname, p.Paymentmode.Paymentmodename, p.Date, p.Amount, p.Paymentstatus }).ToList());
+            return Ok(Db.Payments.Select(p => new { transactionId = p.Paymentid, p.Registration.Cust.Fname, p.Registration.Cust.Lname, p.Paymentmode.Paymentmodename, p.Date, p.Amount, p.Paymentstatus })
+                .OrderByDescending(p => p.Date).ToList());
         }
 
     }

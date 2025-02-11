@@ -9,7 +9,7 @@ const PaymentHistory = () => {
     useEffect(() => {
         const fetchPaymentHistory = async () => {
             try {
-                const response = await fetch(`https://localhost:9145/Payment/getPaymentHistoryByCustId?cid=${cid}`);
+                const response = await fetch(`http://localhost:8140/customer/Payment/getPaymentHistoryByCustId?cid=${cid}`);
                 const data = await response.json();
 
                 if (response.ok) {

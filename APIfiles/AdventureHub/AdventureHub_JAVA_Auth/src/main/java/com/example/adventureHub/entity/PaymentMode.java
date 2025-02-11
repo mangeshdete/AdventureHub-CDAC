@@ -11,8 +11,8 @@ import jakarta.persistence.Table;
 public class PaymentMode {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int paymentmodeid;
-	String paymentmodename;
+	private int paymentmodeid;
+	private String paymentmodename;
 	public PaymentMode() {
 		super();
 		// TODO Auto-generated constructor stub

@@ -28,7 +28,7 @@ const UpdateProfileComponent = () => {
   useEffect(() => {
     async function fetchStates() {
       try {
-        const response = await fetch("http://localhost:8142/getAllStates");
+        const response = await fetch("http://localhost:8140/auth/getAllStates");
         const data = await response.json();
         if (Array.isArray(data) && data.length > 0) {
           setStates(data);
@@ -52,7 +52,7 @@ const UpdateProfileComponent = () => {
       async function fetchCities() {
         try {
           const response = await fetch(
-            `http://localhost:8142/getCitiesByStateId?stateId=${editableFields.stateid}`
+            `http://localhost:8140/auth/getCitiesByStateId?stateId=${editableFields.stateid}`
           );
           const data = await response.json();
           setCities(data);
@@ -172,7 +172,7 @@ const UpdateProfileComponent = () => {
 
     try {
       const response = await fetch(
-        `https://localhost:9145/EventRegistration/updateCustomerDetails`,
+        `http://localhost:9144/customer/EventRegistration/updateCustomerDetails`,
         {
           method: "PUT",
           headers: {

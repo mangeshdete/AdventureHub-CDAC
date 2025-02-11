@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdventureHub.Controllers
 {
-    [Route("/[controller]/[action]")]
+    [Route("/organiser/[controller]/[action]")]
     [ApiController]
     public class EventRegistrationController:ControllerBase
     {
@@ -19,7 +19,7 @@ namespace AdventureHub.Controllers
         [HttpGet]
         public IActionResult GetEventRegistrationsByEventIdAndOrganiserById([FromQuery] int eventId, [FromQuery] int orgId)
         {
-            var eventRegistrations = Db.Eventregistrations.Where(e => e.Publish.Eventid==eventId).Where(e => e.Publish.Organiserid==orgId).Select(e => new {e.Cust.Fname, e.Cust.Lname, e.Cust.Dob, e.Cust.User.Contact, e.Participants}).ToList();
+            var eventRegistrations = Db.Eventregistrations.Where(e => e.Publishid==eventId).Where(e => e.Publish.Organiserid==orgId).Select(e => new {e.Cust.Fname, e.Cust.Lname, e.Cust.Dob, e.Cust.User.Contact, e.Participants}).ToList();
             return Ok(eventRegistrations);
         }
 

@@ -9,5 +9,5 @@ import com.example.adventureHub.repository.PaymentModeRepository;
 public class PaymentModeService {
 	
 	@Autowired
-	PaymentModeRepository pmrepo;
+	private PaymentModeRepository pmrepo;
 }

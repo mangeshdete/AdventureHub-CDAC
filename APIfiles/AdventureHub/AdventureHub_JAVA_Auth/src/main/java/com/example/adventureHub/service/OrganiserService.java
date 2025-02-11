@@ -14,11 +14,15 @@ public class OrganiserService {
 	@Autowired
 	private OrganiserRepository orgRepo;
 	
+	@Autowired
+	private UserServices service;
+	
 	public List<Organiser> getAllOrganisers(){
 		return orgRepo.findAll();
 	}
 	
 	public Organiser saveNewOrganiser(Organiser org) {
+		org.getUser().setPassword(service.encryptPassword(org.getUser().getPassword()));
 		return orgRepo.save(org);
 	}
 }

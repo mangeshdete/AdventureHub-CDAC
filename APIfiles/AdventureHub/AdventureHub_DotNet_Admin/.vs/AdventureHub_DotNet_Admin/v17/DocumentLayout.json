@@ -7,6 +7,14 @@
       "RelativeMoniker": "D:0:0:{1C01CF8B-8F34-47CC-82AA-DF0D881F1A74}|AdventureHub_DotNet_Admin.csproj|solutionrelative:controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{1C01CF8B-8F34-47CC-82AA-DF0D881F1A74}|AdventureHub_DotNet_Admin.csproj|c:\\users\\mangesh\\onedrive\\desktop\\cdac project\\apifiles\\adventurehub\\adventurehub_dotnet_admin\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1C01CF8B-8F34-47CC-82AA-DF0D881F1A74}|AdventureHub_DotNet_Admin.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1C01CF8B-8F34-47CC-82AA-DF0D881F1A74}|AdventureHub_DotNet_Admin.csproj|c:\\users\\mangesh\\onedrive\\desktop\\cdac project\\apifiles\\adventurehub\\adventurehub_dotnet_admin\\adventurehub_dotnet_admin.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{1C01CF8B-8F34-47CC-82AA-DF0D881F1A74}|AdventureHub_DotNet_Admin.csproj|solutionrelative:adventurehub_dotnet_admin.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1C01CF8B-8F34-47CC-82AA-DF0D881F1A74}|AdventureHub_DotNet_Admin.csproj|c:\\users\\mangesh\\onedrive\\desktop\\cdac project\\apifiles\\adventurehub\\adventurehub_dotnet_admin\\models\\p14_adventurehubcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1C01CF8B-8F34-47CC-82AA-DF0D881F1A74}|AdventureHub_DotNet_Admin.csproj|solutionrelative:models\\p14_adventurehubcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -18,8 +26,32 @@
       "DocumentGroups": [
         {
           "DockedHeight": 204,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Mangesh\\OneDrive\\Desktop\\CDAC Project\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Admin\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\Mangesh\\OneDrive\\Desktop\\CDAC Project\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Admin\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-09T14:41:00.051Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AdventureHub_DotNet_Admin.csproj",
+              "DocumentMoniker": "C:\\Users\\Mangesh\\OneDrive\\Desktop\\CDAC Project\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Admin\\AdventureHub_DotNet_Admin.csproj",
+              "RelativeDocumentMoniker": "AdventureHub_DotNet_Admin.csproj",
+              "ToolTip": "C:\\Users\\Mangesh\\OneDrive\\Desktop\\CDAC Project\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Admin\\AdventureHub_DotNet_Admin.csproj",
+              "RelativeToolTip": "AdventureHub_DotNet_Admin.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAABKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-02-09T09:33:18.82Z"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -28,14 +60,14 @@
               "RelativeDocumentMoniker": "Controllers\\AdminController.cs",
               "ToolTip": "C:\\Users\\Mangesh\\OneDrive\\Desktop\\CDAC Project\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Admin\\Controllers\\AdminController.cs",
               "RelativeToolTip": "Controllers\\AdminController.cs",
-              "ViewState": "AgIAAE0AAAAAAAAAAAAgwHUAAABKAAAAAAAAAA==",
+              "ViewState": "AgIAAHQAAAAAAAAAAAAiwIsAAABTAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-07T19:53:39.662Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "p14_adventurehubContext.cs",
               "DocumentMoniker": "C:\\Users\\Mangesh\\OneDrive\\Desktop\\CDAC Project\\APIfiles\\AdventureHub\\AdventureHub_DotNet_Admin\\Models\\p14_adventurehubContext.cs",
               "RelativeDocumentMoniker": "Models\\p14_adventurehubContext.cs",
@@ -43,8 +75,7 @@
               "RelativeToolTip": "Models\\p14_adventurehubContext.cs",
               "ViewState": "AgIAABAAAAAAAAAAAAAqwEEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-04T06:04:30.496Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-04T06:04:30.496Z"
             }
           ]
         }
