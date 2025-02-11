@@ -4,8 +4,11 @@
   padding: 20px;
 }
 
+/* Centering the button */
 .explore-btn {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin: 20px auto;
   padding: 10px 20px;
   font-size: 16px;
@@ -14,7 +17,9 @@
   border: none;
   cursor: pointer;
   border-radius: 5px;
+  text-align: center;
 }
+
 
 /* Carousel container */
 .state-carousel-container {

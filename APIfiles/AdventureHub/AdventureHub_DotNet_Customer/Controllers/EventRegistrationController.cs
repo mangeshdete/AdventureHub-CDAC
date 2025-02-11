@@ -21,6 +21,7 @@ namespace AdventureHub_DotNet_Customer.Controllers
             var events = Db.Eventregistrations.Where(e => e.Custid == cid).Where(e => e.Cancellationreason == null).Select(e => new {
                 e.Registrationid,
                 e.Publish.Eventid,
+                e.Publishid,
                 e.Publish.Event.Eventname,
                 e.Publish.Eventdate,
                 e.Publish.Eventtime,
@@ -31,19 +32,18 @@ namespace AdventureHub_DotNet_Customer.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetEventRegistrationDetailsByEventId([FromQuery] int eid)
+        public IActionResult GetEventRegistrationDetailsByRegistrationId([FromQuery] int rid)
         {
-            var price = Db.Publishevents.Where(p => p.Publishid == eid).Select(p => p.Price).FirstOrDefault();
-            Console.WriteLine(price);
-            var eventDetails = Db.Eventregistrations.Where(e => e.Publishid == eid).Select(e => new {
+            var eventDetails = Db.Eventregistrations.Where(e => e.Registrationid == rid).Select(e => new {
                 e.Publish.Organiser.Orgname,
                 e.Publish.Event.Eventname,
                 e.Publish.Organiser.Rating,
                 e.Publish.Eventdate,
                 e.Publish.Eventtime,
                 e.Publish.Organiser.User.Contact,
-                amount = e.Participants*price
-            }).ToList();
+                //amount = e.Participants*price
+                amount = Db.Payments.Where(p => p.Registrationid==e.Registrationid).Select(p=> p.Amount).FirstOrDefault(),
+            }).FirstOrDefault();
             return Ok(eventDetails);
         }
 
@@ -151,6 +151,15 @@ namespace AdventureHub_DotNet_Customer.Controllers
             {
                 return StatusCode(500, "Error Updating Organiser");
             }
+        }
+
+        [HttpGet]
+        public IActionResult IsUserRegisteredForThatEventByCustIdAndPublishId([FromQuery] int cid, [FromQuery] int pid)
+        {
+            var registered = Db.Eventregistrations.Where(e => e.Custid == cid && e.Publishid==pid).FirstOrDefault();
+            if(registered != null) 
+                return Ok(true);
+            return Ok(false);
         }
 
         //[HttpPut]

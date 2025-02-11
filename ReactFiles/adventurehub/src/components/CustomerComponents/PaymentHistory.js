@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const PaymentHistory = () => {
-    const cid = useSelector((state) => state.user.user.custid); // Get cid from Redux store
+    const cid = useSelector((state) => state?.user?.user?.custid); // Get cid from Redux store
     const [paymentHistory, setPaymentHistory] = useState(null);
     const [loading, setLoading] = useState(true);
 

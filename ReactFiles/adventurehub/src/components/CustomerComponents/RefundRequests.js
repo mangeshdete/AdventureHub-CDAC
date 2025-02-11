@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const RefundRequests = () => {
-    const cid = useSelector((state) => state.user.user.custid); // Get cid from Redux store
+    const cid = useSelector((state) => state?.user?.user?.custid); // Get cid from Redux store
     const [refundRequests, setRefundRequests] = useState(null);
     const [loading, setLoading] = useState(true);
 

@@ -1,0 +1,35 @@
+.contact-container {
+    padding: 70px 50px;
+    /* Adjusted padding for a more balanced look */
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #1abc9c;
+    /* Background color */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow for depth */
+}
+
+.contact-container h1 {
+    color: #090808;
+    /* Header color */
+}
+
+.contact-container p {
+    margin-bottom: 34px;
+    /* Space below paragraphs */
+    font-size: 20px;
+    /* Font size for paragraphs */
+}
+
+/* Change link color to black within the contact container */
+.contact-container a {
+    color: black;
+    /* Set link color to black */
+    text-decoration: none;
+    /* Remove underline */
+}
+
+.contact-container a:hover {
+    text-decoration: underline;
+    /* Underline on hover */
+}

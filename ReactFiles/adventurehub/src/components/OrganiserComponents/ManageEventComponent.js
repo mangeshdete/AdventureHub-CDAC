@@ -181,7 +181,7 @@ function ManageEventComponent() {
                 </tr>
               </thead>
               <tbody>
-                {events.map((event, index) => (
+                {events?.length!=0 && events?.map((event, index) => (
                   <tr key={event.id} className="text-center align-middle">
                     <td>{index + 1}</td>
                     <td>{event.eventname}</td>
@@ -212,6 +212,7 @@ function ManageEventComponent() {
                     </td>
                   </tr>
                 ))}
+                {events?.length==0 && (<p>No Events to Display</p>)}
               </tbody>
             </table>
           </div>

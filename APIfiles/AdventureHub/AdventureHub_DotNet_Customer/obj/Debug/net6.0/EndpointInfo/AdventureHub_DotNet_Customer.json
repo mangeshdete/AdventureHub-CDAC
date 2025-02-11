@@ -27,14 +27,14 @@
         }
       }
     },
-    "/customer/EventRegistration/GetEventRegistrationDetailsByEventId": {
+    "/customer/EventRegistration/GetEventRegistrationDetailsByRegistrationId": {
       "get": {
         "tags": [
           "EventRegistration"
         ],
         "parameters": [
           {
-            "name": "eid",
+            "name": "rid",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -158,6 +158,36 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/customer/EventRegistration/IsUserRegisteredForThatEventByCustIdAndPublishId": {
+      "get": {
+        "tags": [
+          "EventRegistration"
+        ],
+        "parameters": [
+          {
+            "name": "cid",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pid",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"

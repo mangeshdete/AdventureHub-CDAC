@@ -133,26 +133,26 @@ function ViewRegisteredEvents() {
   const [selectedEventId, setSelectedEventId] = useState(null); // To track which event's details are visible
   const [selectedEvent, setSelectedEvent] = useState(null); // To store event details
   const [noEvents, setNoEvents] = useState(false);
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state?.user?.user);
 
   // Fetch registered events when the component loads
   useEffect(() => {
-    console.log(user.custid);
-    fetch(`http://localhost:8140/customer/EventRegistration/GetEventRegistrationsByCustId?cid=${user.custid}`) // Replace with actual API endpoint
+    console.log(user?.custid);
+    fetch(`http://localhost:8140/customer/EventRegistration/GetEventRegistrationsByCustId?cid=${user?.custid}`) // Replace with actual API endpoint
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        setEvents(data);
-        if(data.length===0){
-          setNoEvents(true); //Set true if no events are found
+        // console.log(data);
+        if (Array.isArray(data) && data.length > 0) {
+          setEvents(data);
+          setNoEvents(false); // ✅ Reset flag if events are found
         } else {
-          setNoEvents(false); //Reset if events are found
-          setEvents(data); //Set the events data
+          setEvents([]); // ✅ Ensure it's always an array
+          setNoEvents(true);
         }
       })
       .catch((error) => console.error("Error fetching events:", error));
       setNoEvents(true);  //Handle error by setting noEvents to true
-  }, [user.custid]);
+  }, [user?.custid]);
 
   // Function to fetch event details when "View Details" is clicked
   const handleViewDetails = (eventid) => {
@@ -163,10 +163,11 @@ function ViewRegisteredEvents() {
     } else {
       setSelectedEventId(eventid); // Show the details for the selected event
       // Fetch event details for the selected event
-      fetch(`http://localhost:8140/customer/EventRegistration/GetEventRegistrationDetailsByEventId?eid=${eventid}`) // Replace with actual API endpoint
+      fetch(`http://localhost:8140/customer/EventRegistration/GetEventRegistrationDetailsByRegistrationId?rid=${eventid}`) // Replace with actual API endpoint
         .then((response) => response.json())
         .then((data) => {
-          setSelectedEvent(data[0]); // Set the event details
+          console.log(data)
+          setSelectedEvent(data); // Set the event details
         })
         .catch((error) => console.error("Error fetching event details:", error));
     }
@@ -199,8 +200,8 @@ function ViewRegisteredEvents() {
               </tr>
             </thead>
             <tbody>
-              {events.map((event) => (
-                <React.Fragment key={event.eventId}>
+              {events?.map((event, index) => (
+                <React.Fragment key={index}>
                   <tr className="align-middle">
                     <td className="p-4 fw-bold text-primary">{event.eventname}</td>
                     <td className="p-4">{event.eventdate}, {event.eventtime}</td>
@@ -225,7 +226,7 @@ function ViewRegisteredEvents() {
                     <td className="p-4">
                       <button
                         className="btn btn-success btn-sm"
-                        onClick={() => handleViewDetails(event.eventid)}
+                        onClick={() => handleViewDetails(event.registrationid)}
                       >
                         {selectedEventId === event.eventid
                           ? "Hide Details"
@@ -233,7 +234,7 @@ function ViewRegisteredEvents() {
                       </button>
                     </td>
                   </tr>
-                  {selectedEventId === event.eventid && selectedEvent && (
+                  {selectedEventId === event.registrationid && selectedEvent && (
                     <tr className="bg-light">
                       <td colSpan="4">
                         <div className="card shadow-sm border-0 p-3">
