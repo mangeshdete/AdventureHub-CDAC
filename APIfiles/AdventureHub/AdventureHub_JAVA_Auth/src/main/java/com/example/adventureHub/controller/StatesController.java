@@ -19,7 +19,7 @@ import com.example.adventureHub.service.StatesService;
 public class StatesController {
 
 	@Autowired
-	StatesService sservice;
+	private StatesService sservice;
 	
 	@GetMapping("getAllStates")
 	public List<States> getAllStates(){

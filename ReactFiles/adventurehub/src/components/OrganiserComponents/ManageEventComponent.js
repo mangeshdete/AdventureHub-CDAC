@@ -99,7 +99,7 @@ function ManageEventComponent() {
           street: updatedEventDetails.street,
           pincode: updatedEventDetails.pincode,
           cityid: updatedEventDetails.cityid,
-          status: "PROCESSING",
+          status: "ACTIVE",
           capacity: updatedEventDetails.capacity,
         }),
       });

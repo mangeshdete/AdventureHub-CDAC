@@ -19,13 +19,13 @@ import jakarta.persistence.Table;
 public class Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int roleid;
-	String rolename;
+	private int roleid;
+	private String rolename;
 	
 	@JsonIgnoreProperties("roleid")
 	@OneToMany(mappedBy = "roleid")
 	@Cascade(value = CascadeType.ALL)
-	Set<User> usertype;
+	private Set<User> usertype;
 
 	public Role() {
 		super();

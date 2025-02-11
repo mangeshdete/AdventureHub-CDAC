@@ -51,10 +51,10 @@ const GenerateReports = () => {
     // Table Data Formatting
     const tableColumn = ["Organizer ID", "Organizer Name", "City", "Rating"];
     const tableRows = organizers.map((org) => [
-      org.organiserid,
-      org.orgname,
-      org.cityName,
-      org.rating,
+      org?.organiserid,
+      org?.orgname,
+      org?.cityName,
+      org?.rating,
     ]);
 
     // AutoTable for Table
@@ -75,11 +75,11 @@ const GenerateReports = () => {
 
     // Table Data Formatting
     const tableColumn = ["Event ID", "Event Name", "Organiser", "Registration Date"];
-    const tableRows = events.map((event) => [
-      event.eventId,
-      event.eventname,
-      event.orgname,
-      event.eventdate,
+    const tableRows = events?.map((event) => [
+      event?.eventId,
+      event?.eventname,
+      event?.orgname,
+      event?.eventdate,
     ]);
 
     // AutoTable for Table

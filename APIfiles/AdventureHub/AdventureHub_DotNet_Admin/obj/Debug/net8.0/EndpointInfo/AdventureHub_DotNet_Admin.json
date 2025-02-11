@@ -5,7 +5,7 @@
     "version": "1.0"
   },
   "paths": {
-    "/admin/Admin/GetAllUpdateRequestsForAdmin": {
+    "/admin/Admin/GetAllNewEventRequestsForAdmin": {
       "get": {
         "tags": [
           "Admin"
@@ -119,7 +119,29 @@
         }
       }
     },
-    "/admin/Admin/ApproveUpdateRequestByPublishId": {
+    "/admin/Admin/ApproveNewEventRequestByPublishId": {
+      "put": {
+        "tags": [
+          "Admin"
+        ],
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/admin/Admin/RejectNewEventRequestByPublishId": {
       "put": {
         "tags": [
           "Admin"

@@ -18,7 +18,7 @@ public class Category {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int categoryid;
+	private int categoryid;
 	String categoryname;
 	
 	@JsonIgnoreProperties("category")

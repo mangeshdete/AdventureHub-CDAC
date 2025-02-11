@@ -21,10 +21,10 @@ import com.example.adventureHub.service.StatesService;
 public class CityController {
 	
 	@Autowired
-	CityService cityservice;
+	private CityService cityservice;
 	
 	@Autowired
-	StatesService stService;
+	private StatesService stService;
 	
 	@GetMapping("getAllCities")
 	public List<City> getAllCities(){

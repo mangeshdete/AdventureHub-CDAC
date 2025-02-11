@@ -17,7 +17,7 @@ import com.example.adventureHub.service.RoleService;
 public class RoleController {
 
 	@Autowired
-	RoleService rservice;
+	private RoleService rservice;
 	
 	@GetMapping("getAllRoles")
 	public List<Role> getAllRoles(){

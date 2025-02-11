@@ -18,7 +18,7 @@ import com.example.adventureHub.service.CustomerService;
 public class CustomerController {
 
 	@Autowired
-	CustomerService cservice;
+	private CustomerService cservice;
 	
 	@PostMapping("registerNewCustomer")
 	public Customer registerNewCustomer(@RequestBody Customer c) {

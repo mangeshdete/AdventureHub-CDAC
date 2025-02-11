@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.adventureHub.entity.Customer;
+import com.example.adventureHub.entity.User;
 import com.example.adventureHub.repository.CustomerRepository;
 
 
@@ -13,9 +14,13 @@ import com.example.adventureHub.repository.CustomerRepository;
 public class CustomerService {
 
 	@Autowired
-	CustomerRepository crepo;
+	private CustomerRepository crepo;
+	
+	@Autowired
+	private UserServices service;
 	
 	public Customer registerNewCustomer(Customer c){
+		c.getUser().setPassword(service.encryptPassword(c.getUser().getPassword()));
 		return crepo.save(c);
 	}
 	

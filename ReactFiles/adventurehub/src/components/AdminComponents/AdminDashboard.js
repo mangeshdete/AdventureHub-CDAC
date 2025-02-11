@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaClipboardList, FaTimes, FaChartBar, FaCalendarAlt, FaMoneyBill } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
-import UpdateRequests from "./UpdateRequests";
+import CreateEventRequests from "./CreateEventRequests";
 import CancelRequests from "./CancelRequests";
 import GenerateReports from "./GenerateReports";
 import ViewCurrentEvents from "./ViewCurrentEvents";
@@ -12,8 +12,8 @@ function AdminDashboard() {
 
   const renderContent = () => {
     switch (selectedView) {
-      case "updateRequests":
-        return <UpdateRequests />;
+      case "createRequests":
+        return <CreateEventRequests />;
       case "cancelRequests":
         return <CancelRequests />;
       case "generateReports":
@@ -34,9 +34,9 @@ function AdminDashboard() {
         <h3 className="text-center mb-4">Admin Panel</h3>
         <button
           className={`btn btn-secondary mb-2 text-start ${selectedView === "updateRequests" ? "btn-primary" : ""}`}
-          onClick={() => setSelectedView("updateRequests")}
+          onClick={() => setSelectedView("createRequests")}
         >
-          <FaClipboardList className="me-2" /> Update Requests
+          <FaClipboardList className="me-2" /> Create Requests
         </button>
         <button
           className={`btn btn-secondary mb-2 text-start ${selectedView === "cancelRequests" ? "btn-primary" : ""}`}

@@ -23,21 +23,21 @@ import jakarta.persistence.Table;
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int userid;
-	String password;
-	String contact;
-	String email;
-	String securityqans;
+	private int userid;
+	private String password;
+	private String contact;
+	private String email;
+	private String securityqans;
 	
 	@JsonIgnoreProperties("usertype")
 	@ManyToOne
 	@JoinColumn(name="roleid")
-	Role roleid;
+	private Role roleid;
 	
 //	@JsonIgnoreProperties("users")
 	@ManyToOne
 	@JoinColumn(name="securityqid")
-	SecurityQuestion questions;
+	private SecurityQuestion questions;
 	
 	public User() {
 		super();
