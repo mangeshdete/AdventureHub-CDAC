@@ -279,7 +279,7 @@ function PaymentComponent() {
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
   const [totalAmount, setTotalAmount] = useState(0);
-  const orgId = useSelector((state) => state.user.user.organiserid);
+  const orgId = useSelector((state) => state?.user?.user?.organiserid);
 
   // Fetch published events by organiser ID
   useEffect(() => {
@@ -290,14 +290,17 @@ function PaymentComponent() {
           `http://localhost:8140/organiser/PublishEvent/GetPublishedEventsByOrganiserId?orgId=${orgId}`
         );
         const data = await response.json();
-        setPublishedEvents(data);
+    
+        // Ensure data is always an array
+        setPublishedEvents(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Error fetching published events:", error);
+        setPublishedEvents([]); // Ensure state remains an array even on error
       } finally {
         setIsLoading(false);
       }
     };
-
+    
     fetchPublishedEvents();
   }, [orgId]);
 

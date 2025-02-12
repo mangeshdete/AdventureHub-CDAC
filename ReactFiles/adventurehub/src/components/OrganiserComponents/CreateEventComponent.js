@@ -351,9 +351,9 @@ import { useSelector } from "react-redux";
 import "../../styles/OrganiserStyles/CreateEventComponent.css";
 
 function CreateEventComponent() {
-  const organiserinfo = useSelector(state => state.user.user);
-  const defaultStateId = useSelector(state => state.user.user.city.states.stateid);
-  const defaultCityId = useSelector(state => state.user.user.city?.cityid);
+  const organiserinfo = useSelector(state => state?.user?.user);
+  const defaultStateId = useSelector(state => state?.user?.user?.city?.states?.stateid);
+  const defaultCityId = useSelector(state => state?.user?.user?.city?.cityid);
   //console.log(organiserinfo);
   //console.log(defaultCityId+" "+ defaultStateId);
 
@@ -398,12 +398,12 @@ function CreateEventComponent() {
   useEffect(() => {
     fetch("http://localhost:8140/organiser/Category/GetAllCategories")
       .then((response) => response.json())
-      .then((data) => setCategories(data))
+      .then((data) => (Array.isArray(data) ? setCategories(data) : []))
       .catch((error) => console.error("Error fetching categories:", error));
 
     fetch("http://localhost:8140/auth/getAllStates")
       .then((resp) => resp.json())
-      .then((data) => setStates(data))
+      .then((data) => (Array.isArray(data) ? setStates(data) : []))
       .catch((e) => console.log(e));
   }, []);
 
@@ -623,6 +623,7 @@ function CreateEventComponent() {
               name="price"
               value={eventDetails.price}
               onChange={handleChange}
+              required
             />
             {errors.price && <div className="error-message">{errors.price}</div>}
           </div>
@@ -634,6 +635,7 @@ function CreateEventComponent() {
               name="capacity"
               value={eventDetails.capacity}
               onChange={handleChange}
+              required
             />
             {errors.capacity && <div className="error-message">{errors.capacity}</div>}
           </div>
@@ -685,6 +687,7 @@ function CreateEventComponent() {
             name="street"
             value={eventDetails.street}
             onChange={handleChange}
+            required
           />
           {errors.street && <div className="error-message">{errors.street}</div>}
         </div>
@@ -697,6 +700,7 @@ function CreateEventComponent() {
             name="pincode"
             value={eventDetails.pincode}
             onChange={handleChange}
+            required
           />
           {errors.pincode && <div className="error-message">{errors.pincode}</div>}
         </div>

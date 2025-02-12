@@ -21,12 +21,19 @@ function ManageEventComponent() {
       fetch(`http://localhost:8140/organiser/PublishEvent/GetPublishedEventsByOrganiserId?orgId=${organiser.organiserid}`)
         .then((response) => response.json())
         .then((data) => {
-          setEvents(data);
+          if (Array.isArray(data)) {
+            setEvents(data);
+          } else {
+            setEvents([]); // Fallback to an empty array
+          }
         })
-        .catch((error) => console.error("Error fetching events:", error));
+        .catch((error) => {
+          console.error("Error fetching events:", error);
+          setEvents([]); // Handle error case
+        });
     }
   }, [organiser?.organiserid]);
-
+  
   const handleUpdateClick = async (eventId) => {
     setSelectedEventId(eventId);
 

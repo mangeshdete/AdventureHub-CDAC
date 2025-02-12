@@ -87,11 +87,11 @@ function ViewEventRegistrationsComponent() {
                         className="btn btn-outline-primary btn-sm"
                         onClick={() => toggleParticipants(event.publishid)}
                       >
-                        {expandedEvent === event.eventid ? "Hide Participants" : "View Participants"}
+                        {expandedEvent === event.publishid ? "Hide Participants" : "View Participants"}
                       </button>
                     </td>
                   </tr>
-                  {expandedEvent === event.eventid && (
+                  {expandedEvent === event.publishid && (
                     <tr>
                       <td colSpan="5">
                         <div className="border rounded p-3 bg-light" style={{ maxHeight: "200px", overflowY: "auto" }}>

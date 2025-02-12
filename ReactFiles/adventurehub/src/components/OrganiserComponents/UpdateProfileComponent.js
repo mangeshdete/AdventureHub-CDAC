@@ -5,7 +5,7 @@ import '../../styles/OrganiserStyles/UpdateProfileComponent.css';
 
 const UpdateProfileComponent = () => {
   // Fetch user data from Redux store
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state?.user?.user);
   console.log("User from Redux:", user);
 
   // Set initial state for organiser data and editable fields

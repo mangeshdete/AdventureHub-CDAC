@@ -88,8 +88,8 @@ namespace AdventureHub_DotNet_Customer.Controllers
         public IActionResult getAllPublishedEventsByStateId([FromQuery]int? stateid)
         {
             try {
-                if (stateid == null && stateid!=0)
-                    return Ok(null);
+                if (stateid == null || stateid==0)
+                    return BadRequest("State ID is required and cannot be 0");
 
                 return Ok(Db.Publishevents.Where(p => p.City.Stateid == stateid && p.Status == "ACTIVE").Select(p => new { 
                     p.Publishid, 
