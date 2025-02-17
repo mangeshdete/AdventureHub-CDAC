@@ -21,13 +21,13 @@ import jakarta.persistence.Table;
 public class City {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int cityid;
+	private int cityid;
 	String cityname;
 	
 	@JsonIgnoreProperties("cities")
 	@ManyToOne
 	@JoinColumn(name="stateid") 
-	States states;
+	private States states;
 	
 //	@JsonIgnoreProperties("cities")
 //	@OneToMany(mappedBy = "cities")

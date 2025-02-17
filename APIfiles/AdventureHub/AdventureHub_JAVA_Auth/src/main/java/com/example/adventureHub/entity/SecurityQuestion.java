@@ -17,8 +17,8 @@ import jakarta.persistence.Table;
 public class SecurityQuestion {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int qid;
-	String question;
+	private int qid;
+	private String question;
 	
 	public SecurityQuestion() {
 		super();

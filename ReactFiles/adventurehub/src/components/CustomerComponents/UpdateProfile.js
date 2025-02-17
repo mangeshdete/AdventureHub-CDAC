@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router";
 
 const UpdateProfileComponent = () => {
   const user = useSelector((state) => state.user);
@@ -17,6 +18,7 @@ const UpdateProfileComponent = () => {
     cityid: "",
   });
 
+  const navigate = useNavigate();
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,7 +30,7 @@ const UpdateProfileComponent = () => {
   useEffect(() => {
     async function fetchStates() {
       try {
-        const response = await fetch("http://localhost:8142/getAllStates");
+        const response = await fetch("http://localhost:8140/auth/getAllStates");
         const data = await response.json();
         if (Array.isArray(data) && data.length > 0) {
           setStates(data);
@@ -52,7 +54,7 @@ const UpdateProfileComponent = () => {
       async function fetchCities() {
         try {
           const response = await fetch(
-            `http://localhost:8142/getCitiesByStateId?stateId=${editableFields.stateid}`
+            `http://localhost:8140/auth/getCitiesByStateId?stateId=${editableFields.stateid}`
           );
           const data = await response.json();
           setCities(data);
@@ -172,7 +174,7 @@ const UpdateProfileComponent = () => {
 
     try {
       const response = await fetch(
-        `https://localhost:9145/EventRegistration/updateCustomerDetails`,
+        `http://localhost:8140/customer/EventRegistration/updateCustomerDetails`,
         {
           method: "PUT",
           headers: {
@@ -192,6 +194,9 @@ const UpdateProfileComponent = () => {
       const result = await response.json();
       setSuccessMessage("Profile updated successfully!");
       console.log(result);
+      setTimeout(()=>{
+        navigate("/");
+      },2000)
     } catch (err) {
       console.error("Error during PUT request:", err);
       setFailureMessage("Failed to update profile.");

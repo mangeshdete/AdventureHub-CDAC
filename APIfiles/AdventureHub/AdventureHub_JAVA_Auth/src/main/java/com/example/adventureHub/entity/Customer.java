@@ -19,21 +19,21 @@ import jakarta.persistence.Table;
 public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int custid;
-	String fname;
-	String lname;
-	String aadhaar;
-	String street;
-	String pincode;
-	Date dob;
+	private int custid;
+	private String fname;
+	private String lname;
+	private String aadhaar;
+	private String street;
+	private String pincode;
+	private Date dob;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "userid")
-	User user;
+	private User user;
 
 	@ManyToOne
 	@JoinColumn(name="cityid")
-	City cities;
+	private City cities;
 	
 	public Customer() {
 		super();

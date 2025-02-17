@@ -4,17 +4,23 @@ import { useSelector } from "react-redux";
 import '../../styles/OrganiserStyles/UpdateProfileComponent.css';
 
 const UpdateProfileComponent = () => {
+  // Fetch user data from Redux store
   const user = useSelector((state) => state.user.user);
-  console.log("User  from Redux:", user);
+  console.log("User from Redux:", user);
 
-  // Initialize states only if user is available
+  // Set initial state for organiser data and editable fields
   const [organiserData, setOrganiserData] = useState(user || {});
   const [editableFields, setEditableFields] = useState({
     email: user?.user?.email || "",
     contact: user?.user?.contact || "",
   });
 
-  // Update states when user changes
+  const [states, setStates] = useState([]);  // Store all states fetched from API
+  const [cities, setCities] = useState([]);  // Store cities based on selected state
+  const [error, setError] = useState(null);
+  const [message, setMessage] = useState("");
+
+  // Sync organiserData and editableFields whenever user data changes in Redux
   useEffect(() => {
     if (user) {
       setOrganiserData(user);
@@ -25,24 +31,13 @@ const UpdateProfileComponent = () => {
     }
   }, [user]);
 
-  const regexPatterns = {
-    orgname: /^[A-Za-z0-9\s\-'&()]+$/,
-    email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-    contactno: /^[0-9]{10}$/,
-    pincode: /^\d{6}$/,
-  };
-
-  const [states, setStates] = useState([]);
-  const [cities, setCities] = useState([]);
-  const [error, setError] = useState(null);
-
-  // Fetch all states when component mounts
+  // Fetch all states when the component mounts
   useEffect(() => {
     async function fetchStates() {
       try {
-        const response = await fetch("http://localhost:8142/getAllStates");
+        const response = await fetch("http://localhost:8140/auth/getAllStates");
         const data = await response.json();
-        setStates(data);
+        setStates(data);  // Set fetched states in the state variable
       } catch (err) {
         console.error("Error fetching states", err);
         setError("Failed to load states.");
@@ -51,16 +46,16 @@ const UpdateProfileComponent = () => {
     fetchStates();
   }, []);
 
-  // Fetch cities based on selected state
+  // Fetch cities when a state is selected or organiserData.stateid changes
   useEffect(() => {
     if (organiserData.stateid) {
       async function fetchCities() {
         try {
           const response = await fetch(
-            `http://localhost:8142/getCitiesByStateId?stateId=${organiserData.stateid}`
+            `http://localhost:8140/auth/getCitiesByStateId?stateId=${organiserData.stateid}`
           );
           const data = await response.json();
-          setCities(data);
+          setCities(data);  // Set fetched cities in the state variable
         } catch (err) {
           console.error("Error fetching cities", err);
           setError("Failed to load cities.");
@@ -68,11 +63,39 @@ const UpdateProfileComponent = () => {
       }
       fetchCities();
     } else {
-      setCities([]); // Clear cities if no state is selected
+      setCities([]);  // Clear cities if no state is selected
     }
   }, [organiserData.stateid]);
 
-  // Handle input changes
+  // Pre-populate the state if user data contains state information
+  useEffect(() => {
+    if (states.length && user?.city?.states?.stateid) {
+      setOrganiserData((prev) => ({
+        ...prev,
+        stateid: user?.city?.states?.stateid,  // Set state ID from user data
+      }));
+    }
+  }, [states, user?.city?.states?.stateid]);
+
+  // Pre-populate the city if user data contains city information
+  useEffect(() => {
+    if (cities.length && user?.city.cityid) {
+      setOrganiserData((prev) => ({
+        ...prev,
+        cityid: user?.city.cityid,  // Set city ID from user data
+      }));
+    }
+  }, [cities, user?.city?.cityid]);
+
+  // Regex patterns for validation
+  const regexPatterns = {
+    orgname: /^[A-Za-z0-9\s\-'&()]+$/,
+    email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+    contactno: /^[0-9]{10}$/,
+    pincode: /^\d{6}$/,
+  };
+
+  // Handle input changes for non-editable fields
   const handleChange = (e) => {
     const { name, value } = e.target;
     setOrganiserData((prevState) => ({
@@ -81,6 +104,7 @@ const UpdateProfileComponent = () => {
     }));
   };
 
+  // Handle input changes for editable fields (email, contact)
   const handleEditableChange = (e) => {
     const { name, value } = e.target;
     setEditableFields((prev) => ({
@@ -89,16 +113,21 @@ const UpdateProfileComponent = () => {
     }));
   };
 
-  // Reset form
+  // Reset form to initial values
   const handleReset = () => {
     if (user) {
-      setOrganiserData(user);
+      setOrganiserData({
+        ...user,
+        stateid: user?.city?.states?.stateid || "",
+        cityid: user?.city?.cityid || "",
+      });
       setEditableFields({
         email: user.user?.email || "",
         contact: user.user?.contact || "",
       });
     }
   };
+  
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -123,31 +152,35 @@ const UpdateProfileComponent = () => {
       },
     };
 
-    // Validate required fields
+    // Validation before submitting
     if (!updatedData.orgname || !updatedData.user.email || !updatedData.user.contact) {
-      alert("Please fill in all required fields.");
+      setMessage("Please fill in all required fields.");
+      setTimeout(() => setMessage(""), 2000);
       return;
     }
 
-    // Validate email and contact number
     if (!regexPatterns.email.test(updatedData.user.email)) {
-      alert("Please enter a valid email address.");
+      setMessage("Please enter a valid email address.");
+      setTimeout(() => setMessage(""), 2000);
       return;
     }
 
     if (!regexPatterns.contactno.test(updatedData.user.contact)) {
-      alert("Please enter a valid 10-digit contact number.");
+      setMessage("Please enter a valid 10-digit contact number.");
+      setTimeout(() => setMessage(""), 2000);
       return;
     }
 
     if (!regexPatterns.pincode.test(updatedData.pincode)) {
-      alert("Please enter a valid 6-digit pincode.");
+      setMessage("Please enter a valid 6-digit pincode.");
+      setTimeout(() => setMessage(""), 2000);
       return;
     }
 
+    // Sending the update request
     try {
       const response = await fetch(
-        "https://localhost:9144/Organiser/updateOrganiserDetails",
+        "http://localhost:8140/organiser/Organiser/updateOrganiserDetails",
         {
           method: "PUT",
           headers: {
@@ -163,13 +196,16 @@ const UpdateProfileComponent = () => {
         throw new Error(`${response.statusText}`);
       }
 
-      alert("Profile updated successfully!");
+      setMessage("Profile updated successfully!");
+      setTimeout(() => setMessage(""), 2000);
     } catch (err) {
       console.error("Error during PUT request:", err);
-      alert("Failed to update profile.");
+      setMessage("Failed to update profile.");
+      setTimeout(() => setMessage(""), 2000);
     }
   };
 
+  // Display error message if any
   if (error) {
     return <div className="alert alert-danger">{error}</div>;
   }
@@ -177,8 +213,10 @@ const UpdateProfileComponent = () => {
   return (
     <div className="update-profile-container mt-4">
       <h2 className="update-profile-title text-center mb-4">Update Profile</h2>
+      {message && <div className="alert alert-info text-center">{message}</div>}
       <form onSubmit={handleSubmit} className="profile-form card p-4 shadow">
         <div className="row">
+          {/* Organization Name */}
           <div className="col-md-6 mb-3">
             <label className="form-label">Organization Name</label>
             <input
@@ -189,6 +227,7 @@ const UpdateProfileComponent = () => {
               onChange={handleChange}
             />
           </div>
+          {/* Email */}
           <div className="col-md-6 mb-3">
             <label className="form-label">Email</label>
             <input
@@ -199,6 +238,7 @@ const UpdateProfileComponent = () => {
               onChange={handleEditableChange}
             />
           </div>
+          {/* Contact Number */}
           <div className="col-md-6 mb-3">
             <label className="form-label">Contact Number</label>
             <input
@@ -209,6 +249,7 @@ const UpdateProfileComponent = () => {
               onChange={handleEditableChange}
             />
           </div>
+          {/* GST (Read-only) */}
           <div className="col-md-6 mb-3">
             <label className="form-label">GST</label>
             <input
@@ -219,6 +260,7 @@ const UpdateProfileComponent = () => {
               readOnly
             />
           </div>
+          {/* Pancard (Read-only) */}
           <div className="col-md-6 mb-3">
             <label className="form-label">Pancard</label>
             <input
@@ -229,6 +271,7 @@ const UpdateProfileComponent = () => {
               readOnly
             />
           </div>
+          {/* State Dropdown */}
           <div className="col-md-6 mb-3">
             <label className="form-label">State</label>
             <select
@@ -245,6 +288,7 @@ const UpdateProfileComponent = () => {
               ))}
             </select>
           </div>
+          {/* City Dropdown */}
           <div className="col-md-6 mb-3">
             <label className="form-label">City</label>
             <select
@@ -262,6 +306,7 @@ const UpdateProfileComponent = () => {
               ))}
             </select>
           </div>
+          {/* Street */}
           <div className="col-md-6 mb-3">
             <label className="form-label">Street</label>
             <input
@@ -272,6 +317,7 @@ const UpdateProfileComponent = () => {
               onChange={handleChange}
             />
           </div>
+          {/* Pincode */}
           <div className="col-md-6 mb-3">
             <label className="form-label">Pincode</label>
             <input
@@ -283,6 +329,7 @@ const UpdateProfileComponent = () => {
             />
           </div>
         </div>
+        {/* Buttons */}
         <div className="text-center mt-3">
           <button type="button" className="btn btn-secondary me-2" onClick={handleReset}>
             Reset

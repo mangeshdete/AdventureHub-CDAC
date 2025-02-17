@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const RefundRequests = () => {
-    const cid = useSelector((state) => state.user.user.custid); // Get cid from Redux store
+    const cid = useSelector((state) => state?.user?.user?.custid); // Get cid from Redux store
     const [refundRequests, setRefundRequests] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchRefundRequests = async () => {
             try {
-                const response = await fetch(`https://localhost:9145/EventRegistration/GetAllRefundRequestsByCustomerId?cid=${cid}`);
+                const response = await fetch(`http://localhost:8140/customer/EventRegistration/GetAllRefundRequestsByCustomerId?cid=${cid}`);
                 const data = await response.json();
 
                 if (response.ok) {

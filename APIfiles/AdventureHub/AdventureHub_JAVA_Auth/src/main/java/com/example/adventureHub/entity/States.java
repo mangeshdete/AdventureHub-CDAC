@@ -16,12 +16,12 @@ import jakarta.persistence.Table;
 public class States {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int stateid;
-	String statename;
+	private int stateid;
+	private String statename;
 	
 	@JsonIgnoreProperties("states")
 	@OneToMany(mappedBy = "states")
-	Set<City>cities;
+	private Set<City>cities;
 	
 	public States() {
 		super();

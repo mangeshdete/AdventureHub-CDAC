@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdventureHub.Controllers
 {
-    [Route("/[controller]/[action]")]
+    [Route("/organiser/[controller]/[action]")]
     [ApiController]
     public class CategoryController : ControllerBase
     {

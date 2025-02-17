@@ -12,7 +12,7 @@ import com.example.adventureHub.repository.RoleRepository;
 public class RoleService {
 	
 	@Autowired
-	RoleRepository rrepo;
+	private RoleRepository rrepo;
 	
 	public List<Role> getAllRoles(){
 		return rrepo.findAll();

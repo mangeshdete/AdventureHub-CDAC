@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace AdventureHub_DotNet_Customer.Controllers
 {
     [ApiController]
-    [Route("/[Controller]/[Action]")]
+    [Route("customer/[Controller]/[Action]")]
     public class EventRegistrationController : Controller
     {
         public static p14_adventurehubContext Db { get; }
@@ -21,27 +21,29 @@ namespace AdventureHub_DotNet_Customer.Controllers
             var events = Db.Eventregistrations.Where(e => e.Custid == cid).Where(e => e.Cancellationreason == null).Select(e => new {
                 e.Registrationid,
                 e.Publish.Eventid,
+                e.Publishid,
                 e.Publish.Event.Eventname,
                 e.Publish.Eventdate,
                 e.Publish.Eventtime,
                 e.Publish.City.Cityname,
-                e.Publish.Status
+                e.Publish.Status,
             }).ToList();
             return Ok(events);
         }
 
         [HttpGet]
-        public IActionResult GetEventRegistrationDetailsByEventId([FromQuery] int eid)
+        public IActionResult GetEventRegistrationDetailsByRegistrationId([FromQuery] int rid)
         {
-            var eventDetails = Db.Eventregistrations.Where(e => e.Publishid == eid).Select(e => new {
+            var eventDetails = Db.Eventregistrations.Where(e => e.Registrationid == rid).Select(e => new {
                 e.Publish.Organiser.Orgname,
                 e.Publish.Event.Eventname,
                 e.Publish.Organiser.Rating,
                 e.Publish.Eventdate,
                 e.Publish.Eventtime,
-                e.Publish.Price,
-                e.Publish.Organiser.User.Contact
-            }).ToList();
+                e.Publish.Organiser.User.Contact,
+                //amount = e.Participants*price
+                amount = Db.Payments.Where(p => p.Registrationid==e.Registrationid).Select(p=> p.Amount).FirstOrDefault(),
+            }).FirstOrDefault();
             return Ok(eventDetails);
         }
 
@@ -83,8 +85,6 @@ namespace AdventureHub_DotNet_Customer.Controllers
                 if (registration == null)
                     return Ok(null);
 
-                var price = Db.Publishevents.Where(r => r.Publishid.Equals(Db.Eventregistrations.Where(e => e.Custid == cid).Select(e => e.Publishid).FirstOrDefault())).Select(e => e.Price).FirstOrDefault();
-
                 // Get all refund records for the customer
                 var records = Db.Eventregistrations
                     .Where(r => r.Custid == cid && r.Cancellationreason != null)
@@ -96,8 +96,8 @@ namespace AdventureHub_DotNet_Customer.Controllers
                                        : r.Status == "CANCELLED" && r.Cancellationreason != null ? "PENDING"
                                        : "TO_BE_REVIEWED",
                         participants = r.Participants,
-                        pricePerPerson = price.ToString(),
-                        refundAmount = r.Participants * price // Use price from above
+                        pricePerPerson = r.Publish.Price,
+                        refundAmount = r.Participants * r.Publish.Price // Use price from above
                     })
                     .ToList();
 
@@ -151,6 +151,15 @@ namespace AdventureHub_DotNet_Customer.Controllers
             {
                 return StatusCode(500, "Error Updating Organiser");
             }
+        }
+
+        [HttpGet]
+        public IActionResult IsUserRegisteredForThatEventByCustIdAndPublishId([FromQuery] int cid, [FromQuery] int pid)
+        {
+            var registered = Db.Eventregistrations.Where(e => e.Custid == cid && e.Publishid==pid).FirstOrDefault();
+            if(registered != null) 
+                return Ok(true);
+            return Ok(false);
         }
 
         //[HttpPut]

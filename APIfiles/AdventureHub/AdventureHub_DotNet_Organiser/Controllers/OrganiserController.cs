@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace AdventureHub.Controllers
 {
     [ApiController]
-    [Route("/[Controller]/[Action]")]
+    [Route("/organiser/[controller]/[action]")]
     public class OrganiserController : Controller
     {
         public readonly p14_adventurehubContext Db;
